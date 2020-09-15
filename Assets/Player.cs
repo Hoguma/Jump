@@ -17,6 +17,21 @@ public class Player : MonoBehaviour
     Vector3 dragStartPos;
     Touch touch;
 
+    //벽 슬라이딩?
+    float isRight = 1;
+    bool isWall;
+    public Transform wallChk;
+    public float wallchkDistance;
+    public float slidingSpeed;
+    public LayerMask w_Layer;
+
+    private void FixedUpdate()
+    {
+        if (isWall)
+        {
+            rigidbody.velocity = new Vector2(rigidbody.velocity.x, rigidbody.velocity.y * slidingSpeed);
+        }
+    }
     private void Update()
     {
         if(Input.touchCount > 0)
@@ -36,6 +51,7 @@ public class Player : MonoBehaviour
                 DragRelease();
             }
         }
+        isWall = Physics2D.Raycast(wallChk.position, Vector2.right * isRight, wallchkDistance, w_Layer);
     }
 
     void DragStart()
@@ -77,5 +93,10 @@ public class Player : MonoBehaviour
     private void OnMouseUp()
     {
         DragRelease();
+    }
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawRay(wallChk.position, Vector2.right * isRight * wallchkDistance);
     }
 }
