@@ -9,9 +9,9 @@ public class CameraManager : MonoBehaviour
 
     private void Update()
     {
-        if(transform.position.y < target.transform.position.y)
-        {
             transform.position = new Vector3 (0, target.transform.position.y, transform.position.z);
-        }
+        //if(transform.position.y < target.transform.position.y)
+        //{
+        //}
     }
 }
