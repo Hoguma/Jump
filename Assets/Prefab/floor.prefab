@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1158748099438273543}
   - component: {fileID: 1158748099438273545}
   - component: {fileID: 1158748099438273540}
+  - component: {fileID: -4570431571599423021}
   m_Layer: 9
   m_Name: floor
   m_TagString: floor
@@ -90,7 +91,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1158748099438273541}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
@@ -128,3 +129,16 @@ PlatformEffector2D:
   m_UseSideFriction: 0
   m_UseSideBounce: 0
   m_SideArc: 89.03
+--- !u!114 &-4570431571599423021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1158748099438273541}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f93778c849a2f074a986626a0377e61c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 3825927051896945554, guid: 305be9fe8ce7b1144a649852e85eb560, type: 3}
