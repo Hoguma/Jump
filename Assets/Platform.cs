@@ -16,7 +16,7 @@ public class Platform : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (target.transform.position.y - (0.6371382) > transform.position.y)
+        if (target.transform.position.y - (0.6371382 * 0.65) > transform.position.y)
         {
             coll.enabled = true;
         }
@@ -24,8 +24,4 @@ public class Platform : MonoBehaviour
             coll.enabled = false;
     }
 
-    private void OnCollisionStay2D(Collision2D collision)
-    {
-        coll.enabled = true;
-    }
 }

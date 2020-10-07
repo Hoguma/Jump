@@ -214,6 +214,8 @@ public class Player : MonoBehaviour
         clampedForce = Vector3.ClampMagnitude(force, maxDrag) * power;
 
         rigidbody.AddForce(clampedForce, ForceMode2D.Impulse);
+        pastpos = gameObject.transform.position.x;
+        ismove = false;
     }
     private void OnMouseDown()
     {
@@ -225,8 +227,6 @@ public class Player : MonoBehaviour
     }
     private void OnMouseUp()
     {
-        pastpos = gameObject.transform.position.x;
-        ismove = false;
         DragRelease();
     }
     private void OnDrawGizmos()
@@ -237,7 +237,11 @@ public class Player : MonoBehaviour
 
     Vector2 PointPosition(float t)
     {
-        Vector2 currentPointPos = (Vector2)transform.position + ((Vector2)clampedForce * t) + 0.5f * Physics2D.gravity * 4 * (t * t);
+        Vector2 currentPointPos;
+        if (isWall)
+            currentPointPos = (Vector2)transform.position + ((Vector2)clampedForce * t) + 0.5f * Physics2D.gravity * 12 * (t * t);
+        else
+            currentPointPos = (Vector2)transform.position + ((Vector2)clampedForce * t) + 0.5f * Physics2D.gravity * 4 * (t * t);
         return currentPointPos;
     }
 }
