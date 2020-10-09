@@ -44,6 +44,7 @@ public class Player : MonoBehaviour
     SpriteRenderer spriteRenderer;
     float pastpos;
     Animator anim;
+
     private void Start()
     {
         Points = new GameObject[numberOfpoints];
@@ -79,7 +80,6 @@ public class Player : MonoBehaviour
         //좌우 이동 레이캐스트 땅체크
         //레이캐스트 그림그려줌 scene에서
         Vector2 frontVec = new Vector2(rigidbody.position.x + nextMove * 0.24f, rigidbody.position.y );
-        //Debug.DrawRay(frontVec, Vector3.down, new Color(0, 1, 0));
         RaycastHit2D rayHit = Physics2D.Raycast(frontVec, Vector3.down, 1, LayerMask.GetMask("floor"));
 
         //애니메이션 오류 문제 해결
@@ -197,6 +197,7 @@ public class Player : MonoBehaviour
         draggingPos.z = 0f;
         line.positionCount = 2;
         line.SetPosition(1, draggingPos);
+        dragStartPos = transform.position;
         Vector3 force = dragStartPos - Camera.main.ScreenToWorldPoint(Input.mousePosition);
         clampedForce = Vector3.ClampMagnitude(force, maxDrag) * power;
     }
@@ -239,7 +240,9 @@ public class Player : MonoBehaviour
     {
         Vector2 currentPointPos;
         if (isWall)
-            currentPointPos = (Vector2)transform.position + ((Vector2)clampedForce * t) + 0.5f * Physics2D.gravity * 12 * (t * t);
+        { 
+            currentPointPos = (Vector2)transform.position + ((Vector2)clampedForce * t) + 0.5f * Physics2D.gravity * 8 * (t * t);
+        }
         else
             currentPointPos = (Vector2)transform.position + ((Vector2)clampedForce * t) + 0.5f * Physics2D.gravity * 4 * (t * t);
         return currentPointPos;
