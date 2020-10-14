@@ -19,8 +19,7 @@ public class Player : MonoBehaviour
     [SerializeField]
     private GameObject[] Points;
 
-    public int numberOfpoints;
-
+    public int numberOfpoints; 
     Vector3 dragStartPos;
     Touch touch;
 
@@ -65,6 +64,16 @@ public class Player : MonoBehaviour
         if (collision.gameObject.tag == "floor")
         {
             ismove = true;
+            if (nextMove == 0)
+            {
+                nextMove = 1;
+            }
+            anim.SetBool("isRuning", true);
+        }
+        else if (collision.gameObject.tag != "floor")
+        {
+            nextMove = 0;
+            anim.SetBool("isRuning", false);
         }
     }
 
@@ -73,6 +82,7 @@ public class Player : MonoBehaviour
         if (collision.gameObject.tag == "floor")
         {
             ismove = false;
+            nextMove = 0;
         }
     }
     private void FixedUpdate()
@@ -98,19 +108,19 @@ public class Player : MonoBehaviour
             }
         }
 
-        if (rayHit2.collider == null)
-        {
-            nextMove = 0;
-            anim.SetBool("isRuning", false);
-        }
-        else
-        {
-            if (nextMove == 0)
-            {
-                nextMove = 1;
-            }
-            anim.SetBool("isRuning", true);
-        }
+        //if (rayHit2.collider == null)
+        //{
+        //    nextMove = 0;
+        //    anim.SetBool("isRuning", false);
+        //}
+        //else
+        //{
+        //    if (nextMove == 0)
+        //    {
+        //        nextMove = 1;
+        //    }
+        //    anim.SetBool("isRuning", true);
+        //}
         //오늘 애니메이션은 레이캐스트로 변경한다.
         if (ismove == true)
         {
