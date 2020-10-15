@@ -190,7 +190,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 10m
+  m_Text: 
 --- !u!222 &34687004
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -694,6 +694,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8084196897667612088, guid: f08a2677f1afec441b52b27370cc88a8,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 0966ef6f9e04c164eadaf1455bbc52f8,
+        type: 3}
     - target: {fileID: 8084196897667612089, guid: f08a2677f1afec441b52b27370cc88a8,
         type: 3}
       propertyPath: m_LocalPosition.x
