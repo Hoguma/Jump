@@ -121,4 +121,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f93778c849a2f074a986626a0377e61c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Onestage: {fileID: 21300000, guid: 30e46be3ebc335a49bf1ea441322e5e3, type: 3}
+  Twostage: {fileID: 21300000, guid: a22a7983b87ccb044ab2214f0df7387c, type: 3}
+  Threestage: {fileID: 21300000, guid: 0c9db58350266a2409351c27f6b02b94, type: 3}

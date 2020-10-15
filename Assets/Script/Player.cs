@@ -27,14 +27,15 @@ public class Player : MonoBehaviour
 
     //벽 슬라이딩?
     float isRight = 1;
-    bool isWall;
+    bool isWall = true;
+    bool canJump = true;
     public Transform wallChk;
     public float wallchkDistance;
     public float slidingSpeed;
     public LayerMask w_Layer;
 
     //좌우 무빙
-    public int nextMove = 1;
+    public int nextMove = 0;
     public int move;
     bool ismove = false;
     
@@ -59,37 +60,95 @@ public class Player : MonoBehaviour
             Points[i].SetActive(false);
         }
     }
-    private void OnCollisionEnter2D(Collision2D collision)
+    
+    
+    private void Update()
     {
-        if (collision.gameObject.tag == "floor")
+        //에니메이션 반대
+        //땅과 공중 비교
+        if(ismove == true)
         {
-            ismove = true;
-            if (nextMove == 0)
+            if (nextMove == -1)
             {
-                nextMove = 1;
+                spriteRenderer.flipX = false;
             }
-            anim.SetBool("isRuning", true);
+            else
+            {
+                spriteRenderer.flipX = true;
+            }
+            canJump = true;
         }
-        else if (collision.gameObject.tag != "floor")
+        else
         {
-            nextMove = 0;
+            if(pastpos > gameObject.transform.position.x)
+            {
+                spriteRenderer.flipX = false;
+            }
+            else
+            {
+                spriteRenderer.flipX = true;
+            }
+            canJump = false;
+        }
+
+        if (isWall)
+            canJump = true;
+
+        if(nextMove == 0)
+        {
             anim.SetBool("isRuning", false);
         }
+        else
+        {
+            anim.SetBool("isRuning", true);
+        }
+
+        if (Input.touchCount > 0 && canJump == true)
+        {
+            touch = Input.GetTouch(0);
+
+            if(touch.phase == TouchPhase.Began)
+            {
+                DragStart();
+            }
+            if (touch.phase == TouchPhase.Moved)
+            {
+                Dragging();
+            }
+            if (touch.phase == TouchPhase.Ended)
+            {
+                DragRelease();
+            }
+        }
+
+        //if(Input.GetMouseButtonDown(0) && canJump == true)
+        //{
+        //    DragStart();
+        //}
+        //if(Input.GetMouseButton(0) && canJump == true)
+        //{
+        //    Dragging();
+        //}
+        //if (Input.GetMouseButtonUp(0) && canJump == true)
+        //{
+        //    DragRelease();
+        //}
+
+        for (int i = 0; i < Points.Length; i++)
+        {
+            Points[i].transform.position = PointPosition(i * 0.1f);
+        }
+
+        //벽 레이캐스트
+        isWall = Physics2D.Raycast(wallChk.position, Vector2.right * isRight, wallchkDistance, w_Layer);
+
     }
 
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag == "floor")
-        {
-            ismove = false;
-            nextMove = 0;
-        }
-    }
     private void FixedUpdate()
-    { 
+    {
         //좌우 이동 레이캐스트 땅체크
         //레이캐스트 그림그려줌 scene에서
-        Vector2 frontVec = new Vector2(rigidbody.position.x + nextMove * 0.24f, rigidbody.position.y );
+        Vector2 frontVec = new Vector2(rigidbody.position.x + nextMove * 0.24f, rigidbody.position.y);
         RaycastHit2D rayHit = Physics2D.Raycast(frontVec, Vector3.down, 1, LayerMask.GetMask("floor"));
 
         //애니메이션 오류 문제 해결
@@ -108,19 +167,6 @@ public class Player : MonoBehaviour
             }
         }
 
-        //if (rayHit2.collider == null)
-        //{
-        //    nextMove = 0;
-        //    anim.SetBool("isRuning", false);
-        //}
-        //else
-        //{
-        //    if (nextMove == 0)
-        //    {
-        //        nextMove = 1;
-        //    }
-        //    anim.SetBool("isRuning", true);
-        //}
         //오늘 애니메이션은 레이캐스트로 변경한다.
         if (ismove == true)
         {
@@ -131,65 +177,57 @@ public class Player : MonoBehaviour
             rigidbody.velocity = new Vector2(rigidbody.velocity.x, rigidbody.velocity.y * slidingSpeed);
         }
     }
-    private void Update()
+
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        //에니메이션 반대
-        //땅과 공중 비교
-        if(ismove == true)
+        if (collision.gameObject.tag == "floor")
         {
-            if (nextMove == -1)
+            ismove = true;
+            canJump = true;
+            if (nextMove == 0 && !Input.GetMouseButton(0))
             {
-                spriteRenderer.flipX = false;
+                nextMove = 1;
             }
-            else
-            {
-                spriteRenderer.flipX = true;
-            }
+        }
+
+        if(collision.gameObject.tag == "wall")
+        {
+            nextMove *= -1;
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "floor")
+        {
+            ismove = false;
+            nextMove = 0;
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawRay(wallChk.position, Vector2.right * isRight * wallchkDistance);
+    }
+
+    Vector2 PointPosition(float t)
+    {
+        Vector2 currentPointPos;
+        if (isWall)
+        {
+            currentPointPos = (Vector2)transform.position + ((Vector2)clampedForce * t) + 0.5f * Physics2D.gravity * 8 * (t * t);
         }
         else
-        {
-            if(pastpos > gameObject.transform.position.x)
-            {
-                spriteRenderer.flipX = false;
-            }
-            else
-            {
-                spriteRenderer.flipX = true;
-            }
-        }
-        
-        if(Input.touchCount > 0)
-        {
-            touch = Input.GetTouch(0);
-
-            if(touch.phase == TouchPhase.Began)
-            {
-                DragStart();
-            }
-            if (touch.phase == TouchPhase.Moved)
-            {
-                Dragging();
-            }
-            if (touch.phase == TouchPhase.Ended)
-            {
-                DragRelease();
-            }
-        }
-        
-        for(int i = 0; i < Points.Length; i++)
-        {
-            Points[i].transform.position = PointPosition(i * 0.1f);
-        }
-
-        //벽 레이캐스트
-        isWall = Physics2D.Raycast(wallChk.position, Vector2.right * isRight, wallchkDistance, w_Layer);
-
+            currentPointPos = (Vector2)transform.position + ((Vector2)clampedForce * t) + 0.5f * Physics2D.gravity * 4 * (t * t);
+        return currentPointPos;
     }
 
     void DragStart()
     {
-        //dragStartPos = Camera.main.ScreenToWorldPoint(touch.position);
-        dragStartPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        nextMove = 0;
+        dragStartPos = Camera.main.ScreenToWorldPoint(touch.position);
+        //dragStartPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         dragStartPos.z = 0f;
         line.positionCount = 1;
         line.SetPosition(0, dragStartPos);
@@ -197,25 +235,26 @@ public class Player : MonoBehaviour
         {
             Points[i].SetActive(true);
         }
-        Vector3 force = dragStartPos - Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector3 force = dragStartPos - Camera.main.ScreenToWorldPoint(touch.position);
+        //Vector3 force = dragStartPos - Camera.main.ScreenToWorldPoint(Input.mousePosition);
         clampedForce = Vector3.ClampMagnitude(force, maxDrag) * power;
     }
     void Dragging()
     {
-        //Vector3 draggingPos = Camera.main.ScreenToWorldPoint(touch.position);
-        Vector3 draggingPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector3 draggingPos = Camera.main.ScreenToWorldPoint(touch.position);
+        //Vector3 draggingPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         draggingPos.z = 0f;
         line.positionCount = 2;
         line.SetPosition(1, draggingPos);
-        dragStartPos = transform.position;
-        Vector3 force = dragStartPos - Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector3 force = dragStartPos - Camera.main.ScreenToWorldPoint(touch.position);
+        //Vector3 force = dragStartPos - Camera.main.ScreenToWorldPoint(Input.mousePosition);
         clampedForce = Vector3.ClampMagnitude(force, maxDrag) * power;
     }
     void DragRelease()
     {
         line.positionCount = 0;
-        //Vector3 dragReleasePos = Camera.main.ScreenToWorldPoint(touch.position);
-        Vector3 dragReleasePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector3 dragReleasePos = Camera.main.ScreenToWorldPoint(touch.position);
+        //Vector3 dragReleasePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         dragReleasePos.z = 0f;
         for (int i = 0; i < Points.Length; i++)
         {
@@ -228,33 +267,6 @@ public class Player : MonoBehaviour
         pastpos = gameObject.transform.position.x;
         ismove = false;
     }
-    private void OnMouseDown()
-    {
-        DragStart();
-    }
-    private void OnMouseDrag()
-    {
-        Dragging();
-    }
-    private void OnMouseUp()
-    {
-        DragRelease();
-    }
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.blue;
-        Gizmos.DrawRay(wallChk.position, Vector2.right * isRight * wallchkDistance);
-    }
 
-    Vector2 PointPosition(float t)
-    {
-        Vector2 currentPointPos;
-        if (isWall)
-        { 
-            currentPointPos = (Vector2)transform.position + ((Vector2)clampedForce * t) + 0.5f * Physics2D.gravity * 8 * (t * t);
-        }
-        else
-            currentPointPos = (Vector2)transform.position + ((Vector2)clampedForce * t) + 0.5f * Physics2D.gravity * 4 * (t * t);
-        return currentPointPos;
-    }
+    
 }

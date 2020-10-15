@@ -9,7 +9,8 @@ public class Platform : MonoBehaviour
     private Collider2D coll;
 
     //이미지 변경 1,
-    public Sprite Onestage;
+    public Sprite Twostage;
+    public Sprite Threestage;
     private SpriteRenderer myRenderer;
     // Start is called before the first frame update
     void Start()
@@ -24,7 +25,7 @@ public class Platform : MonoBehaviour
     void Update()
     {
         
-        if (target.transform.position.y - (0.6371382 * 0.65) > transform.position.y)
+        if (target.transform.position.y - (0.6371382 * 0.7) > transform.position.y)
         {
             coll.enabled = true;
         }
@@ -34,7 +35,11 @@ public class Platform : MonoBehaviour
         //1단계 점수 로 땅 바꾸기
         if (GameObject.Find("GameManager").GetComponent<GameManager>().FScore1 >= 20)
         {
-            myRenderer.sprite = Onestage;
+            myRenderer.sprite = Twostage;
+        }
+        if (GameObject.Find("GameManager").GetComponent<GameManager>().FScore1 >= 40)
+        {
+            myRenderer.sprite = Threestage;
         }
     }
 

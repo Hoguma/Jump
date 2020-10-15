@@ -5,7 +5,8 @@ using UnityEngine;
 public class Wallchange : MonoBehaviour
 {
     //이미지 변경 1,
-    public Sprite Onestage;
+    public Sprite Twostage;
+    public Sprite Threestage;
     private SpriteRenderer myRenderer;
     void Start()
     {
@@ -17,7 +18,11 @@ public class Wallchange : MonoBehaviour
     {
         if (GameObject.Find("GameManager").GetComponent<GameManager>().FScore1 >= 20)
         {
-            myRenderer.sprite = Onestage;
+            myRenderer.sprite = Twostage;
+        }
+        if (GameObject.Find("GameManager").GetComponent<GameManager>().FScore1 >= 40)
+        {
+            myRenderer.sprite = Threestage;
         }
     }
 }
