@@ -35,7 +35,7 @@ public class Player : MonoBehaviour
     public LayerMask w_Layer;
 
     //좌우 무빙
-    public int nextMove = 0;
+    public int nextMove = 1;
     public int move;
     bool ismove = false;
     
@@ -44,6 +44,8 @@ public class Player : MonoBehaviour
     SpriteRenderer spriteRenderer;
     float pastpos;
     Animator anim;
+
+    bool isTouch = false;
 
     private void Start()
     {
@@ -66,7 +68,7 @@ public class Player : MonoBehaviour
     {
         //에니메이션 반대
         //땅과 공중 비교
-        if(ismove == true)
+        if(ismove)
         {
             if (nextMove == -1)
             {
@@ -76,7 +78,6 @@ public class Player : MonoBehaviour
             {
                 spriteRenderer.flipX = true;
             }
-            canJump = true;
         }
         else
         {
@@ -88,20 +89,12 @@ public class Player : MonoBehaviour
             {
                 spriteRenderer.flipX = true;
             }
-            canJump = false;
         }
 
         if (isWall)
             canJump = true;
 
-        if(nextMove == 0)
-        {
-            anim.SetBool("isRuning", false);
-        }
-        else
-        {
-            anim.SetBool("isRuning", true);
-        }
+        anim.SetBool("isRuning", ismove);
 
         //if (Input.touchCount > 0 && canJump == true)
         //{
@@ -121,7 +114,27 @@ public class Player : MonoBehaviour
         //    }
         //}
 
-        if(Input.GetMouseButtonDown(0) && canJump == true)
+        //좌우 이동 레이캐스트 땅체크
+        //레이캐스트 그림그려줌 scene에서
+        if (ismove)
+        {
+            Vector2 frontVec = new Vector2(rigidbody.position.x + nextMove * 0.24f, rigidbody.position.y);
+            RaycastHit2D rayHit = Physics2D.Raycast(frontVec, Vector3.down, 1, LayerMask.GetMask("floor"));
+
+            if (rayHit.collider == null)
+            {
+                if (nextMove == 1)
+                {
+                    nextMove = -1;
+                }
+                else if (nextMove == -1)
+                {
+                    nextMove = 1;
+                }
+            }
+        }
+
+        if (Input.GetMouseButtonDown(0) && canJump == true)
         {
             DragStart();
         }
@@ -146,29 +159,14 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        //좌우 이동 레이캐스트 땅체크
-        //레이캐스트 그림그려줌 scene에서
-        Vector2 frontVec = new Vector2(rigidbody.position.x + nextMove * 0.24f, rigidbody.position.y);
-        RaycastHit2D rayHit = Physics2D.Raycast(frontVec, Vector3.down, 1, LayerMask.GetMask("floor"));
-
         //애니메이션 오류 문제 해결
-        Debug.DrawRay(new Vector2(rigidbody.position.x, rigidbody.position.y - 0.7f), Vector3.down, new Color(0, 1, 0));
-        RaycastHit2D rayHit2 = Physics2D.Raycast(new Vector2(rigidbody.position.x, rigidbody.position.y - 0.7f), Vector3.down, 1, LayerMask.GetMask("floor"));
+        //Debug.DrawRay(new Vector2(rigidbody.position.x, rigidbody.position.y - 0.7f), Vector3.down, new Color(0, 1, 0));
+        //RaycastHit2D rayHit2 = Physics2D.Raycast(new Vector2(rigidbody.position.x, rigidbody.position.y - 0.7f), Vector3.down, 1, LayerMask.GetMask("floor"));
 
-        if (rayHit.collider == null)
-        {
-            if (nextMove == 1)
-            {
-                nextMove = -1;
-            }
-            else if (nextMove == -1)
-            {
-                nextMove = 1;
-            }
-        }
+        
 
         //오늘 애니메이션은 레이캐스트로 변경한다.
-        if (ismove == true)
+        if (ismove)
         {
             rigidbody.velocity = new Vector2(nextMove, rigidbody.velocity.y);
         }
@@ -180,28 +178,34 @@ public class Player : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "floor")
+        if(collision.gameObject.CompareTag("floor"))
         {
             ismove = true;
             canJump = true;
-            if (nextMove == 0 && !Input.GetMouseButton(0))
-            {
-                nextMove = 1;
-            }
+            nextMove = 1;
         }
-
-        if(collision.gameObject.tag == "wall")
+        if(collision.gameObject.CompareTag("wall"))
         {
             nextMove *= -1;
         }
     }
 
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("floor"))
+        {
+            if(isTouch == false)
+                ismove = true;
+            canJump = true;
+        }
+    }
+
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "floor")
+        if (collision.gameObject.CompareTag("floor"))
         {
             ismove = false;
-            nextMove = 0;
+            canJump = false;
         }
     }
 
@@ -225,7 +229,9 @@ public class Player : MonoBehaviour
 
     void DragStart()
     {
-        nextMove = 0;
+        isTouch = true;
+        ismove = false;
+
         //dragStartPos = Camera.main.ScreenToWorldPoint(touch.position);
         dragStartPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         dragStartPos.z = 0f;
@@ -249,9 +255,13 @@ public class Player : MonoBehaviour
         //Vector3 force = dragStartPos - Camera.main.ScreenToWorldPoint(touch.position);
         Vector3 force = dragStartPos - Camera.main.ScreenToWorldPoint(Input.mousePosition);
         clampedForce = Vector3.ClampMagnitude(force, maxDrag) * power;
+
+        
     }
     void DragRelease()
     {
+        isTouch = false;
+
         line.positionCount = 0;
         //Vector3 dragReleasePos = Camera.main.ScreenToWorldPoint(touch.position);
         Vector3 dragReleasePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -263,9 +273,16 @@ public class Player : MonoBehaviour
         Vector3 force = dragStartPos - dragReleasePos;
         clampedForce = Vector3.ClampMagnitude(force, maxDrag) * power;
 
+        if (clampedForce.x > 0)
+        {
+            nextMove = 1;
+        } else
+        {
+            nextMove = -1;
+        }
+        rigidbody.velocity = new Vector2(nextMove, rigidbody.velocity.y);
         rigidbody.AddForce(clampedForce, ForceMode2D.Impulse);
         pastpos = gameObject.transform.position.x;
-        ismove = false;
     }
 
     
