@@ -103,36 +103,36 @@ public class Player : MonoBehaviour
             anim.SetBool("isRuning", true);
         }
 
-        if (Input.touchCount > 0 && canJump == true)
+        //if (Input.touchCount > 0 && canJump == true)
+        //{
+        //    touch = Input.GetTouch(0);
+
+        //    if(touch.phase == TouchPhase.Began)
+        //    {
+        //        DragStart();
+        //    }
+        //    if (touch.phase == TouchPhase.Moved)
+        //    {
+        //        Dragging();
+        //    }
+        //    if (touch.phase == TouchPhase.Ended)
+        //    {
+        //        DragRelease();
+        //    }
+        //}
+
+        if(Input.GetMouseButtonDown(0) && canJump == true)
         {
-            touch = Input.GetTouch(0);
-
-            if(touch.phase == TouchPhase.Began)
-            {
-                DragStart();
-            }
-            if (touch.phase == TouchPhase.Moved)
-            {
-                Dragging();
-            }
-            if (touch.phase == TouchPhase.Ended)
-            {
-                DragRelease();
-            }
+            DragStart();
         }
-
-        //if(Input.GetMouseButtonDown(0) && canJump == true)
-        //{
-        //    DragStart();
-        //}
-        //if(Input.GetMouseButton(0) && canJump == true)
-        //{
-        //    Dragging();
-        //}
-        //if (Input.GetMouseButtonUp(0) && canJump == true)
-        //{
-        //    DragRelease();
-        //}
+        if(Input.GetMouseButton(0) && canJump == true)
+        {
+            Dragging();
+        }
+        if (Input.GetMouseButtonUp(0) && canJump == true)
+        {
+            DragRelease();
+        }
 
         for (int i = 0; i < Points.Length; i++)
         {
@@ -226,8 +226,8 @@ public class Player : MonoBehaviour
     void DragStart()
     {
         nextMove = 0;
-        dragStartPos = Camera.main.ScreenToWorldPoint(touch.position);
-        //dragStartPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        //dragStartPos = Camera.main.ScreenToWorldPoint(touch.position);
+        dragStartPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         dragStartPos.z = 0f;
         line.positionCount = 1;
         line.SetPosition(0, dragStartPos);
@@ -235,26 +235,26 @@ public class Player : MonoBehaviour
         {
             Points[i].SetActive(true);
         }
-        Vector3 force = dragStartPos - Camera.main.ScreenToWorldPoint(touch.position);
-        //Vector3 force = dragStartPos - Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        //Vector3 force = dragStartPos - Camera.main.ScreenToWorldPoint(touch.position);
+        Vector3 force = dragStartPos - Camera.main.ScreenToWorldPoint(Input.mousePosition);
         clampedForce = Vector3.ClampMagnitude(force, maxDrag) * power;
     }
     void Dragging()
     {
-        Vector3 draggingPos = Camera.main.ScreenToWorldPoint(touch.position);
-        //Vector3 draggingPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        //Vector3 draggingPos = Camera.main.ScreenToWorldPoint(touch.position);
+        Vector3 draggingPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         draggingPos.z = 0f;
         line.positionCount = 2;
         line.SetPosition(1, draggingPos);
-        Vector3 force = dragStartPos - Camera.main.ScreenToWorldPoint(touch.position);
-        //Vector3 force = dragStartPos - Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        //Vector3 force = dragStartPos - Camera.main.ScreenToWorldPoint(touch.position);
+        Vector3 force = dragStartPos - Camera.main.ScreenToWorldPoint(Input.mousePosition);
         clampedForce = Vector3.ClampMagnitude(force, maxDrag) * power;
     }
     void DragRelease()
     {
         line.positionCount = 0;
-        Vector3 dragReleasePos = Camera.main.ScreenToWorldPoint(touch.position);
-        //Vector3 dragReleasePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        //Vector3 dragReleasePos = Camera.main.ScreenToWorldPoint(touch.position);
+        Vector3 dragReleasePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         dragReleasePos.z = 0f;
         for (int i = 0; i < Points.Length; i++)
         {

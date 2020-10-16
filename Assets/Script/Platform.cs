@@ -12,6 +12,7 @@ public class Platform : MonoBehaviour
     public Sprite Twostage;
     public Sprite Threestage;
     private SpriteRenderer myRenderer;
+    private int stage = 1;
     // Start is called before the first frame update
     void Start()
     {
@@ -33,14 +34,17 @@ public class Platform : MonoBehaviour
             coll.enabled = false;
 
         //1단계 점수 로 땅 바꾸기
-        if (GameObject.Find("GameManager").GetComponent<GameManager>().FScore1 >= 20)
+        if (GameObject.Find("GameManager").GetComponent<GameManager>().FScore1 >= 40 || stage == 3)
         {
-            myRenderer.sprite = Twostage;
-        }
-        if (GameObject.Find("GameManager").GetComponent<GameManager>().FScore1 >= 40)
-        {
+            stage = 3;
             myRenderer.sprite = Threestage;
         }
+        else if (GameObject.Find("GameManager").GetComponent<GameManager>().FScore1 >= 20 || stage == 2)
+        {
+            stage = 2;
+            myRenderer.sprite = Twostage;
+        }
+        
     }
 
 }

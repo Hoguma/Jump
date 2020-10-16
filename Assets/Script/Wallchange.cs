@@ -8,6 +8,7 @@ public class Wallchange : MonoBehaviour
     public Sprite Twostage;
     public Sprite Threestage;
     private SpriteRenderer myRenderer;
+    private int stage = 1;
     void Start()
     {
         myRenderer = gameObject.GetComponent<SpriteRenderer>();
