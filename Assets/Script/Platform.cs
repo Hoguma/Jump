@@ -9,17 +9,19 @@ public class Platform : MonoBehaviour
     private Collider2D coll;
 
     //이미지 변경 1,
+    public int[] stage;
     public Sprite Twostage;
     public Sprite Threestage;
+    public Sprite fourstage;
+    public Sprite fivestage;
     private SpriteRenderer myRenderer;
-    private int stage = 1;
+    private int stageIm = 1;
     // Start is called before the first frame update
     void Start()
     {
         coll = GetComponent<Collider2D>();
         target = FindObjectOfType<Player>().gameObject;
         myRenderer = gameObject.GetComponent<SpriteRenderer>();
-       
     }
 
     // Update is called once per frame
@@ -34,14 +36,28 @@ public class Platform : MonoBehaviour
             coll.enabled = false;
 
         //1단계 점수 로 땅 바꾸기
-        if (GameObject.Find("GameManager").GetComponent<GameManager>().FScore1 >= 40 || stage == 3)
+        //if (GameObject.Find("GameManager").GetComponent<GameManager>().FScore1 >= stage[3] || stageIm == 5)
+        if (GameObject.Find("GameManager").GetComponent<GameManager>().FScore1 >= 80 || stageIm == 5)
         {
-            stage = 3;
+            stageIm = 5;
+            myRenderer.sprite = fivestage;
+        }
+        //if (GameObject.Find("GameManager").GetComponent<GameManager>().FScore1 >= stage[2] || stageIm == 4)
+        else if (GameObject.Find("GameManager").GetComponent<GameManager>().FScore1 >= 60 || stageIm == 4)
+        {
+            stageIm = 4;
+            myRenderer.sprite = fourstage;
+        }
+        //if (GameObject.Find("GameManager").GetComponent<GameManager>().FScore1 >= stage[1] || stageIm == 3)
+        else if (GameObject.Find("GameManager").GetComponent<GameManager>().FScore1 >= 40 || stageIm == 3)
+        {
+            stageIm = 3;
             myRenderer.sprite = Threestage;
         }
-        else if (GameObject.Find("GameManager").GetComponent<GameManager>().FScore1 >= 20 || stage == 2)
+        //if (GameObject.Find("GameManager").GetComponent<GameManager>().FScore1 >= stage[0] || stageIm == 2)
+        else if (GameObject.Find("GameManager").GetComponent<GameManager>().FScore1 >= 20 || stageIm == 2)
         {
-            stage = 2;
+            stageIm = 2;
             myRenderer.sprite = Twostage;
         }
         

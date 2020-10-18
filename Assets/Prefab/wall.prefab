@@ -143,8 +143,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49bdb9b475b613d45a228bc12b3fcc62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Twostage: {fileID: 21300000, guid: f6d415e962df9054188eb0cd058cb340, type: 3}
-  Threestage: {fileID: 21300000, guid: a9369a8d6de99f84d941b140c5cbbfc0, type: 3}
+  stage: 960000002c010000c201000058020000ee020000
+  Twostage: {fileID: 21300000, guid: 980a88109e2c49e45901e27994c1047e, type: 3}
+  Threestage: {fileID: 21300000, guid: f6d415e962df9054188eb0cd058cb340, type: 3}
+  fourstage: {fileID: 21300000, guid: a9369a8d6de99f84d941b140c5cbbfc0, type: 3}
+  fivestage: {fileID: 21300000, guid: 6da5909d7f77d2a4498dea63687c16f9, type: 3}
 --- !u!1 &4930710073875607121
 GameObject:
   m_ObjectHideFlags: 0
@@ -288,8 +291,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49bdb9b475b613d45a228bc12b3fcc62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Twostage: {fileID: 21300000, guid: f6d415e962df9054188eb0cd058cb340, type: 3}
-  Threestage: {fileID: 21300000, guid: a9369a8d6de99f84d941b140c5cbbfc0, type: 3}
+  stage: 960000002c010000c201000058020000ee020000
+  Twostage: {fileID: 21300000, guid: 980a88109e2c49e45901e27994c1047e, type: 3}
+  Threestage: {fileID: 21300000, guid: f6d415e962df9054188eb0cd058cb340, type: 3}
+  fourstage: {fileID: 21300000, guid: a9369a8d6de99f84d941b140c5cbbfc0, type: 3}
+  fivestage: {fileID: 21300000, guid: 6da5909d7f77d2a4498dea63687c16f9, type: 3}
 --- !u!1 &4930710074095197347
 GameObject:
   m_ObjectHideFlags: 0

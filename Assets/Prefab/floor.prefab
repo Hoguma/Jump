@@ -121,5 +121,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f93778c849a2f074a986626a0377e61c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Twostage: {fileID: 21300000, guid: a22a7983b87ccb044ab2214f0df7387c, type: 3}
-  Threestage: {fileID: 21300000, guid: 0c9db58350266a2409351c27f6b02b94, type: 3}
+  stage: 960000002c010000c201000058020000ee020000
+  Twostage: {fileID: 21300000, guid: de0b3b2868e59e143afc9807b75eac9d, type: 3}
+  Threestage: {fileID: 21300000, guid: a22a7983b87ccb044ab2214f0df7387c, type: 3}
+  fourstage: {fileID: 21300000, guid: 0c9db58350266a2409351c27f6b02b94, type: 3}
+  fivestage: {fileID: 21300000, guid: e69c12cd02540c049ab3b666b9c2a9e7, type: 3}

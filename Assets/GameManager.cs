@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Tracing;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,6 +17,7 @@ public class GameManager : MonoBehaviour
     public Image stagePanel = null;
     public float Scopos;
     public float FScore1;
+    public int fade = 0;
 
     public bool isFaded = false;
     private void Awake()
@@ -36,9 +38,25 @@ public class GameManager : MonoBehaviour
         FScore1 = (int)Scopos;
         FScore.text = FScore1.ToString()+"m";
 
-        if (FScore1 % 20f == 0f && FScore1 >= 1 && !isFaded)
+        if (FScore1 == 20 && FScore1 >= 1 && !isFaded && fade == 0)
         {
-            StartCoroutine(FadeIn(1f));
+            StartCoroutine(FadeIn(0.3f));
+            fade = 1;
+        }
+        else if (FScore1 == 40 && FScore1 >= 1 && !isFaded && fade == 1)
+        {
+            StartCoroutine(FadeIn(0.3f));
+            fade = 2;
+        }
+        else if (FScore1 == 60 && FScore1 >= 1 && !isFaded && fade == 2)
+        {
+            StartCoroutine(FadeIn(0.3f));
+            fade = 3;
+        }
+        else if (FScore1 == 80 && FScore1 >= 1 && !isFaded && fade == 3)
+        {
+            StartCoroutine(FadeIn(0.3f));
+            fade = 4;
         }
     }
 

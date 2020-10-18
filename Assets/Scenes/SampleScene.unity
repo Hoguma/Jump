@@ -771,6 +771,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2357341718483931244, guid: f08a2677f1afec441b52b27370cc88a8,
+        type: 3}
+      propertyPath: stage.Array.size
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 8084196897667612088, guid: f08a2677f1afec441b52b27370cc88a8,
         type: 3}
       propertyPath: m_Sprite
