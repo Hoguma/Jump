@@ -194,8 +194,6 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("floor"))
         {
-            if(isTouch == false)
-                ismove = true;
             canJump = true;
         }
     }
@@ -206,6 +204,7 @@ public class Player : MonoBehaviour
         {
             ismove = false;
             canJump = false;
+            nextMove = 0;
         }
     }
 
@@ -220,10 +219,10 @@ public class Player : MonoBehaviour
         Vector2 currentPointPos;
         if (isWall)
         {
-            currentPointPos = (Vector2)transform.position + ((Vector2)clampedForce * t) + 0.5f * Physics2D.gravity * 8 * (t * t);
+            currentPointPos = (Vector2)transform.position + ((Vector2)clampedForce * t) + 0.683472f * Physics2D.gravity * 6.0f * (t * t);
         }
         else
-            currentPointPos = (Vector2)transform.position + ((Vector2)clampedForce * t) + 0.5f * Physics2D.gravity * 4 * (t * t);
+            currentPointPos = (Vector2)transform.position + ((Vector2)clampedForce * t) + 0.683472f * Physics2D.gravity * 3.0f  * (t * t);
         return currentPointPos;
     }
 
@@ -280,7 +279,6 @@ public class Player : MonoBehaviour
         {
             nextMove = -1;
         }
-        rigidbody.velocity = new Vector2(nextMove, rigidbody.velocity.y);
         rigidbody.AddForce(clampedForce, ForceMode2D.Impulse);
         pastpos = gameObject.transform.position.x;
     }
