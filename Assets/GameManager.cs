@@ -7,10 +7,23 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    private static GameManager _instance = null;
+    public static GameManager instance
+    {
+        get
+        {
+            if (_instance == null)
+                return null;
+            return _instance;
+        }
+    }
+
+    [SerializeField]
+    [Tooltip("Title 터치방지 오브젝트")] private GameObject UiPanel;
     public GameObject player;
     public GameObject platformPrefab;
     private GameObject myPlat;
-    [Header ("Wall")]
+    [Header("Wall")]
     public GameObject wall;
     [Header("Score")]
     public Text FScore;
@@ -18,10 +31,18 @@ public class GameManager : MonoBehaviour
     public float Scopos;
     public float FScore1;
     public int fade = 0;
+    public bool isPanel = true;
 
     public bool isFaded = false;
     private void Awake()
     {
+        if (_instance == null)
+        {
+            _instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
+        else
+            Destroy(this.gameObject);
         Instantiate(wall, new Vector3(0, 0, 0), transform.rotation);
         Instantiate(wall, new Vector3(0, 10, 0), transform.rotation);
     }
@@ -36,7 +57,7 @@ public class GameManager : MonoBehaviour
     {
         Scopos = player.transform.position.y;
         FScore1 = (int)Scopos;
-        FScore.text = FScore1.ToString()+"m";
+        FScore.text = FScore1.ToString() + "m";
 
         if (FScore1 == 20 && FScore1 >= 1 && !isFaded && fade == 0)
         {
@@ -90,5 +111,16 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
         isFaded = false;
+    }
+
+    public void PanelChange()
+    {
+        isPanel = !isPanel;
+        UiPanel.SetActive(isPanel);
+    }
+
+    public bool panel()
+    {
+        return isPanel;
     }
 }

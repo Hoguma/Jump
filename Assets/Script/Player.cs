@@ -19,6 +19,7 @@ public class Player : MonoBehaviour
     [SerializeField]
     private GameObject[] Points;
 
+
     public int numberOfpoints; 
     Vector3 dragStartPos;
     Touch touch;
@@ -68,7 +69,7 @@ public class Player : MonoBehaviour
     {
         //에니메이션 반대
         //땅과 공중 비교
-        if(ismove)
+        if (ismove)
         {
             if (nextMove == -1)
             {
@@ -136,15 +137,30 @@ public class Player : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0) && canJump == true)
         {
-            DragStart();
+            if (!EventSystem.current.IsPointerOverGameObject())
+            {
+                //클릭 처리
+                DragStart();
+
+            }
         }
         if(Input.GetMouseButton(0) && canJump == true)
         {
-            Dragging();
+            if (!EventSystem.current.IsPointerOverGameObject())
+            {
+                //클릭 처리
+                Dragging();
+            }
         }
         if (Input.GetMouseButtonUp(0) && canJump == true)
         {
-            DragRelease();
+            if (!EventSystem.current.IsPointerOverGameObject())
+            {
+                //클릭 처리
+                DragRelease();
+
+
+            }
         }
 
         for (int i = 0; i < Points.Length; i++)
@@ -178,11 +194,14 @@ public class Player : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.CompareTag("floor"))
+        if (!GameManager.instance.panel())
         {
-            ismove = true;
-            canJump = true;
-            nextMove = 1;
+            if (collision.gameObject.CompareTag("floor"))
+            {
+                ismove = true;
+                canJump = true;
+                nextMove = 1;
+            }
         }
         if(collision.gameObject.CompareTag("wall"))
         {
