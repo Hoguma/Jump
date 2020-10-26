@@ -18,24 +18,45 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    [SerializeField]
-    [Tooltip("Title 터치방지 오브젝트")] private GameObject UiPanel;
+    [Header("GameObject")]
+    [SerializeField] private Camera mainCam;
     public GameObject player;
-    public GameObject platformPrefab;
+
+    [Header("Platform")]
+    [SerializeField] private GameObject FloorsPre;
+    private GameObject FloorsClone;
     private GameObject myPlat;
+    private GameObject Ground;
+    public GameObject platformPrefab;
+    public GameObject GroundPrefab;
+
+
+    [Header("Title")]
+    [SerializeField] private GameObject TitlePanel;
+    public bool isTitlePanel = true;
+
+    [Header("GameOver")]
+    [SerializeField] private GameObject EndPanel;
+    public bool isEndPanel = false;
+
+
     [Header("Wall")]
+    [SerializeField] private GameObject Walls;
     public GameObject wall;
+
     [Header("Score")]
     public Text FScore;
+    public Text EScore;
     public Image stagePanel = null;
     public float Scopos;
     public float FScore1;
     public int fade = 0;
-    public bool isPanel = true;
 
     public bool isFaded = false;
+
     private void Awake()
     {
+        FloorsClone = FloorsPre;
         if (_instance == null)
         {
             _instance = this;
@@ -46,19 +67,102 @@ public class GameManager : MonoBehaviour
         Instantiate(wall, new Vector3(0, 0, 0), transform.rotation);
         Instantiate(wall, new Vector3(0, 10, 0), transform.rotation);
     }
+
     void Start()
     {
-        //for(int i = 0; i<3; i++)
-        //{
-        //    myPlat = (GameObject)Instantiate(platformPrefab, new Vector2(Random.Range(-3f, 3f), player.transform.position.y + (2 + Random.Range(0.5f, 1f))), Quaternion.identity);
-        //}
+        
     }
+
     private void Update()
     {
-        Scopos = player.transform.position.y;
+        Vector3 pos = Camera.main.WorldToViewportPoint(player.transform.position);
+        if (pos.y < -0.1f && !isEndPanel)
+        {
+            isEndPanel = true;
+            EndPanel.SetActive(isEndPanel);
+            player.SetActive(!isEndPanel);
+            EScore.text = FScore1.ToString() + "m";
+            Debug.Log(isEndPanel);
+        }
+
+        if (Scopos < player.transform.position.y)
+            Scopos = player.transform.position.y;
+
         FScore1 = (int)Scopos;
         FScore.text = FScore1.ToString() + "m";
 
+
+        Stage();
+    }
+
+    IEnumerator FadeIn(float t)
+    {
+        float p = 0f;
+        isFaded = true;
+        stagePanel.color = new Color(stagePanel.color.r, stagePanel.color.g, stagePanel.color.b, p);
+        yield return null;
+
+        while (p <= t)
+        {
+            p += Time.deltaTime;
+            stagePanel.color = new Color(stagePanel.color.r, stagePanel.color.g, stagePanel.color.b, p / 1f);
+            yield return null;
+        }
+        isFaded = false;
+        StartCoroutine(FadeOut(t));
+    }
+
+    IEnumerator FadeOut(float t)
+    {
+        float p = 1f;
+        isFaded = true;
+        stagePanel.color = new Color(stagePanel.color.r, stagePanel.color.g, stagePanel.color.b, p);
+        yield return null;
+
+        while (p >= 0f)
+        {
+            p -= Time.deltaTime;
+            stagePanel.color = new Color(stagePanel.color.r, stagePanel.color.g, stagePanel.color.b, p / 1f);
+            yield return null;
+        }
+        isFaded = false;
+    }
+
+    public void TPanelChange()
+    {
+        isTitlePanel = !isTitlePanel;
+        TitlePanel.SetActive(isTitlePanel);
+    }
+
+    public bool Titlepanel()
+    {
+        return isTitlePanel;
+    }
+
+    public void EPanelChange()
+    {
+        GameStart();
+        isEndPanel = false;
+        EndPanel.SetActive(isEndPanel);
+        Scopos = 0;
+    }
+
+    public void EPanelTitle()
+    {
+        GameStart();
+        isEndPanel = false;
+        TPanelChange();
+        EndPanel.SetActive(isEndPanel);
+        Scopos = 0;
+    }
+
+    public bool Endpanel()
+    {
+        return isEndPanel;
+    }
+
+    public void Stage()
+    {
         if (FScore1 == 20 && FScore1 >= 1 && !isFaded && fade == 0)
         {
             StartCoroutine(FadeIn(0.3f));
@@ -81,46 +185,38 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    IEnumerator FadeIn(float t)
+    public GameObject FloorAdd()
     {
-        float p = 0f;
-        isFaded = true;
-        stagePanel.color = new Color(stagePanel.color.r, stagePanel.color.g, stagePanel.color.b, p);
-        yield return null;
+        return FloorsPre;
+    }
 
-        while (p <= t)
+    public GameObject WallAdd()
+    {
+        return Walls;
+    }
+
+    public void GameStart()
+    {
+        Instantiate(GroundPrefab);
+        player.transform.position = new Vector3(0, 0, 0);
+        player.SetActive(true);
+        mainCam.transform.position = new Vector3(0, 4.5f, mainCam.transform.position.z);
+
+        int nw = Walls.transform.childCount;
+        for (int i = 0; i < nw; i++)
         {
-            p += Time.deltaTime;
-            stagePanel.color = new Color(stagePanel.color.r, stagePanel.color.g, stagePanel.color.b, p / 1f);
-            yield return null;
+            Destroy(Walls.transform.GetChild(i).gameObject);
         }
-        isFaded = false;
-        StartCoroutine(FadeOut(t));
-    }
-    IEnumerator FadeOut(float t)
-    {
-        float p = 1f;
-        isFaded = true;
-        stagePanel.color = new Color(stagePanel.color.r, stagePanel.color.g, stagePanel.color.b, p);
-        yield return null;
-
-        while (p >= 0f)
+        Instantiate(wall, new Vector3(0, 0, 0), transform.rotation);
+        Instantiate(wall, new Vector3(0, 10, 0), transform.rotation);
+        int nf = FloorsPre.transform.childCount;
+        for(int i = 0; i < nf; i++)
         {
-            p -= Time.deltaTime;
-            stagePanel.color = new Color(stagePanel.color.r, stagePanel.color.g, stagePanel.color.b, p / 1f);
-            yield return null;
+            Destroy(FloorsPre.transform.GetChild(i).gameObject);
         }
-        isFaded = false;
-    }
-
-    public void PanelChange()
-    {
-        isPanel = !isPanel;
-        UiPanel.SetActive(isPanel);
-    }
-
-    public bool panel()
-    {
-        return isPanel;
+        for (int i = 0; i < 3; i++)
+        {
+            myPlat = (GameObject)Instantiate(platformPrefab, new Vector2(Random.Range(-3f, 3f), player.transform.position.y + (2 * i + Random.Range(0.5f, 1f))), Quaternion.identity);
+        }
     }
 }

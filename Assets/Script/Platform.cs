@@ -22,12 +22,12 @@ public class Platform : MonoBehaviour
         coll = GetComponent<Collider2D>();
         target = FindObjectOfType<Player>().gameObject;
         myRenderer = gameObject.GetComponent<SpriteRenderer>();
+        transform.parent = GameManager.instance.FloorAdd().transform;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
         if (target.transform.position.y - (0.6371382 * 0.7) > transform.position.y)
         {
             coll.enabled = true;

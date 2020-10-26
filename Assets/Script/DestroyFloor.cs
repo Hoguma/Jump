@@ -10,11 +10,10 @@ public class DestroyFloor : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.tag == "floor")
+        if (collision.gameObject.CompareTag("floor"))
         {
             Destroy(collision.gameObject);
             myPlat = (GameObject)Instantiate(platformPrefab, new Vector2(Random.Range(-1.73f, 1.73f), player.transform.position.y + (2 + Random.Range(0.5f, 1f))), Quaternion.identity);
-
         }
     }
 }

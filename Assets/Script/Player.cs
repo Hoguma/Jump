@@ -19,7 +19,6 @@ public class Player : MonoBehaviour
     [SerializeField]
     private GameObject[] Points;
 
-
     public int numberOfpoints; 
     Vector3 dragStartPos;
     Touch touch;
@@ -67,101 +66,9 @@ public class Player : MonoBehaviour
     
     private void Update()
     {
-        //에니메이션 반대
-        //땅과 공중 비교
-        if (ismove)
-        {
-            if (nextMove == -1)
-            {
-                spriteRenderer.flipX = false;
-            }
-            else
-            {
-                spriteRenderer.flipX = true;
-            }
-        }
-        else
-        {
-            if(pastpos > gameObject.transform.position.x)
-            {
-                spriteRenderer.flipX = false;
-            }
-            else
-            {
-                spriteRenderer.flipX = true;
-            }
-        }
-
-        if (isWall)
-            canJump = true;
-
-        anim.SetBool("isRuning", ismove);
-
-        //if (Input.touchCount > 0 && canJump == true)
-        //{
-        //    touch = Input.GetTouch(0);
-
-        //    if(touch.phase == TouchPhase.Began)
-        //    {
-        //        DragStart();
-        //    }
-        //    if (touch.phase == TouchPhase.Moved)
-        //    {
-        //        Dragging();
-        //    }
-        //    if (touch.phase == TouchPhase.Ended)
-        //    {
-        //        DragRelease();
-        //    }
-        //}
-
-        //좌우 이동 레이캐스트 땅체크
-        //레이캐스트 그림그려줌 scene에서
-        if (ismove)
-        {
-            Vector2 frontVec = new Vector2(rigidbody.position.x + nextMove * 0.24f, rigidbody.position.y);
-            RaycastHit2D rayHit = Physics2D.Raycast(frontVec, Vector3.down, 1, LayerMask.GetMask("floor"));
-
-            if (rayHit.collider == null)
-            {
-                if (nextMove == 1)
-                {
-                    nextMove = -1;
-                }
-                else if (nextMove == -1)
-                {
-                    nextMove = 1;
-                }
-            }
-        }
-
-        if (Input.GetMouseButtonDown(0) && canJump == true)
-        {
-            if (!EventSystem.current.IsPointerOverGameObject())
-            {
-                //클릭 처리
-                DragStart();
-
-            }
-        }
-        if(Input.GetMouseButton(0) && canJump == true)
-        {
-            if (!EventSystem.current.IsPointerOverGameObject())
-            {
-                //클릭 처리
-                Dragging();
-            }
-        }
-        if (Input.GetMouseButtonUp(0) && canJump == true)
-        {
-            if (!EventSystem.current.IsPointerOverGameObject())
-            {
-                //클릭 처리
-                DragRelease();
-
-
-            }
-        }
+        CheckStatus();
+        //Touch();
+        Click();
 
         for (int i = 0; i < Points.Length; i++)
         {
@@ -170,31 +77,21 @@ public class Player : MonoBehaviour
 
         //벽 레이캐스트
         isWall = Physics2D.Raycast(wallChk.position, Vector2.right * isRight, wallchkDistance, w_Layer);
-
     }
 
     private void FixedUpdate()
     {
+        #region 주석
         //애니메이션 오류 문제 해결
         //Debug.DrawRay(new Vector2(rigidbody.position.x, rigidbody.position.y - 0.7f), Vector3.down, new Color(0, 1, 0));
         //RaycastHit2D rayHit2 = Physics2D.Raycast(new Vector2(rigidbody.position.x, rigidbody.position.y - 0.7f), Vector3.down, 1, LayerMask.GetMask("floor"));
-
-        
-
-        //오늘 애니메이션은 레이캐스트로 변경한다.
-        if (ismove)
-        {
-            rigidbody.velocity = new Vector2(nextMove, rigidbody.velocity.y);
-        }
-        if (isWall)
-        {
-            rigidbody.velocity = new Vector2(rigidbody.velocity.x, rigidbody.velocity.y * slidingSpeed);
-        }
+        #endregion
+        Physics();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (!GameManager.instance.panel())
+        if (!GameManager.instance.Titlepanel())
         {
             if (collision.gameObject.CompareTag("floor"))
             {
@@ -253,41 +150,49 @@ public class Player : MonoBehaviour
         //dragStartPos = Camera.main.ScreenToWorldPoint(touch.position);
         dragStartPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         dragStartPos.z = 0f;
+
         line.positionCount = 1;
         line.SetPosition(0, dragStartPos);
+
         for (int i = 0; i < Points.Length; i++)
         {
             Points[i].SetActive(true);
         }
+
         //Vector3 force = dragStartPos - Camera.main.ScreenToWorldPoint(touch.position);
         Vector3 force = dragStartPos - Camera.main.ScreenToWorldPoint(Input.mousePosition);
         clampedForce = Vector3.ClampMagnitude(force, maxDrag) * power;
     }
+
     void Dragging()
     {
         //Vector3 draggingPos = Camera.main.ScreenToWorldPoint(touch.position);
         Vector3 draggingPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         draggingPos.z = 0f;
+
         line.positionCount = 2;
         line.SetPosition(1, draggingPos);
+
         //Vector3 force = dragStartPos - Camera.main.ScreenToWorldPoint(touch.position);
         Vector3 force = dragStartPos - Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        clampedForce = Vector3.ClampMagnitude(force, maxDrag) * power;
 
-        
+        clampedForce = Vector3.ClampMagnitude(force, maxDrag) * power;
     }
+
     void DragRelease()
     {
         isTouch = false;
-
         line.positionCount = 0;
+
         //Vector3 dragReleasePos = Camera.main.ScreenToWorldPoint(touch.position);
         Vector3 dragReleasePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         dragReleasePos.z = 0f;
+
         for (int i = 0; i < Points.Length; i++)
         {
             Points[i].SetActive(false);
         }
+
         Vector3 force = dragStartPos - dragReleasePos;
         clampedForce = Vector3.ClampMagnitude(force, maxDrag) * power;
 
@@ -298,9 +203,117 @@ public class Player : MonoBehaviour
         {
             nextMove = -1;
         }
+
         rigidbody.AddForce(clampedForce, ForceMode2D.Impulse);
         pastpos = gameObject.transform.position.x;
     }
 
-    
+    void Click()
+    {
+        if (Input.GetMouseButtonDown(0) && canJump == true)
+        {
+            if (!EventSystem.current.IsPointerOverGameObject())
+            {
+                //클릭 처리
+                DragStart();
+            }
+        }
+        if (Input.GetMouseButton(0) && canJump == true)
+        {
+            if (!EventSystem.current.IsPointerOverGameObject())
+            {
+                //클릭 처리
+                Dragging();
+            }
+        }
+        if (Input.GetMouseButtonUp(0) && canJump == true)
+        {
+            if (!EventSystem.current.IsPointerOverGameObject())
+            {
+                //클릭 처리
+                DragRelease();
+            }
+        }
+    }
+
+    void Touch()
+    {
+        if (Input.touchCount > 0 && canJump == true)
+        {
+            touch = Input.GetTouch(0);
+
+            if (touch.phase == TouchPhase.Began)
+            {
+                DragStart();
+            }
+            if (touch.phase == TouchPhase.Moved)
+            {
+                Dragging();
+            }
+            if (touch.phase == TouchPhase.Ended)
+            {
+                DragRelease();
+            }
+        }
+    }
+
+    void CheckStatus()
+    {
+        #region ISMOVE
+        if (ismove)
+        {
+            if (nextMove == -1)
+            {
+                spriteRenderer.flipX = false;
+            }
+            else
+            {
+                spriteRenderer.flipX = true;
+            }
+
+            Vector2 frontVec = new Vector2(rigidbody.position.x + nextMove * 0.24f, rigidbody.position.y);
+            RaycastHit2D rayHit = Physics2D.Raycast(frontVec, Vector3.down, 1, LayerMask.GetMask("floor"));
+
+            if (rayHit.collider == null)
+            {
+                if (nextMove == 1)
+                {
+                    nextMove = -1;
+                }
+                else if (nextMove == -1)
+                {
+                    nextMove = 1;
+                }
+            }
+        }
+        else
+        {
+            if (pastpos > gameObject.transform.position.x)
+            {
+                spriteRenderer.flipX = false;
+            }
+            else
+            {
+                spriteRenderer.flipX = true;
+            }
+        }
+        #endregion
+
+        if (isWall)
+            canJump = true;
+
+        anim.SetBool("isRuning", ismove);
+    }
+
+    void Physics()
+    {
+        if (ismove)
+        {
+            rigidbody.velocity = new Vector2(nextMove, rigidbody.velocity.y);
+        }
+        if (isWall)
+        {
+            rigidbody.velocity = new Vector2(rigidbody.velocity.x, rigidbody.velocity.y * slidingSpeed);
+        }
+    }
 }

@@ -9,7 +9,7 @@ public class wallDestroy : MonoBehaviour
     Vector3 wallpos;
     void Start()
     {
-        
+        transform.parent = GameManager.instance.WallAdd().transform;
     }
 
     // Update is called once per frame
