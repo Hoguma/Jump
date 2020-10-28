@@ -184,7 +184,7 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 1
     m_MaxSize: 258
-    m_Alignment: 5
+    m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 1
@@ -446,6 +446,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f5aafe39acf224d92aaf2436f830bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Enemy: 0
   mainCam: {fileID: 519420031}
   player: {fileID: 974366838}
   FloorsPre: {fileID: 596904329}
@@ -459,6 +460,7 @@ MonoBehaviour:
   isEndPanel: 0
   Walls: {fileID: 484672694}
   wall: {fileID: 4930710074095197347, guid: 105d9ed1f555b8e4182b73ecfe436fab, type: 3}
+  time: 0
   FScore: {fileID: 34687003}
   EScore: {fileID: 226159430}
   stagePanel: {fileID: 190346975}
@@ -776,6 +778,10 @@ MonoBehaviour:
   Threestage: {fileID: 21300000, guid: a22a7983b87ccb044ab2214f0df7387c, type: 3}
   fourstage: {fileID: 21300000, guid: 0c9db58350266a2409351c27f6b02b94, type: 3}
   fivestage: {fileID: 21300000, guid: e69c12cd02540c049ab3b666b9c2a9e7, type: 3}
+  Risk: {fileID: 7452291922616840955, guid: 22b367999a7271446b2b79583458d364, type: 3}
+  Lightning: {fileID: 7263762913233344168, guid: 6217d2008556c7747885ba416674de3c,
+    type: 3}
+  Ck: 0
 --- !u!61 &577960512
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1470,6 +1476,10 @@ MonoBehaviour:
   Threestage: {fileID: 21300000, guid: a22a7983b87ccb044ab2214f0df7387c, type: 3}
   fourstage: {fileID: 21300000, guid: 0c9db58350266a2409351c27f6b02b94, type: 3}
   fivestage: {fileID: 21300000, guid: e69c12cd02540c049ab3b666b9c2a9e7, type: 3}
+  Risk: {fileID: 7452291922616840955, guid: 22b367999a7271446b2b79583458d364, type: 3}
+  Lightning: {fileID: 7263762913233344168, guid: 6217d2008556c7747885ba416674de3c,
+    type: 3}
+  Ck: 0
 --- !u!61 &1573933862
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1705,6 +1715,10 @@ MonoBehaviour:
   Threestage: {fileID: 21300000, guid: a22a7983b87ccb044ab2214f0df7387c, type: 3}
   fourstage: {fileID: 21300000, guid: 0c9db58350266a2409351c27f6b02b94, type: 3}
   fivestage: {fileID: 21300000, guid: e69c12cd02540c049ab3b666b9c2a9e7, type: 3}
+  Risk: {fileID: 7452291922616840955, guid: 22b367999a7271446b2b79583458d364, type: 3}
+  Lightning: {fileID: 7263762913233344168, guid: 6217d2008556c7747885ba416674de3c,
+    type: 3}
+  Ck: 0
 --- !u!61 &1812021429
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2237,6 +2251,10 @@ MonoBehaviour:
   Threestage: {fileID: 21300000, guid: a22a7983b87ccb044ab2214f0df7387c, type: 3}
   fourstage: {fileID: 21300000, guid: 0c9db58350266a2409351c27f6b02b94, type: 3}
   fivestage: {fileID: 21300000, guid: e69c12cd02540c049ab3b666b9c2a9e7, type: 3}
+  Risk: {fileID: 7452291922616840955, guid: 22b367999a7271446b2b79583458d364, type: 3}
+  Lightning: {fileID: 7263762913233344168, guid: 6217d2008556c7747885ba416674de3c,
+    type: 3}
+  Ck: 0
 --- !u!61 &2067448964
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2406,10 +2424,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2290811998710093680, guid: 305be9fe8ce7b1144a649852e85eb560,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 2290811999054654656, guid: 305be9fe8ce7b1144a649852e85eb560,
         type: 3}
       propertyPath: m_LocalPosition.y
       value: -8.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290811999054654657, guid: 305be9fe8ce7b1144a649852e85eb560,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 2290811999054654662, guid: 305be9fe8ce7b1144a649852e85eb560,
         type: 3}
@@ -2417,10 +2445,25 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8084196897667612090, guid: f08a2677f1afec441b52b27370cc88a8,
         type: 3}
+    - target: {fileID: 2290811999067336273, guid: 305be9fe8ce7b1144a649852e85eb560,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 2290811999699538341, guid: 305be9fe8ce7b1144a649852e85eb560,
         type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290811999699538341, guid: 305be9fe8ce7b1144a649852e85eb560,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290811999699538341, guid: 305be9fe8ce7b1144a649852e85eb560,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 2290811999699538344, guid: 305be9fe8ce7b1144a649852e85eb560,
         type: 3}

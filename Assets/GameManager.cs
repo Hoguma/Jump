@@ -8,6 +8,8 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     private static GameManager _instance = null;
+    public int Enemy;
+
     public static GameManager instance
     {
         get
@@ -45,6 +47,7 @@ public class GameManager : MonoBehaviour
     public GameObject wall;
 
     [Header("Score")]
+    public float time = 0.0f;
     public Text FScore;
     public Text EScore;
     public Image stagePanel = null;
@@ -75,6 +78,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        EnemyStart();
         Vector3 pos = Camera.main.WorldToViewportPoint(player.transform.position);
         if (pos.y < -0.1f && !isEndPanel)
         {
@@ -130,6 +134,10 @@ public class GameManager : MonoBehaviour
 
     public void TPanelChange()
     {
+        //방해요소 
+        GameManager.instance.Enemy = 0;
+        time = 0;
+
         isTitlePanel = !isTitlePanel;
         TitlePanel.SetActive(isTitlePanel);
     }
@@ -163,22 +171,22 @@ public class GameManager : MonoBehaviour
 
     public void Stage()
     {
-        if (FScore1 == 20 && FScore1 >= 1 && !isFaded && fade == 0)
+        if (FScore1 == 150 && FScore1 >= 1 && !isFaded && fade == 0)
         {
             StartCoroutine(FadeIn(0.3f));
             fade = 1;
         }
-        else if (FScore1 == 40 && FScore1 >= 1 && !isFaded && fade == 1)
+        else if (FScore1 == 300 && FScore1 >= 1 && !isFaded && fade == 1)
         {
             StartCoroutine(FadeIn(0.3f));
             fade = 2;
         }
-        else if (FScore1 == 60 && FScore1 >= 1 && !isFaded && fade == 2)
+        else if (FScore1 == 450 && FScore1 >= 1 && !isFaded && fade == 2)
         {
             StartCoroutine(FadeIn(0.3f));
             fade = 3;
         }
-        else if (FScore1 == 80 && FScore1 >= 1 && !isFaded && fade == 3)
+        else if (FScore1 == 600 && FScore1 >= 1 && !isFaded && fade == 3)
         {
             StartCoroutine(FadeIn(0.3f));
             fade = 4;
@@ -217,6 +225,58 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < 3; i++)
         {
             myPlat = (GameObject)Instantiate(platformPrefab, new Vector2(Random.Range(-3f, 3f), player.transform.position.y + (2 * i + Random.Range(0.5f, 1f))), Quaternion.identity);
+        }
+    }
+    public void EnemyStart()
+    {
+        if (GameManager.instance.Enemy == 0 && time < 20f)
+        {
+            time += Time.deltaTime;
+        }
+        else if (GameManager.instance.Enemy == 0 && time >= 20f)
+        {
+            time = 0;
+            GameManager.instance.Enemy = Random.Range(1, 5);
+        }
+        if (GameManager.instance.Enemy == 1)
+        {
+            if (time < 10f)
+                time += Time.deltaTime;
+            else
+            {
+                GameManager.instance.Enemy = 0;
+                time = 0;
+            }
+        }
+        else if (GameManager.instance.Enemy == 2)
+        {
+            if (time < 10f)
+                time += Time.deltaTime;
+            else
+            {
+                GameManager.instance.Enemy = 0;
+                time = 0;
+            }
+        }
+        else if (GameManager.instance.Enemy == 3)
+        {
+            if (time < 10f)
+                time += Time.deltaTime;
+            else
+            {
+                GameManager.instance.Enemy = 0;
+                time = 0;
+            }
+        }
+        else if (GameManager.instance.Enemy == 4)
+        {
+            if (time < 10f)
+                time += Time.deltaTime;
+            else
+            {
+                GameManager.instance.Enemy = 0;
+                time = 0;
+            }
         }
     }
 }
