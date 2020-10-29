@@ -88,7 +88,13 @@ public class Player : MonoBehaviour
         #endregion
         Physics();
     }
-
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("effect"))
+        {
+            GameManager.instance.isCharDie = true;
+        }
+    }
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (!GameManager.instance.Titlepanel())
@@ -104,6 +110,7 @@ public class Player : MonoBehaviour
         {
             nextMove *= -1;
         }
+        
     }
 
     private void OnCollisionStay2D(Collision2D collision)

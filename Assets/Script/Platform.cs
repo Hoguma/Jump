@@ -22,7 +22,7 @@ public class Platform : MonoBehaviour
     private bool isCharCk = false;  //캐릭터가 서있나 확인
     public GameObject Risk;         //위험표시
     public GameObject Lightning;    //번개
-    public bool  Ck = false;          //gksqjstlfgod qustn
+    public bool  Ck = false;          //한번실행 변수
 
     // Start is called before the first frame update
     void Start()
@@ -31,7 +31,6 @@ public class Platform : MonoBehaviour
         target = FindObjectOfType<Player>().gameObject;
         myRenderer = gameObject.GetComponent<SpriteRenderer>();
         transform.parent = GameManager.instance.FloorAdd().transform;
-        GameManager.instance.Enemy = Random.Range(1, 5);
     }
 
     // Update is called once per frame
@@ -80,6 +79,17 @@ public class Platform : MonoBehaviour
             isCharCk = true;
         }
     }
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.transform.tag == "Player")
+        {
+            isCharCk = false;
+        }
+    }
+    void LightningG()
+    {
+        Instantiate(Lightning, new Vector3(transform.position.x, transform.position.y + 1.931f, 0), Quaternion.identity);
+    }
     void st3Enemy()
     {
         if (GameManager.instance.Enemy == 0)
@@ -91,6 +101,7 @@ public class Platform : MonoBehaviour
            if (isCharCk == true && Ck == false)
            {
                 Instantiate(Risk, new Vector3(transform.position.x, transform.position.y+ 1.37f, 0),Quaternion.identity);
+                Invoke("LightningG", 1.5f);
                 Ck = true;
            }
         }
@@ -99,6 +110,7 @@ public class Platform : MonoBehaviour
             if (isCharCk == true && Ck == false)
             {
                 Instantiate(Risk, new Vector3(transform.position.x, transform.position.y + 1.37f, 0), Quaternion.identity);
+                Invoke("LightningG", 1.5f);
                 Ck = true;
             }
         }
@@ -108,6 +120,7 @@ public class Platform : MonoBehaviour
             if (isCharCk == true && Ck == false)
             {
                 Instantiate(Risk, new Vector3(transform.position.x, transform.position.y + 1.37f, 0), Quaternion.identity);
+                Invoke("LightningG", 1.5f);
                 Ck = true;
             }
         }
@@ -117,8 +130,10 @@ public class Platform : MonoBehaviour
             if (isCharCk == true && Ck == false)
             {
                 Instantiate(Risk, new Vector3(transform.position.x, transform.position.y+ 1.37f, 0), Quaternion.identity);
+                Invoke("LightningG", 1.5f);
                 Ck = true;
             }
         }
     }
+    
 }

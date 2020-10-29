@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
 {
     private static GameManager _instance = null;
     public int Enemy;
-
+    public bool isCharDie = false;
     public static GameManager instance
     {
         get
@@ -57,8 +57,17 @@ public class GameManager : MonoBehaviour
 
     public bool isFaded = false;
 
+    //배경
+    public GameObject BackGround;
+    public float[] stagepluse;
+    public float CurrentScore;
+
     private void Awake()
     {
+        for (int i = 0; i < 5; i++)
+        {
+            myPlat = (GameObject)Instantiate(platformPrefab, new Vector2(Random.Range(-1.73f, 1.73f), player.transform.position.y + (2 * i + Random.Range(1.3f, 1.5f))), Quaternion.identity);
+        }
         FloorsClone = FloorsPre;
         if (_instance == null)
         {
@@ -69,18 +78,28 @@ public class GameManager : MonoBehaviour
             Destroy(this.gameObject);
         Instantiate(wall, new Vector3(0, 0, 0), transform.rotation);
         Instantiate(wall, new Vector3(0, 10, 0), transform.rotation);
+        //배경 처음 위치
+        BackGround.transform.position = new Vector3(0, 16.92f, 0);
     }
-
-    void Start()
+    void BackGroundScroll()
     {
-        
+        if(FScore1 <= 300 && FScore1 >= 150)
+        {
+            BackGround.transform.position = new Vector3(0, BackGround.transform.position.y + 0.37f, 0);
+        }
+        else if(FScore1 >= 300)
+        {
+            BackGround.transform.position = new Vector3(0, BackGround.transform.position.y + -11.44f, 0);
+
+        }
     }
 
     private void Update()
     {
+        BackGroundScroll();
         EnemyStart();
         Vector3 pos = Camera.main.WorldToViewportPoint(player.transform.position);
-        if (pos.y < -0.1f && !isEndPanel)
+        if (pos.y < -0.1f && !isEndPanel || isCharDie == true)
         {
             isEndPanel = true;
             EndPanel.SetActive(isEndPanel);
@@ -98,7 +117,6 @@ public class GameManager : MonoBehaviour
 
         Stage();
     }
-
     IEnumerator FadeIn(float t)
     {
         float p = 0f;
@@ -134,12 +152,12 @@ public class GameManager : MonoBehaviour
 
     public void TPanelChange()
     {
-        //방해요소 
-        GameManager.instance.Enemy = 0;
-        time = 0;
-
         isTitlePanel = !isTitlePanel;
         TitlePanel.SetActive(isTitlePanel);
+        //방해요소
+        time = 0;
+        Enemy = 0;
+        isCharDie = false;
     }
 
     public bool Titlepanel()
@@ -151,8 +169,13 @@ public class GameManager : MonoBehaviour
     {
         GameStart();
         isEndPanel = false;
+        isCharDie = false;
         EndPanel.SetActive(isEndPanel);
         Scopos = 0;
+
+        time = 0;
+        Enemy = 0;
+        isCharDie = false;
     }
 
     public void EPanelTitle()
@@ -222,9 +245,9 @@ public class GameManager : MonoBehaviour
         {
             Destroy(FloorsPre.transform.GetChild(i).gameObject);
         }
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 6; i++)
         {
-            myPlat = (GameObject)Instantiate(platformPrefab, new Vector2(Random.Range(-3f, 3f), player.transform.position.y + (2 * i + Random.Range(0.5f, 1f))), Quaternion.identity);
+            myPlat = (GameObject)Instantiate(platformPrefab, new Vector2(Random.Range(-1.73f, 1.73f), player.transform.position.y + (2 * i + Random.Range(1.3f, 1.5f))), Quaternion.identity);
         }
     }
     public void EnemyStart()
@@ -241,41 +264,49 @@ public class GameManager : MonoBehaviour
         if (GameManager.instance.Enemy == 1)
         {
             if (time < 10f)
+            {
                 time += Time.deltaTime;
+            }
             else
             {
-                GameManager.instance.Enemy = 0;
                 time = 0;
+                GameManager.instance.Enemy = 0;
             }
         }
         else if (GameManager.instance.Enemy == 2)
         {
             if (time < 10f)
+            {
                 time += Time.deltaTime;
+            }
             else
             {
-                GameManager.instance.Enemy = 0;
                 time = 0;
+                GameManager.instance.Enemy = 0;
             }
         }
         else if (GameManager.instance.Enemy == 3)
         {
             if (time < 10f)
+            {
                 time += Time.deltaTime;
+            }
             else
             {
-                GameManager.instance.Enemy = 0;
                 time = 0;
+                GameManager.instance.Enemy = 0;
             }
         }
         else if (GameManager.instance.Enemy == 4)
         {
             if (time < 10f)
+            {
                 time += Time.deltaTime;
+            }
             else
             {
-                GameManager.instance.Enemy = 0;
                 time = 0;
+                GameManager.instance.Enemy = 0;
             }
         }
     }
