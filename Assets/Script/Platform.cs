@@ -70,7 +70,6 @@ public class Platform : MonoBehaviour
             myRenderer.sprite = Twostage;
 
         }
-        st3Enemy();
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -105,35 +104,5 @@ public class Platform : MonoBehaviour
                 Ck = true;
            }
         }
-        else if (GameManager.instance.Enemy == 2)
-        {
-            if (isCharCk == true && Ck == false)
-            {
-                Instantiate(Risk, new Vector3(transform.position.x, transform.position.y + 1.37f, 0), Quaternion.identity);
-                Invoke("LightningG", 1.5f);
-                Ck = true;
-            }
-        }
-
-        else if (GameManager.instance.Enemy == 3)
-        {
-            if (isCharCk == true && Ck == false)
-            {
-                Instantiate(Risk, new Vector3(transform.position.x, transform.position.y + 1.37f, 0), Quaternion.identity);
-                Invoke("LightningG", 1.5f);
-                Ck = true;
-            }
-        }
-
-        else if (GameManager.instance.Enemy == 4)
-        {
-            if (isCharCk == true && Ck == false)
-            {
-                Instantiate(Risk, new Vector3(transform.position.x, transform.position.y+ 1.37f, 0), Quaternion.identity);
-                Invoke("LightningG", 1.5f);
-                Ck = true;
-            }
-        }
     }
-    
 }

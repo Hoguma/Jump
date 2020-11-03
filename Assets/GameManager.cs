@@ -56,12 +56,8 @@ public class GameManager : MonoBehaviour
     public int fade = 0;
 
     public bool isFaded = false;
-
-    //배경
-    public GameObject BackGround;
-    public float[] stagepluse;
-    public float CurrentScore;
-
+    //방해요소
+    public GameObject isCloud;
     private void Awake()
     {
         for (int i = 0; i < 5; i++)
@@ -78,25 +74,21 @@ public class GameManager : MonoBehaviour
             Destroy(this.gameObject);
         Instantiate(wall, new Vector3(0, 0, 0), transform.rotation);
         Instantiate(wall, new Vector3(0, 10, 0), transform.rotation);
-        //배경 처음 위치
-        BackGround.transform.position = new Vector3(0, 16.92f, 0);
-    }
-    void BackGroundScroll()
-    {
-        if(FScore1 <= 300 && FScore1 >= 150)
-        {
-            BackGround.transform.position = new Vector3(0, BackGround.transform.position.y + 0.37f, 0);
-        }
-        else if(FScore1 >= 300)
-        {
-            BackGround.transform.position = new Vector3(0, BackGround.transform.position.y + -11.44f, 0);
-
-        }
     }
 
     private void Update()
     {
-        BackGroundScroll();
+        if (FScore1 >= 450 && FScore1 < 600)
+        {
+            if (GameManager.instance.Enemy == 2)
+            {
+                isCloud.SetActive(true);
+            }
+            else
+            {
+                isCloud.SetActive(false);
+            }
+        }
         EnemyStart();
         Vector3 pos = Camera.main.WorldToViewportPoint(player.transform.position);
         if (pos.y < -0.1f && !isEndPanel || isCharDie == true)
@@ -241,7 +233,7 @@ public class GameManager : MonoBehaviour
         Instantiate(wall, new Vector3(0, 0, 0), transform.rotation);
         Instantiate(wall, new Vector3(0, 10, 0), transform.rotation);
         int nf = FloorsPre.transform.childCount;
-        for(int i = 0; i < nf; i++)
+        for (int i = 0; i < nf; i++)
         {
             Destroy(FloorsPre.transform.GetChild(i).gameObject);
         }
@@ -265,6 +257,7 @@ public class GameManager : MonoBehaviour
         {
             if (time < 10f)
             {
+                Debug.Log("1실행");
                 time += Time.deltaTime;
             }
             else
@@ -277,6 +270,8 @@ public class GameManager : MonoBehaviour
         {
             if (time < 10f)
             {
+                Debug.Log("2실행");
+
                 time += Time.deltaTime;
             }
             else
@@ -289,6 +284,7 @@ public class GameManager : MonoBehaviour
         {
             if (time < 10f)
             {
+                Debug.Log("3실행");
                 time += Time.deltaTime;
             }
             else
@@ -301,6 +297,7 @@ public class GameManager : MonoBehaviour
         {
             if (time < 10f)
             {
+                Debug.Log("4실행");
                 time += Time.deltaTime;
             }
             else
