@@ -31,11 +31,16 @@ public class GameManager : MonoBehaviour
     private GameObject Ground;
     public GameObject platformPrefab;
     public GameObject GroundPrefab;
+    public Vector2 lately;
 
 
     [Header("Title")]
     [SerializeField] private GameObject TitlePanel;
     public bool isTitlePanel = true;
+
+    [Header("Ingame")]
+    [SerializeField] private GameObject IngamePanel;
+    public bool isIngamePanel = false;
 
     [Header("GameOver")]
     [SerializeField] private GameObject EndPanel;
@@ -63,6 +68,8 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < 5; i++)
         {
             myPlat = (GameObject)Instantiate(platformPrefab, new Vector2(Random.Range(-1.73f, 1.73f), player.transform.position.y + (2 * i + Random.Range(1.3f, 1.5f))), Quaternion.identity);
+            if (i == 4)
+                lately = myPlat.transform.position;
         }
         FloorsClone = FloorsPre;
         if (_instance == null)
@@ -91,7 +98,7 @@ public class GameManager : MonoBehaviour
         }
         EnemyStart();
         Vector3 pos = Camera.main.WorldToViewportPoint(player.transform.position);
-        if (pos.y < -0.1f && !isEndPanel || isCharDie == true)
+        if (pos.y < -0.001f && !isEndPanel || isCharDie == true)
         {
             isEndPanel = true;
             EndPanel.SetActive(isEndPanel);
@@ -146,6 +153,8 @@ public class GameManager : MonoBehaviour
     {
         isTitlePanel = !isTitlePanel;
         TitlePanel.SetActive(isTitlePanel);
+        isIngamePanel = !isIngamePanel;
+        IngamePanel.SetActive(isIngamePanel);
         //방해요소
         time = 0;
         Enemy = 0;
@@ -240,20 +249,23 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < 6; i++)
         {
             myPlat = (GameObject)Instantiate(platformPrefab, new Vector2(Random.Range(-1.73f, 1.73f), player.transform.position.y + (2 * i + Random.Range(1.3f, 1.5f))), Quaternion.identity);
+            if (i == 5)
+                lately = myPlat.transform.position;
         }
     }
+
     public void EnemyStart()
     {
-        if (GameManager.instance.Enemy == 0 && time < 20f)
+        if (Enemy == 0 && time < 20f)
         {
             time += Time.deltaTime;
         }
-        else if (GameManager.instance.Enemy == 0 && time >= 20f)
+        else if (Enemy == 0 && time >= 20f)
         {
             time = 0;
-            GameManager.instance.Enemy = Random.Range(1, 5);
+            Enemy = Random.Range(1, 5);
         }
-        if (GameManager.instance.Enemy == 1)
+        if (Enemy == 1)
         {
             if (time < 10f)
             {
@@ -263,10 +275,10 @@ public class GameManager : MonoBehaviour
             else
             {
                 time = 0;
-                GameManager.instance.Enemy = 0;
+                Enemy = 0;
             }
         }
-        else if (GameManager.instance.Enemy == 2)
+        else if (Enemy == 2)
         {
             if (time < 10f)
             {
@@ -277,10 +289,10 @@ public class GameManager : MonoBehaviour
             else
             {
                 time = 0;
-                GameManager.instance.Enemy = 0;
+                Enemy = 0;
             }
         }
-        else if (GameManager.instance.Enemy == 3)
+        else if (Enemy == 3)
         {
             if (time < 10f)
             {
@@ -290,10 +302,10 @@ public class GameManager : MonoBehaviour
             else
             {
                 time = 0;
-                GameManager.instance.Enemy = 0;
+                Enemy = 0;
             }
         }
-        else if (GameManager.instance.Enemy == 4)
+        else if (Enemy == 4)
         {
             if (time < 10f)
             {
@@ -303,7 +315,7 @@ public class GameManager : MonoBehaviour
             else
             {
                 time = 0;
-                GameManager.instance.Enemy = 0;
+                Enemy = 0;
             }
         }
     }
