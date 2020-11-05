@@ -77,6 +77,7 @@ public class Player : MonoBehaviour
 
         //벽 레이캐스트
         isWall = Physics2D.Raycast(wallChk.position, Vector2.right * isRight, wallchkDistance, w_Layer);
+        
     }
 
     private void FixedUpdate()
@@ -87,6 +88,10 @@ public class Player : MonoBehaviour
         //RaycastHit2D rayHit2 = Physics2D.Raycast(new Vector2(rigidbody.position.x, rigidbody.position.y - 0.7f), Vector3.down, 1, LayerMask.GetMask("floor"));
         #endregion
         Physics();
+        if (ismove == true)
+        {
+            anim.SetBool("isJump", false);
+        }
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -104,13 +109,14 @@ public class Player : MonoBehaviour
                 ismove = true;
                 canJump = true;
                 nextMove = 1;
+
             }
         }
         if(collision.gameObject.CompareTag("wall"))
         {
             nextMove *= -1;
         }
-        
+
     }
 
     private void OnCollisionStay2D(Collision2D collision)
@@ -118,6 +124,7 @@ public class Player : MonoBehaviour
         if (collision.gameObject.CompareTag("floor"))
         {
             canJump = true;
+
         }
     }
 
@@ -128,6 +135,8 @@ public class Player : MonoBehaviour
             ismove = false;
             canJump = false;
             nextMove = 0;
+            anim.SetBool("isJump", true);
+
         }
     }
 
@@ -310,6 +319,7 @@ public class Player : MonoBehaviour
             canJump = true;
 
         anim.SetBool("isRuning", ismove);
+
     }
 
     void Physics()

@@ -202,6 +202,7 @@ public class GameManager : MonoBehaviour
         if(FScore1 < 150)
         {
             CurrentScore = 1;
+            fade = 0;
         }
         if (FScore1 == 150 && FScore1 >= 1 && !isFaded && fade == 0)
         {
@@ -277,58 +278,67 @@ public class GameManager : MonoBehaviour
             time = 0;
             Enemy = Random.Range(1, 5);
         }
-        switch (Enemy)
+        if (Enemy == 1 || Enemy == 2 || Enemy == 3 || Enemy == 4)
         {
-            case 1:
-                if (time < 10f)
-                {
-                    Debug.Log("1실행");
-                    time += Time.deltaTime;
-                }
-                else
-                {
-                    time = 0;
-                    Enemy = 0;
-                }
-                break;
-            case 2:
-                if (time < 10f)
-                {
-                    Debug.Log("2실행");
-
-                    time += Time.deltaTime;
-                }
-                else
-                {
-                    time = 0;
-                    Enemy = 0;
-                }
-                break;
-            case 3:
-                if (time < 10f)
-                {
-                    Debug.Log("3실행");
-                    time += Time.deltaTime;
-                }
-                else
-                {
-                    time = 0;
-                    Enemy = 0;
-                }
-                break;
-            case 4:
-                if (time < 10f)
-                {
-                    Debug.Log("4실행");
-                    time += Time.deltaTime;
-                }
-                else
-                {
-                    time = 0;
-                    Enemy = 0;
-                }
-                break;
+            if (time < 10f)
+            {
+                time += Time.deltaTime;
+            }
+            else
+            {
+                time = 0;
+                Enemy = 0;
+            }
         }
+        //switch (Enemy)
+        //{
+        //    case 1:
+        //        if (time < 10f)
+        //        {
+        //            Debug.Log("1실행");
+        //            time += Time.deltaTime;
+        //        }
+        //        else
+        //        {
+        //            time = 0;
+        //            Enemy = 0;
+        //        }
+        //        break;
+        //    case 2:
+        //        if (time < 10f)
+        //        {
+        //            time += Time.deltaTime;
+        //        }
+        //        else
+        //        {
+        //            time = 0;
+        //            Enemy = 0;
+        //        }
+        //        break;
+        //    case 3:
+        //        if (time < 10f)
+        //        {
+        //            time += Time.deltaTime;
+        //        }
+        //        else
+        //        {
+        //            time = 0;
+        //            Enemy = 0;
+        //        }
+        //        break;
+        //    case 4:
+        //        if (time < 10f)
+        //        {
+        //            time += Time.deltaTime;
+        //        }
+        //        else
+        //        {
+        //            time = 0;
+        //            Enemy = 0;
+        //        }
+        //        break;
+        //}
+
     }
 
     public void Pause()

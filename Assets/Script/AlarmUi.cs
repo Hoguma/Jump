@@ -1,10 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EnemyUi : MonoBehaviour
+public class AlarmUi : MonoBehaviour
 {
     private Image mainImage;
     public Sprite[] sprites;
@@ -33,13 +32,13 @@ public class EnemyUi : MonoBehaviour
         switch (GameManager.instance.CurrentScore)
         {
             case 4:
-                if(GameManager.instance.Enemy == 1)
+                if (GameManager.instance.Enemy == 1)
                 {
                     Alpha();
                     mainImage.sprite = sprites[3];
                     Debug.Log("4렙 번개 교체완료");
                 }
-                else if(GameManager.instance.Enemy == 2)
+                else if (GameManager.instance.Enemy == 2)
                 {
                     Alpha();
                     mainImage.sprite = sprites[4];
@@ -54,11 +53,11 @@ public class EnemyUi : MonoBehaviour
         {
             isAlpha = true;
         }
-            mainImage.color = colors;
+        mainImage.color = colors;
     }//수프라이트
     void Alpha()
     {
-        if(isAlpha == true)
+        if (isAlpha == true)
         {
             colors.a = 1f;
             isAlpha = false;
