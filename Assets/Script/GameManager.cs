@@ -40,8 +40,11 @@ public class GameManager : MonoBehaviour
 
     [Header("Ingame")]
     [SerializeField] private GameObject IngamePanel;
+    [SerializeField] private GameObject PausePanel;
     public bool isIngamePanel = false;
+    public bool isPausePanel = false;
     public int CurrentScore = 0;
+
 
     [Header("GameOver")]
     [SerializeField] private GameObject EndPanel;
@@ -325,6 +328,26 @@ public class GameManager : MonoBehaviour
                     Enemy = 0;
                 }
                 break;
+        }
+    }
+
+    public void Pause()
+    {
+        if(!isPausePanel)
+        {
+            isPausePanel = true;
+            Time.timeScale = 0.0f;
+            PausePanel.SetActive(isPausePanel);
+        }
+    }
+
+    public void Continue()
+    {
+        if (isPausePanel)
+        {
+            isPausePanel = false;
+            Time.timeScale = 1.0f;
+            PausePanel.SetActive(isPausePanel);
         }
     }
 }
