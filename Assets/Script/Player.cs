@@ -93,6 +93,7 @@ public class Player : MonoBehaviour
             anim.SetBool("isJump", false);
         }
     }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("effect"))
@@ -100,6 +101,7 @@ public class Player : MonoBehaviour
             GameManager.instance.isCharDie = true;
         }
     }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (!GameManager.instance.Titlepanel())

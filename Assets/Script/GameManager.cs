@@ -36,7 +36,9 @@ public class GameManager : MonoBehaviour
 
     [Header("Title")]
     [SerializeField] private GameObject TitlePanel;
+    [SerializeField] private GameObject OptionPanel;
     public bool isTitlePanel = true;
+    public bool isOptionPanel = false;
 
     [Header("Ingame")]
     [SerializeField] private GameObject IngamePanel;
@@ -117,9 +119,9 @@ public class GameManager : MonoBehaviour
         FScore1 = (int)Scopos;
         FScore.text = FScore1.ToString() + "m";
 
-
         Stage();
     }
+
     IEnumerator FadeIn(float t)
     {
         float p = 0f;
@@ -358,6 +360,24 @@ public class GameManager : MonoBehaviour
             isPausePanel = false;
             Time.timeScale = 1.0f;
             PausePanel.SetActive(isPausePanel);
+        }
+    }
+
+    public void Option()
+    {
+        if (!isOptionPanel)
+        {
+            isOptionPanel = true;
+            OptionPanel.SetActive(isOptionPanel);
+        }
+    }
+
+    public void Optionoff()
+    {
+        if (isOptionPanel)
+        {
+            isOptionPanel = false;
+            OptionPanel.SetActive(isOptionPanel);
         }
     }
 }
