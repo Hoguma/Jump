@@ -224,6 +224,7 @@ public class Player : MonoBehaviour
 
         rigidbody.AddForce(clampedForce, ForceMode2D.Impulse);
         pastpos = gameObject.transform.position.x;
+        canJump = false;
     }
 
     void Click()

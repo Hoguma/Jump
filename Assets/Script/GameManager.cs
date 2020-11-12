@@ -39,6 +39,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject OptionPanel;
     public bool isTitlePanel = true;
     public bool isOptionPanel = false;
+    public bool isSoundon = true;
+    public bool isSoundFXon = true;
+    public bool isVibeon = true;
 
     [Header("Ingame")]
     [SerializeField] private GameObject IngamePanel;
@@ -379,5 +382,20 @@ public class GameManager : MonoBehaviour
             isOptionPanel = false;
             OptionPanel.SetActive(isOptionPanel);
         }
+    }
+
+    public void SoundOnOff()
+    {
+        isSoundon = !isSoundon;
+    }
+
+    public void SoundFXOnOff()
+    {
+        isSoundFXon = !isSoundFXon;
+    }
+
+    public void VibrationOnOff()
+    {
+        isVibeon = !isVibeon;
     }
 }
