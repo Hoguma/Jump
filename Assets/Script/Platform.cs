@@ -85,10 +85,6 @@ public class Platform : MonoBehaviour
             isCharCk = false;
         }
     }
-    void LightningG()
-    {
-        Instantiate(Lightning, new Vector3(transform.position.x, transform.position.y + 1.931f, 0), Quaternion.identity);
-    }
     void st3Enemy()
     {
         if (GameManager.instance.Enemy == 0)
@@ -97,12 +93,19 @@ public class Platform : MonoBehaviour
         }
         else if (GameManager.instance.Enemy == 1)
         {
-           if (isCharCk == true && Ck == false)
-           {
-                Instantiate(Risk, new Vector3(transform.position.x, transform.position.y+ 1.37f, 0),Quaternion.identity);
-                Invoke("LightningG", 1.5f);
-                Ck = true;
-           }
+            if (GameManager.instance.isEnemyRisk == false)
+            {
+                if (isCharCk == true && Ck == false)
+                {
+                    Instantiate(Risk, new Vector3(transform.position.x, transform.position.y + 1.37f, 0), Quaternion.identity);
+                    Invoke("LightningG", 1.5f);
+                    Ck = true;
+                }
+            }
         }
+    }
+    void LightningG()
+    {
+        Instantiate(Lightning, new Vector3(transform.position.x, transform.position.y + 1.931f, 0), Quaternion.identity);
     }
 }

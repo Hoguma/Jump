@@ -35,7 +35,7 @@ public class Player : MonoBehaviour
     public LayerMask w_Layer;
 
     //좌우 무빙
-    public int nextMove = 1;
+    public int nextMove = 0;
     public int move;
     bool ismove = false;
     
@@ -46,7 +46,31 @@ public class Player : MonoBehaviour
     Animator anim;
 
     bool isTouch = false;
+    private static Player instance = null;
 
+    void Awake()
+    {
+        if (null == instance)
+        {
+            instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
+    }
+    public static Player Instance
+    {
+        get
+        {
+            if (null == instance)
+            {
+                return null;
+            }
+            return instance;
+        }
+    }
     private void Start()
     {
         Points = new GameObject[numberOfpoints];
@@ -69,15 +93,12 @@ public class Player : MonoBehaviour
         CheckStatus();
         //Touch();
         Click();
-
         for (int i = 0; i < Points.Length; i++)
         {
             Points[i].transform.position = PointPosition(i * 0.1f);
         }
-
         //벽 레이캐스트
         isWall = Physics2D.Raycast(wallChk.position, Vector2.right * isRight, wallchkDistance, w_Layer);
-        
     }
 
     private void FixedUpdate()
@@ -106,19 +127,26 @@ public class Player : MonoBehaviour
     {
         if (!GameManager.instance.Titlepanel())
         {
-            if (collision.gameObject.CompareTag("floor"))
+            if (collision.gameObject.CompareTag("Ground"))
+            {
+                ismove = false;
+                anim.SetBool("isJump", true);
+
+                ismove = true;
+                canJump = true;
+                nextMove = 1;
+            }
+                if (collision.gameObject.CompareTag("floor"))
             {
                 ismove = true;
                 canJump = true;
                 nextMove = 1;
-
             }
         }
         if(collision.gameObject.CompareTag("wall"))
         {
             nextMove *= -1;
         }
-
     }
 
     private void OnCollisionStay2D(Collision2D collision)
@@ -126,19 +154,23 @@ public class Player : MonoBehaviour
         if (collision.gameObject.CompareTag("floor"))
         {
             canJump = true;
-
+        }
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            ismove = false;
+            anim.SetBool("isJump", false);
+            Player.Instance.nextMove = 0;
         }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("floor"))
+        if (collision.gameObject.CompareTag("floor") || collision.gameObject.CompareTag("Ground"))
         {
             ismove = false;
             canJump = false;
             nextMove = 0;
             anim.SetBool("isJump", true);
-
         }
     }
 

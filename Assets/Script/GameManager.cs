@@ -70,10 +70,15 @@ public class GameManager : MonoBehaviour
     public int fade = 0;
 
     public bool isFaded = false;
+    //방해요소 전 위험요소 뜨는 시간 체크
+    public bool isEnemyRisk;
     //방해요소
     public GameObject isCloud;
     private void Awake()
     {
+        //처음 방해요소 알림이 뜨지 않으니 거짓
+        isEnemyRisk = false;
+
         for (int i = 0; i < 5; i++)
         {
             myPlat = (GameObject)Instantiate(platformPrefab, new Vector2(Random.Range(-1.73f, 1.73f), player.transform.position.y + (2 * i + Random.Range(1.3f, 1.5f))), Quaternion.identity);
@@ -98,7 +103,11 @@ public class GameManager : MonoBehaviour
         {
             if (GameManager.instance.Enemy == 2)
             {
-                isCloud.SetActive(true);
+                if (isEnemyRisk == false)
+                {
+
+                    isCloud.SetActive(true);
+                }
             }
             else
             {
@@ -281,11 +290,12 @@ public class GameManager : MonoBehaviour
         else if (Enemy == 0 && time >= 20f)
         {
             time = 0;
-            Enemy = Random.Range(1, 5);
+            Enemy = Random.Range(1, 4);
         }
-        if (Enemy == 1 || Enemy == 2 || Enemy == 3 || Enemy == 4)
+
+        if (Enemy == 1 || Enemy == 2 || Enemy == 3)
         {
-            if (time < 10f)
+            if (time < 15f)
             {
                 time += Time.deltaTime;
             }
@@ -294,56 +304,15 @@ public class GameManager : MonoBehaviour
                 time = 0;
                 Enemy = 0;
             }
+            if (time < 5f)
+            {
+                isEnemyRisk = true;
+            }
+            else
+            {
+                isEnemyRisk = false;
+            }
         }
-        //switch (Enemy)
-        //{
-        //    case 1:
-        //        if (time < 10f)
-        //        {
-        //            Debug.Log("1실행");
-        //            time += Time.deltaTime;
-        //        }
-        //        else
-        //        {
-        //            time = 0;
-        //            Enemy = 0;
-        //        }
-        //        break;
-        //    case 2:
-        //        if (time < 10f)
-        //        {
-        //            time += Time.deltaTime;
-        //        }
-        //        else
-        //        {
-        //            time = 0;
-        //            Enemy = 0;
-        //        }
-        //        break;
-        //    case 3:
-        //        if (time < 10f)
-        //        {
-        //            time += Time.deltaTime;
-        //        }
-        //        else
-        //        {
-        //            time = 0;
-        //            Enemy = 0;
-        //        }
-        //        break;
-        //    case 4:
-        //        if (time < 10f)
-        //        {
-        //            time += Time.deltaTime;
-        //        }
-        //        else
-        //        {
-        //            time = 0;
-        //            Enemy = 0;
-        //        }
-        //        break;
-        //}
-
     }
 
     public void Pause()

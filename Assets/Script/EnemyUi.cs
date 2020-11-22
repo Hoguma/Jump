@@ -9,11 +9,12 @@ public class EnemyUi : MonoBehaviour
     private Image mainImage;
     public Sprite[] sprites;
     private bool isAlpha;
-    public float Minus = 0.00001f;
+    public float time;
     Color colors;
     // Start is called before the first frame update
     void Start()
     {
+        time = 0.0f;
         mainImage = GetComponent<Image>();
         colors.a = 0f;
         colors.r = 1f;
@@ -21,48 +22,39 @@ public class EnemyUi : MonoBehaviour
         colors.b = 1f;
         mainImage.color = colors;
         mainImage.sprite = sprites[0];
-        Minus = 0.000000001f;
     }
 
     // Update is called once per frame
     void Update()
     {
-        Minus += 0.000015f;
-        colors.a -= Minus;
+
+        //Minus += 0.000015f;
 
         switch (GameManager.instance.CurrentScore)
         {
             case 4:
-                if(GameManager.instance.Enemy == 1)
+                if (GameManager.instance.Enemy == 1)
                 {
                     Alpha();
                     mainImage.sprite = sprites[3];
-                    Debug.Log("4렙 번개 교체완료");
                 }
-                else if(GameManager.instance.Enemy == 2)
+                else if (GameManager.instance.Enemy == 2)
                 {
                     Alpha();
                     mainImage.sprite = sprites[4];
-                    Debug.Log("4렙 안개 교체완료");
-
                 }
-                Debug.Log("4렙");
-
                 break;
         }
         if (GameManager.instance.Enemy == 0)
         {
-            isAlpha = true;
+            time = 0.0f;
         }
-            mainImage.color = colors;
+        mainImage.color = colors;
+
     }//수프라이트
     void Alpha()
     {
-        if(isAlpha == true)
-        {
-            colors.a = 1f;
-            isAlpha = false;
-            Minus = 0.000000001f;
-        }
+        time += Time.deltaTime / 4f;
+        colors.a = Mathf.Lerp(1f, 0f, time);
     }
 }
