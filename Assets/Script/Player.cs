@@ -79,7 +79,7 @@ public class Player : MonoBehaviour
 
         for (int i = 0; i < numberOfpoints; i++)
         {
-            Points[i] = Instantiate(PointPre, transform.position, Quaternion.identity);
+            Points[i] = Instantiate(PointPre, transform.position, Quaternion.identity, transform);
         }
         for (int i = 0; i < Points.Length; i++)
         {
@@ -254,6 +254,7 @@ public class Player : MonoBehaviour
             nextMove = -1;
         }
 
+        Debug.Log(clampedForce);
         rigidbody.AddForce(clampedForce, ForceMode2D.Impulse);
         pastpos = gameObject.transform.position.x;
         canJump = false;

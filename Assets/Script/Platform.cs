@@ -6,7 +6,14 @@ using UnityEngine;
 public class Platform : MonoBehaviour
 {
     private GameObject target;
+    [SerializeField]
+    private GameObject CoinPre;
+    private GameObject CoinsP;
+    [SerializeField]
+    private GameObject[] Coins;
     private Collider2D coll;
+
+    public int NumberOfCoin;
 
     //이미지 변경 1,
     public int[] stage;
@@ -16,6 +23,7 @@ public class Platform : MonoBehaviour
     public Sprite fivestage;
     private SpriteRenderer myRenderer;
     private int stageIm = 1;
+    private int num;
 
     private float time = 0f;
     //방해요소
@@ -24,13 +32,20 @@ public class Platform : MonoBehaviour
     public GameObject Lightning;    //번개
     public bool  Ck = false;          //한번실행 변수
 
+    private int coinPercent;
+
     // Start is called before the first frame update
     void Start()
     {
         coll = GetComponent<Collider2D>();
         target = FindObjectOfType<Player>().gameObject;
+        CoinsP = GameObject.Find("Coins");
         myRenderer = gameObject.GetComponent<SpriteRenderer>();
         transform.parent = GameManager.instance.FloorAdd().transform;
+        Coins = new GameObject[NumberOfCoin];
+
+        num = GameManager.instance.platforms.Count;
+        coinPercent = Random.Range(1, 10);
     }
 
     // Update is called once per frame
@@ -42,6 +57,12 @@ public class Platform : MonoBehaviour
         }
         else
             coll.enabled = false;
+
+        if (coinPercent == 1 && GameManager.instance.platforms.Count > num)
+        {
+            GenarateCoin();
+            num = 999;
+        }
 
         //1단계 점수 로 땅 바꾸기
         //if (GameObject.Find("GameManager").GetComponent<GameManager>().FScore1 >= 80 || stageIm == 5)
@@ -107,5 +128,24 @@ public class Platform : MonoBehaviour
     void LightningG()
     {
         Instantiate(Lightning, new Vector3(transform.position.x, transform.position.y + 1.931f, 0), Quaternion.identity);
+    }
+
+    void GenarateCoin()
+    {
+        for (int i = 0; i < NumberOfCoin; i++)
+        {
+            Coins[i] = Instantiate(CoinPre, transform.position, Quaternion.identity, CoinsP.transform);
+        }
+        for (int i = 0; i < Coins.Length; i++)
+        {
+            Coins[i].transform.position = CoinPosition(i * 0.1f);
+        }
+    }
+
+    Vector2 CoinPosition(float t)
+    {
+        Vector2 currentPointPos;
+        currentPointPos = new Vector2(transform.position.x, transform.position.y + 3) + (new Vector2(0, 20f) * t) + 1f * Physics2D.gravity * 3.0f * (t * t);
+        return currentPointPos;
     }
 }

@@ -650,6 +650,7 @@ MonoBehaviour:
   Enemy: 0
   isCharDie: 0
   mainCam: {fileID: 519420031}
+  platforms: []
   player: {fileID: 974366838}
   FloorsPre: {fileID: 596904329}
   platformPrefab: {fileID: 8084196897667612090, guid: f08a2677f1afec441b52b27370cc88a8,
@@ -989,7 +990,7 @@ GameObject:
   - component: {fileID: 463274120}
   - component: {fileID: 463274119}
   m_Layer: 0
-  m_Name: asdadas
+  m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2134,6 +2135,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1158647981}
   m_CullTransparentMesh: 0
+--- !u!1 &1171850681
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1171850682}
+  m_Layer: 0
+  m_Name: Coins
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1171850682
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1171850681}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1184302155
 GameObject:
   m_ObjectHideFlags: 0
@@ -4152,6 +4183,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290811998710093687, guid: 305be9fe8ce7b1144a649852e85eb560,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2290811999054654656, guid: 305be9fe8ce7b1144a649852e85eb560,
         type: 3}

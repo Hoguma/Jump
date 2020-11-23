@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
 
     [Header("GameObject")]
     [SerializeField] private Camera mainCam;
+    public List<GameObject> platforms;
     public GameObject player;
 
     [Header("Platform")]
@@ -81,9 +82,8 @@ public class GameManager : MonoBehaviour
 
         for (int i = 0; i < 5; i++)
         {
-            myPlat = (GameObject)Instantiate(platformPrefab, new Vector2(Random.Range(-1.73f, 1.73f), player.transform.position.y + (2 * i + Random.Range(1.3f, 1.5f))), Quaternion.identity);
-            if (i == 4)
-                lately = myPlat.transform.position;
+            platforms.Add(myPlat = (GameObject)Instantiate(platformPrefab, new Vector2(Random.Range(-1.73f, 1.73f), player.transform.position.y + (2 * i + Random.Range(1.3f, 1.5f))), Quaternion.identity));
+            lately = myPlat.transform.position;
         }
         FloorsClone = FloorsPre;
         if (_instance == null)
@@ -273,11 +273,10 @@ public class GameManager : MonoBehaviour
         {
             Destroy(FloorsPre.transform.GetChild(i).gameObject);
         }
-        for (int i = 0; i < 6; i++)
+        for (int i = 0; i < 5; i++)
         {
-            myPlat = (GameObject)Instantiate(platformPrefab, new Vector2(Random.Range(-1.73f, 1.73f), player.transform.position.y + (2 * i + Random.Range(1.3f, 1.5f))), Quaternion.identity);
-            if (i == 5)
-                lately = myPlat.transform.position;
+            platforms.Add(myPlat = (GameObject)Instantiate(platformPrefab, new Vector2(Random.Range(-1.73f, 1.73f), player.transform.position.y + (2 * i + Random.Range(1.3f, 1.5f))), Quaternion.identity));
+            lately = myPlat.transform.position;
         }
     }
 

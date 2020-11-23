@@ -9,6 +9,7 @@ TagManager:
   - Destroy
   - effect
   - Ground
+  - Coin
   layers:
   - Default
   - TransparentFX
