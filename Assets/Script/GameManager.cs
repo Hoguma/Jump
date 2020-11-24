@@ -108,7 +108,7 @@ public class GameManager : MonoBehaviour
         CoinNum.text = PlayerPrefs.GetInt("CoinCount", 0).ToString();
         if (FScore1 >= 450 && FScore1 < 600)
         {
-            if (GameManager.instance.Enemy == 2)
+            if (Enemy == 2)
             {
                 if (isEnemyRisk == false)
                 {
@@ -380,4 +380,6 @@ public class GameManager : MonoBehaviour
         ShopPanel.SetActive(isShopPanel);
         TitlePanel.SetActive(!isShopPanel);
     }
+
+    
 }

@@ -27,11 +27,27 @@ public class EnemyUi : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        //Minus += 0.000015f;
-
         switch (GameManager.instance.CurrentScore)
         {
+            case 1:
+            case 2:
+            case 3:
+                if (GameManager.instance.Enemy == 1)
+                {
+                    Alpha();
+                    mainImage.sprite = sprites[3];
+                }
+                else if (GameManager.instance.Enemy == 2)
+                {
+                    Alpha();
+                    mainImage.sprite = sprites[4];
+                }
+                else if (GameManager.instance.Enemy == 3)
+                {
+                    Alpha();
+                    mainImage.sprite = sprites[4];
+                }
+                break;
             case 4:
                 if (GameManager.instance.Enemy == 1)
                 {

@@ -99,6 +99,8 @@ public class Player : MonoBehaviour
         }
         //벽 레이캐스트
         isWall = Physics2D.Raycast(wallChk.position, Vector2.right * isRight, wallchkDistance, w_Layer);
+
+        Risk();
     }
 
     private void FixedUpdate()
@@ -373,6 +375,42 @@ public class Player : MonoBehaviour
         if (isWall)
         {
             rigidbody.velocity = new Vector2(rigidbody.velocity.x, rigidbody.velocity.y * slidingSpeed);
+        }
+    }
+
+    void Risk()
+    {
+        if (GameManager.instance.CurrentScore <= 3)
+        {
+            if (GameManager.instance.Enemy == 0)
+            {
+                rigidbody.mass = 3;
+                slidingSpeed = 0.5f;
+            }
+            else if (GameManager.instance.Enemy == 1)
+            {
+                if (GameManager.instance.isEnemyRisk == false)
+                {
+                    if(Random.Range(0, 1) == 0)
+                        rigidbody.velocity = new Vector2(rigidbody.velocity.x *-0.5f, rigidbody.velocity.y);
+                    if (Random.Range(0, 1) == 1)
+                        rigidbody.velocity = new Vector2(rigidbody.velocity.x * 0.5f, rigidbody.velocity.y);
+                }
+            }
+            else if (GameManager.instance.Enemy == 2)
+            {
+                if (GameManager.instance.isEnemyRisk == false)
+                {
+                    rigidbody.mass = 4.5f;
+                }
+            }
+            else if (GameManager.instance.Enemy == 3)
+            {
+                if (GameManager.instance.isEnemyRisk == false)
+                {
+                    slidingSpeed = 0.9f;
+                }
+            }
         }
     }
 }

@@ -108,6 +108,14 @@ public class Platform : MonoBehaviour
     }
     void st3Enemy()
     {
+        if(isCharCk)
+        {
+            Color color = myRenderer.color;
+            color.a -= Time.deltaTime * 0.5f;
+            myRenderer.color = color;
+            if (myRenderer.color.a <= 0.0f)
+                Destroy(gameObject);
+        }
         if (GameManager.instance.Enemy == 0)
         {
             Ck = false;
