@@ -45,7 +45,7 @@ public class Platform : MonoBehaviour
         Coins = new GameObject[NumberOfCoin];
 
         num = GameManager.instance.platforms.Count;
-        coinPercent = Random.Range(1, 10);
+        coinPercent = Random.Range(1, 5);
     }
 
     // Update is called once per frame
@@ -132,14 +132,17 @@ public class Platform : MonoBehaviour
 
     void GenarateCoin()
     {
-        for (int i = 0; i < NumberOfCoin; i++)
-        {
-            Coins[i] = Instantiate(CoinPre, transform.position, Quaternion.identity, CoinsP.transform);
-        }
-        for (int i = 0; i < Coins.Length; i++)
-        {
-            Coins[i].transform.position = CoinPosition(i * 0.1f);
-        }
+        //for (int i = 0; i < NumberOfCoin; i++)
+        //{
+        //    Coins[i] = Instantiate(CoinPre, transform.position, Quaternion.identity, CoinsP.transform);
+        //}
+        //for (int i = 0; i < Coins.Length; i++)
+        //{
+        //    Coins[i].transform.position = CoinPosition(i * 0.1f);
+        //}
+
+        Instantiate(CoinPre,new Vector2(transform.position.x, transform.position.y + 0.5f), Quaternion.identity, CoinsP.transform);
+
     }
 
     Vector2 CoinPosition(float t)

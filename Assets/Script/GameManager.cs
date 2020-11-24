@@ -36,8 +36,10 @@ public class GameManager : MonoBehaviour
 
 
     [Header("Title")]
+    [SerializeField] private GameObject MainUI;
     [SerializeField] private GameObject TitlePanel;
     [SerializeField] private GameObject OptionPanel;
+    [SerializeField] private Text CoinNum;
     public bool isTitlePanel = true;
     public bool isOptionPanel = false;
     public bool isSoundon = true;
@@ -50,12 +52,16 @@ public class GameManager : MonoBehaviour
     public bool isIngamePanel = false;
     public bool isPausePanel = false;
     public int CurrentScore = 0;
+    public int CoinCount = 0;
 
 
     [Header("GameOver")]
     [SerializeField] private GameObject EndPanel;
     public bool isEndPanel = false;
 
+    [Header("Shop")]
+    [SerializeField] private GameObject ShopPanel;
+    public bool isShopPanel = false;
 
     [Header("Wall")]
     [SerializeField] private GameObject Walls;
@@ -99,6 +105,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        CoinNum.text = PlayerPrefs.GetInt("CoinCount", 0).ToString();
         if (FScore1 >= 450 && FScore1 < 600)
         {
             if (GameManager.instance.Enemy == 2)
@@ -167,7 +174,7 @@ public class GameManager : MonoBehaviour
         isFaded = false;
     }
 
-    public void TPanelChange()
+    public void MainUIChange()
     {
         isTitlePanel = !isTitlePanel;
         TitlePanel.SetActive(isTitlePanel);
@@ -201,7 +208,7 @@ public class GameManager : MonoBehaviour
     {
         GameStart();
         isEndPanel = false;
-        TPanelChange();
+        MainUIChange();
         EndPanel.SetActive(isEndPanel);
         Scopos = 0;
     }
@@ -365,5 +372,12 @@ public class GameManager : MonoBehaviour
     public void VibrationOnOff()
     {
         isVibeon = !isVibeon;
+    }
+
+    public void ShopOnOff()
+    {
+        isShopPanel = !isShopPanel;
+        ShopPanel.SetActive(isShopPanel);
+        TitlePanel.SetActive(!isShopPanel);
     }
 }

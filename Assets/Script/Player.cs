@@ -121,6 +121,12 @@ public class Player : MonoBehaviour
         {
             GameManager.instance.isCharDie = true;
         }
+
+        if (collision.gameObject.CompareTag("Coin"))
+        {
+            Destroy(collision.gameObject);
+            PlayerPrefs.SetInt("CoinCount", PlayerPrefs.GetInt("CoinCount") + 1);
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
