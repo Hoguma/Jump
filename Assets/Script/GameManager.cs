@@ -84,8 +84,12 @@ public class GameManager : MonoBehaviour
     public bool isEnemyRisk;
     //방해요소
     public GameObject isCloud;
+    //방해요소 블랙홀 한개 생성 삭제 시 생성 확인
+    public bool isBlackTrue = true;
     private void Awake()
     {
+        isBlackTrue = true;
+
         //처음 방해요소 알림이 뜨지 않으니 거짓
         isEnemyRisk = false;
 
@@ -108,6 +112,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+
         CoinNum.text = PlayerPrefs.GetInt("CoinCount", 0).ToString();
         if (FScore1 >= 450 && FScore1 < 600)
         {
@@ -132,9 +137,13 @@ public class GameManager : MonoBehaviour
             player.SetActive(!isEndPanel);
             MainUI.SetActive(!isEndPanel);
             EScore.text = FScore1.ToString() + "m";
-            Debug.Log(isEndPanel);
+            //Debug.Log(isEndPanel);
         }
-
+        //이벤트 블랙홀 실행 요건
+        if (GameManager.instance.isCharDie == true)
+        {
+            GameManager.instance.isBlackTrue = true;
+        }
         if (Scopos < player.transform.position.y)
             Scopos = player.transform.position.y;
 
@@ -233,6 +242,7 @@ public class GameManager : MonoBehaviour
     public void EPanelTitle()
     {
         //GameStart();
+
         isEndPanel = false;
         //MainUIChange();
         isCharDie = false;
@@ -240,12 +250,11 @@ public class GameManager : MonoBehaviour
         player.SetActive(true);
         mainCam.orthographicSize = 2.5f;
         mainCam.transform.position = new Vector3(0, 1f, mainCam.transform.position.z);
-
         EndPanel.SetActive(isEndPanel);
         MainUI.SetActive(true);
         MainUIChange();
         isGameRunning = false;
-        Debug.Log(isEndPanel);
+        //Debug.Log(isEndPanel);
         Scopos = 0;
     }
 
@@ -316,21 +325,17 @@ public class GameManager : MonoBehaviour
         {
             Destroy(FloorsPre.transform.GetChild(i).gameObject);
         }
-
         int cf = CoinParents.transform.childCount;
         for (int i = 0; i < cf; i++)
         {
             Destroy(CoinParents.transform.GetChild(i).gameObject);
         }
-
         for (int i = 0; i < 5; i++)
         {
             platforms.Add(myPlat = (GameObject)Instantiate(platformPrefab, new Vector2(Random.Range(-1.73f, 1.73f), player.transform.position.y + (2 * i + Random.Range(1.3f, 1.5f))), Quaternion.identity));
             lately = myPlat.transform.position;
         }
-
         Scopos = 0;
-
         time = 0;
         Enemy = 0;
         isCharDie = false;

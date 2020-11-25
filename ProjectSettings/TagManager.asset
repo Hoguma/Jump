@@ -10,6 +10,9 @@ TagManager:
   - effect
   - Ground
   - Coin
+  - Blackhole
+  - Die
+  - BlackHole
   layers:
   - Default
   - TransparentFX

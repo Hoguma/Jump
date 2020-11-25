@@ -38,7 +38,9 @@ public class Player : MonoBehaviour
     public int nextMove = 0;
     public int move;
     bool ismove = false;
-    
+
+    //블랙홀
+    private GameObject whirlPool;
 
     //에니메이션 반대
     public SpriteRenderer spriteRenderer;
@@ -97,6 +99,9 @@ public class Player : MonoBehaviour
         {
             Points[i].transform.position = PointPosition(i * 0.1f);
         }
+        //플레이어 중력
+        st5Enemy();
+
         //벽 레이캐스트
         isWall = Physics2D.Raycast(wallChk.position, Vector2.right * isRight, wallchkDistance, w_Layer);
 
@@ -115,6 +120,7 @@ public class Player : MonoBehaviour
         {
             anim.SetBool("isJump", false);
         }
+        
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -128,6 +134,10 @@ public class Player : MonoBehaviour
         {
             Destroy(collision.gameObject);
             PlayerPrefs.SetInt("CoinCount", PlayerPrefs.GetInt("CoinCount") + 1);
+        }
+        if (collision.gameObject.CompareTag("Die"))
+        {
+            GameManager.instance.isCharDie = true;
         }
     }
 
@@ -188,7 +198,16 @@ public class Player : MonoBehaviour
         Gizmos.color = Color.blue;
         Gizmos.DrawRay(wallChk.position, Vector2.right * isRight * wallchkDistance);
     }
-
+    void st5Enemy()
+    {
+        if (GameManager.instance.Enemy == 2)
+        {
+            if (GameManager.instance.isEnemyRisk == false)
+            {
+                rigidbody.gravityScale = 1.0f;
+            }
+        }
+    }
     Vector2 PointPosition(float t)
     {
         Vector2 currentPointPos;
@@ -263,7 +282,7 @@ public class Player : MonoBehaviour
             nextMove = -1;
         }
 
-        Debug.Log(clampedForce);
+        //Debug.Log(clampedForce);
         rigidbody.AddForce(clampedForce, ForceMode2D.Impulse);
         pastpos = gameObject.transform.position.x;
         canJump = false;
@@ -293,7 +312,7 @@ public class Player : MonoBehaviour
             {
                 //클릭 처리
                 DragRelease();
-                Debug.Log(rigidbody.velocity.x);
+                //Debug.Log(rigidbody.velocity.x);
             }
         }
     }
@@ -394,9 +413,9 @@ public class Player : MonoBehaviour
                 if (GameManager.instance.isEnemyRisk == false)
                 {
                     if (GameManager.instance.windRL == 1 && canJump == false)
-                        rigidbody.velocity = new Vector2(rigidbody.velocity.x + -0.25f, rigidbody.velocity.y);
+                        rigidbody.velocity = new Vector2(rigidbody.velocity.x + -0.05f, rigidbody.velocity.y);
                     else
-                        rigidbody.velocity = new Vector2(rigidbody.velocity.x + 0.25f, rigidbody.velocity.y);
+                        rigidbody.velocity = new Vector2(rigidbody.velocity.x + 0.05f, rigidbody.velocity.y);
                 }
             }
             else if (GameManager.instance.Enemy == 2)

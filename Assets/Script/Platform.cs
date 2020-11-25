@@ -23,14 +23,15 @@ public class Platform : MonoBehaviour
     public Sprite fivestage;
     private SpriteRenderer myRenderer;
     private int stageIm = 1;
-    private int num;
+    private int num = 0;
 
     private float time = 0f;
     //방해요소
     private bool isCharCk = false;  //캐릭터가 서있나 확인
     public GameObject Risk;         //위험표시
     public GameObject Lightning;    //번개
-    public bool  Ck = false;          //한번실행 변수
+    public GameObject Black;        //블랙홀
+    public bool  Ck = false;        //한번실행 변수
 
     private int coinPercent;
 
@@ -51,6 +52,8 @@ public class Platform : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        st5Enemy();
+
         if (target.transform.position.y - (0.6371382 * 0.7) > transform.position.y)
         {
             coll.enabled = true;
@@ -70,6 +73,7 @@ public class Platform : MonoBehaviour
         {
             stageIm = 5;
             myRenderer.sprite = fivestage;
+            st5Enemy();
         }
         //if (GameObject.Find("GameManager").GetComponent<GameManager>().FScore1 >= 60 || stageIm == 4)
         else if (GameObject.Find("GameManager").GetComponent<GameManager>().FScore1 >= stage[2] || stageIm == 4) 
@@ -133,6 +137,44 @@ public class Platform : MonoBehaviour
             }
         }
     }
+    void st5Enemy()
+    {
+        if (GameManager.instance.Enemy == 0)
+        {
+            GameManager.instance.isBlackTrue = true;
+        }
+        else if (GameManager.instance.Enemy == 1)
+        {
+            //if (GameObject.Find("Player").transform.position.y < gameObject.transform.position.y)
+            //{
+            //    if (GameManager.instance.isBlackTrue == true)
+            //    {
+            //        Instantiate(Black, new Vector3(transform.position.x, transform.position.y + 1.931f, -0.44f), Quaternion.identity);
+            //        GameManager.instance.isBlackTrue = false;
+            //    }
+        }
+        if (GameManager.instance.Enemy == 1)
+        {
+            if (GameManager.instance.isEnemyRisk == false)
+            {
+                if (GameManager.instance.isBlackTrue == true)
+                {
+                    if (transform.position.y < 0.0f)
+                    {
+                        //블랙홀
+                        Instantiate(Black, new Vector3(transform.position.x, transform.position.y + 1.5f, 0), Quaternion.identity);
+                        GameManager.instance.isBlackTrue = false;
+                    }
+                    else
+                    {
+                        //블랙홀
+                        Instantiate(Black, new Vector3(transform.position.x, transform.position.y - 1.5f, 0), Quaternion.identity);
+                        GameManager.instance.isBlackTrue = false;
+                    }
+                }
+            }
+        }
+    }
     void LightningG()
     {
         Instantiate(Lightning, new Vector3(transform.position.x, transform.position.y + 1.931f, 0), Quaternion.identity);
@@ -148,9 +190,7 @@ public class Platform : MonoBehaviour
         //{
         //    Coins[i].transform.position = CoinPosition(i * 0.1f);
         //}
-
         Instantiate(CoinPre,new Vector2(transform.position.x, transform.position.y + 0.5f), Quaternion.identity, CoinsP.transform);
-
     }
 
     Vector2 CoinPosition(float t)
