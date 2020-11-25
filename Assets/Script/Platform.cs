@@ -58,7 +58,7 @@ public class Platform : MonoBehaviour
         else
             coll.enabled = false;
 
-        if (coinPercent == 1 && GameManager.instance.platforms.Count > num)
+        if (coinPercent == 1 && 1 > num)
         {
             GenarateCoin();
             num = 999;

@@ -49,10 +49,12 @@ public class GameManager : MonoBehaviour
     [Header("Ingame")]
     [SerializeField] private GameObject IngamePanel;
     [SerializeField] private GameObject PausePanel;
+    [SerializeField] private GameObject CoinParents;
     public bool isIngamePanel = false;
     public bool isPausePanel = false;
     public int CurrentScore = 0;
     public int CoinCount = 0;
+    public int windRL;
 
 
     [Header("GameOver")]
@@ -77,6 +79,7 @@ public class GameManager : MonoBehaviour
     public int fade = 0;
 
     public bool isFaded = false;
+    public bool isGameRunning = false;
     //방해요소 전 위험요소 뜨는 시간 체크
     public bool isEnemyRisk;
     //방해요소
@@ -112,7 +115,6 @@ public class GameManager : MonoBehaviour
             {
                 if (isEnemyRisk == false)
                 {
-
                     isCloud.SetActive(true);
                 }
             }
@@ -128,6 +130,7 @@ public class GameManager : MonoBehaviour
             isEndPanel = true;
             EndPanel.SetActive(isEndPanel);
             player.SetActive(!isEndPanel);
+            MainUI.SetActive(!isEndPanel);
             EScore.text = FScore1.ToString() + "m";
             Debug.Log(isEndPanel);
         }
@@ -180,7 +183,33 @@ public class GameManager : MonoBehaviour
         TitlePanel.SetActive(isTitlePanel);
         isIngamePanel = !isIngamePanel;
         IngamePanel.SetActive(isIngamePanel);
+
+        int nw = Walls.transform.childCount;
+        for (int i = 0; i < nw; i++)
+        {
+            Destroy(Walls.transform.GetChild(i).gameObject);
+        }
+        Instantiate(wall, new Vector3(0, 0, 0), transform.rotation);
+        Instantiate(wall, new Vector3(0, 10, 0), transform.rotation);
+        int nf = FloorsPre.transform.childCount;
+        for (int i = 0; i < nf; i++)
+        {
+            Destroy(FloorsPre.transform.GetChild(i).gameObject);
+        }
+
+        int cf = CoinParents.transform.childCount;
+        for (int i = 0; i < cf; i++)
+        {
+            Destroy(CoinParents.transform.GetChild(i).gameObject);
+        }
+
+        for (int i = 0; i < 5; i++)
+        {
+            platforms.Add(myPlat = (GameObject)Instantiate(platformPrefab, new Vector2(Random.Range(-1.73f, 1.73f), player.transform.position.y + (2 * i + Random.Range(1.3f, 1.5f))), Quaternion.identity));
+            lately = myPlat.transform.position;
+        }
         //방해요소
+        isGameRunning = true;
         time = 0;
         Enemy = 0;
         isCharDie = false;
@@ -197,19 +226,26 @@ public class GameManager : MonoBehaviour
         isEndPanel = false;
         isCharDie = false;
         EndPanel.SetActive(isEndPanel);
-        Scopos = 0;
-
-        time = 0;
-        Enemy = 0;
-        isCharDie = false;
+        MainUI.SetActive(!isEndPanel);
+        
     }
 
     public void EPanelTitle()
     {
-        GameStart();
+        //GameStart();
         isEndPanel = false;
-        MainUIChange();
+        //MainUIChange();
+        isCharDie = false;
+        player.transform.position = new Vector3(0, 0, 0);
+        player.SetActive(true);
+        mainCam.orthographicSize = 2.5f;
+        mainCam.transform.position = new Vector3(0, 1f, mainCam.transform.position.z);
+
         EndPanel.SetActive(isEndPanel);
+        MainUI.SetActive(true);
+        MainUIChange();
+        isGameRunning = false;
+        Debug.Log(isEndPanel);
         Scopos = 0;
     }
 
@@ -263,7 +299,7 @@ public class GameManager : MonoBehaviour
 
     public void GameStart()
     {
-        Instantiate(GroundPrefab);
+        isGameRunning = true;
         player.transform.position = new Vector3(0, 0, 0);
         player.SetActive(true);
         mainCam.transform.position = new Vector3(0, 4.5f, mainCam.transform.position.z);
@@ -280,11 +316,29 @@ public class GameManager : MonoBehaviour
         {
             Destroy(FloorsPre.transform.GetChild(i).gameObject);
         }
+
+        int cf = CoinParents.transform.childCount;
+        for (int i = 0; i < cf; i++)
+        {
+            Destroy(CoinParents.transform.GetChild(i).gameObject);
+        }
+
         for (int i = 0; i < 5; i++)
         {
             platforms.Add(myPlat = (GameObject)Instantiate(platformPrefab, new Vector2(Random.Range(-1.73f, 1.73f), player.transform.position.y + (2 * i + Random.Range(1.3f, 1.5f))), Quaternion.identity));
             lately = myPlat.transform.position;
         }
+
+        Scopos = 0;
+
+        time = 0;
+        Enemy = 0;
+        isCharDie = false;
+    }
+
+    public bool IsGameRunning()
+    {
+        return isGameRunning;
     }
 
     public void EnemyStart()
@@ -301,6 +355,7 @@ public class GameManager : MonoBehaviour
 
         if (Enemy == 1 || Enemy == 2 || Enemy == 3)
         {
+            windRL = Random.Range(0, 1);
             if (time < 15f)
             {
                 time += Time.deltaTime;
@@ -380,6 +435,4 @@ public class GameManager : MonoBehaviour
         ShopPanel.SetActive(isShopPanel);
         TitlePanel.SetActive(!isShopPanel);
     }
-
-    
 }

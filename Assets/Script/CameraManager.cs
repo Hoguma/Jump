@@ -17,7 +17,7 @@ public class CameraManager : MonoBehaviour
 
     private void Update()
     {
-        if (GameManager.instance.Titlepanel())
+        if (!GameManager.instance.IsGameRunning())
         {
             cam.orthographicSize = 2.5f;
             transform.position = new Vector3(0, 1f, transform.position.z);

@@ -672,7 +672,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 259773878}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 373671900}
+        m_MethodName: Next
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &259773878
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -900,10 +911,12 @@ MonoBehaviour:
   isVibeon: 1
   IngamePanel: {fileID: 190346973}
   PausePanel: {fileID: 1132827976}
+  CoinParents: {fileID: 1171850681}
   isIngamePanel: 0
   isPausePanel: 0
   CurrentScore: 0
   CoinCount: 0
+  windRL: 0
   EndPanel: {fileID: 1668885884}
   isEndPanel: 0
   ShopPanel: {fileID: 373671895}
@@ -918,6 +931,7 @@ MonoBehaviour:
   FScore1: 0
   fade: 0
   isFaded: 0
+  isGameRunning: 0
   isEnemyRisk: 0
   isCloud: {fileID: 322159051}
 --- !u!4 &369043700
@@ -946,13 +960,14 @@ GameObject:
   - component: {fileID: 373671899}
   - component: {fileID: 373671898}
   - component: {fileID: 373671897}
+  - component: {fileID: 373671900}
   m_Layer: 5
   m_Name: Shop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &373671896
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1037,6 +1052,24 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &373671900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 373671895}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1146d040f85fb5e47af6524bffe21193, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  character:
+  - {fileID: 21300000, guid: 8a6eb29c45a35414793d75adddac35b6, type: 3}
+  - {fileID: 21300000, guid: 1b5cdee81fc2df74291ad1077b8c8efe, type: 3}
+  - {fileID: 21300000, guid: f8eda44aaa0e23345bee3a702a390361, type: 3}
+  - {fileID: 21300000, guid: 535fc3d14433bd14d851190d0d4b0e96, type: 3}
+  igotthis: 01000000
 --- !u!1 &384051200
 GameObject:
   m_ObjectHideFlags: 0
@@ -1325,7 +1358,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 428267589}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 373671900}
+        m_MethodName: Select
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &428267589
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1843,7 +1887,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 626823963}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 373671900}
+        m_MethodName: Prev
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &626823963
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4265,7 +4320,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1739125326
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5368,7 +5423,7 @@ PrefabInstance:
     - target: {fileID: 2290811998710093687, guid: 305be9fe8ce7b1144a649852e85eb560,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.348
       objectReference: {fileID: 0}
     - target: {fileID: 2290811999054654656, guid: 305be9fe8ce7b1144a649852e85eb560,
         type: 3}
@@ -5485,6 +5540,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SortingOrder
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290811999699538350, guid: 305be9fe8ce7b1144a649852e85eb560,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 305be9fe8ce7b1144a649852e85eb560, type: 3}

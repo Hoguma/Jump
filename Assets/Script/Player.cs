@@ -41,7 +41,7 @@ public class Player : MonoBehaviour
     
 
     //에니메이션 반대
-    SpriteRenderer spriteRenderer;
+    public SpriteRenderer spriteRenderer;
     float pastpos;
     Animator anim;
 
@@ -167,7 +167,8 @@ public class Player : MonoBehaviour
         {
             ismove = false;
             anim.SetBool("isJump", false);
-            Player.Instance.nextMove = 0;
+            canJump = true;
+            nextMove = 0;
         }
     }
 
@@ -292,6 +293,7 @@ public class Player : MonoBehaviour
             {
                 //클릭 처리
                 DragRelease();
+                Debug.Log(rigidbody.velocity.x);
             }
         }
     }
@@ -391,10 +393,10 @@ public class Player : MonoBehaviour
             {
                 if (GameManager.instance.isEnemyRisk == false)
                 {
-                    if(Random.Range(0, 1) == 0)
-                        rigidbody.velocity = new Vector2(rigidbody.velocity.x *-0.5f, rigidbody.velocity.y);
-                    if (Random.Range(0, 1) == 1)
-                        rigidbody.velocity = new Vector2(rigidbody.velocity.x * 0.5f, rigidbody.velocity.y);
+                    if (GameManager.instance.windRL == 1 && canJump == false)
+                        rigidbody.velocity = new Vector2(rigidbody.velocity.x + -0.25f, rigidbody.velocity.y);
+                    else
+                        rigidbody.velocity = new Vector2(rigidbody.velocity.x + 0.25f, rigidbody.velocity.y);
                 }
             }
             else if (GameManager.instance.Enemy == 2)
