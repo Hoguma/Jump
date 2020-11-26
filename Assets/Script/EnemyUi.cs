@@ -27,43 +27,52 @@ public class EnemyUi : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         switch (GameManager.instance.CurrentScore)
         {
             case 1:
             case 2:
             case 3:
-                if (GameManager.instance.Enemy == 1)
+                if (GameManager.instance.Enemy == 1)// 바람
+                {
+                    Alpha();
+                    mainImage.sprite = sprites[0];
+                }
+                else if (GameManager.instance.Enemy == 2)// 폭우
+                {
+                    Alpha();
+                    mainImage.sprite = sprites[1];
+                }
+                else if (GameManager.instance.Enemy == 3)// 폭설
+                {
+                    Alpha();
+                    mainImage.sprite = sprites[2];
+                }
+                break;
+            case 4:
+                if (GameManager.instance.Enemy == 1)//번개
                 {
                     Alpha();
                     mainImage.sprite = sprites[3];
                 }
-                else if (GameManager.instance.Enemy == 2)
-                {
-                    Alpha();
-                    mainImage.sprite = sprites[4];
-                }
-                else if (GameManager.instance.Enemy == 3)
+                else if (GameManager.instance.Enemy == 2)//안개
                 {
                     Alpha();
                     mainImage.sprite = sprites[4];
                 }
                 break;
-            case 4:
-                if (GameManager.instance.Enemy == 1)
+            case 5:
+                if(GameManager.instance.Enemy == 1) //블랙홀
                 {
                     Alpha();
-                    mainImage.sprite = sprites[3];
-                }
-                else if (GameManager.instance.Enemy == 2)
-                {
-                    Alpha();
-                    mainImage.sprite = sprites[4];
+                    mainImage.sprite = sprites[5];
                 }
                 break;
         }
         if (GameManager.instance.Enemy == 0)
         {
             time = 0.0f;
+            colors.a = 0f;
         }
         mainImage.color = colors;
 

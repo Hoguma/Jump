@@ -52,9 +52,7 @@ public class Platform : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        st5Enemy();
-
-        if (target.transform.position.y - (0.6371382 * 0.7) > transform.position.y)
+        if (target.transform.position.y - (0.6371382 * 0.7) >= transform.position.y)
         {
             coll.enabled = true;
         }
@@ -145,31 +143,28 @@ public class Platform : MonoBehaviour
         }
         else if (GameManager.instance.Enemy == 1)
         {
-            //if (GameObject.Find("Player").transform.position.y < gameObject.transform.position.y)
-            //{
-            //    if (GameManager.instance.isBlackTrue == true)
-            //    {
-            //        Instantiate(Black, new Vector3(transform.position.x, transform.position.y + 1.931f, -0.44f), Quaternion.identity);
-            //        GameManager.instance.isBlackTrue = false;
-            //    }
-        }
-        if (GameManager.instance.Enemy == 1)
-        {
             if (GameManager.instance.isEnemyRisk == false)
             {
-                if (GameManager.instance.isBlackTrue == true)
+                if (GameObject.Find("Player") == null)
                 {
-                    if (transform.position.y < 0.0f)
+                    return;
+                }
+                if (GameObject.Find("Player").transform.position.y + 3.0f < gameObject.transform.position.y)
+                {
+                    if (GameManager.instance.isBlackTrue == true)
                     {
-                        //블랙홀
-                        Instantiate(Black, new Vector3(transform.position.x, transform.position.y + 1.5f, 0), Quaternion.identity);
-                        GameManager.instance.isBlackTrue = false;
-                    }
-                    else
-                    {
-                        //블랙홀
-                        Instantiate(Black, new Vector3(transform.position.x, transform.position.y - 1.5f, 0), Quaternion.identity);
-                        GameManager.instance.isBlackTrue = false;
+                        if (transform.position.x < 0.0f)
+                        {
+                            //블랙홀
+                            Instantiate(Black, new Vector3(Random.Range(transform.position.x + 1.5f, 1.781f), transform.position.y, 0), Quaternion.identity);
+                            GameManager.instance.isBlackTrue = false;
+                        }
+                        else
+                        {
+                            //블랙홀
+                            Instantiate(Black, new Vector3(Random.Range(-1.726f, transform.position.x - 1.5f), transform.position.y, 0), Quaternion.identity);
+                            GameManager.instance.isBlackTrue = false;
+                        }
                     }
                 }
             }

@@ -275,24 +275,28 @@ public class GameManager : MonoBehaviour
             StartCoroutine(FadeIn(0.3f));
             fade = 1;
             CurrentScore = 2;
+            GameManager.instance.Enemy = 0;
         }
         else if (FScore1 == 300 && FScore1 >= 1 && !isFaded && fade == 1)
         {
             StartCoroutine(FadeIn(0.3f));
             fade = 2;
             CurrentScore = 3;
+            GameManager.instance.Enemy = 0;
         }
         else if (FScore1 == 450 && FScore1 >= 1 && !isFaded && fade == 2)
         {
             StartCoroutine(FadeIn(0.3f));
             fade = 3;
             CurrentScore = 4;
+            GameManager.instance.Enemy = 0;
         }
         else if (FScore1 == 600 && FScore1 >= 1 && !isFaded && fade == 3)
         {
             StartCoroutine(FadeIn(0.3f));
             fade = 4;
             CurrentScore = 5;
+            GameManager.instance.Enemy = 0;
         }
     }
 
