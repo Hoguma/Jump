@@ -112,7 +112,33 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-
+        //타이틀에서 방해요소 실행 안됨
+        if(isTitlePanel == true)
+        {
+            Enemy = 0;
+            time = 0;
+        }
+        //현 스테이지 변수
+        if(FScore1 < 150)
+        {
+            CurrentScore = 1;
+        }
+        else if(FScore1 >= 150 && FScore1 < 300)
+        {
+            CurrentScore = 2;
+        }
+        else if (FScore1 >= 300 && FScore1 < 450)
+        {
+            CurrentScore = 3;
+        }
+        else if (FScore1 >= 450 && FScore1 < 600)
+        {
+            CurrentScore = 4;
+        }
+        else if (FScore1 >= 600)
+        {
+            CurrentScore = 5;
+        }
         CoinNum.text = PlayerPrefs.GetInt("CoinCount", 0).ToString();
         if (FScore1 >= 450 && FScore1 < 600)
         {
@@ -188,6 +214,7 @@ public class GameManager : MonoBehaviour
 
     public void MainUIChange()
     {
+        
         isTitlePanel = !isTitlePanel;
         TitlePanel.SetActive(isTitlePanel);
         isIngamePanel = !isIngamePanel;
@@ -267,35 +294,30 @@ public class GameManager : MonoBehaviour
     {
         if(FScore1 < 150)
         {
-            CurrentScore = 1;
             fade = 0;
         }
         if (FScore1 == 150 && FScore1 >= 1 && !isFaded && fade == 0)
         {
             StartCoroutine(FadeIn(0.3f));
             fade = 1;
-            CurrentScore = 2;
             GameManager.instance.Enemy = 0;
         }
         else if (FScore1 == 300 && FScore1 >= 1 && !isFaded && fade == 1)
         {
             StartCoroutine(FadeIn(0.3f));
             fade = 2;
-            CurrentScore = 3;
             GameManager.instance.Enemy = 0;
         }
         else if (FScore1 == 450 && FScore1 >= 1 && !isFaded && fade == 2)
         {
             StartCoroutine(FadeIn(0.3f));
             fade = 3;
-            CurrentScore = 4;
             GameManager.instance.Enemy = 0;
         }
         else if (FScore1 == 600 && FScore1 >= 1 && !isFaded && fade == 3)
         {
             StartCoroutine(FadeIn(0.3f));
             fade = 4;
-            CurrentScore = 5;
             GameManager.instance.Enemy = 0;
         }
     }

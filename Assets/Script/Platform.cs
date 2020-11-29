@@ -24,6 +24,7 @@ public class Platform : MonoBehaviour
     private SpriteRenderer myRenderer;
     private int stageIm = 1;
     private int num = 0;
+    private bool num1 = true;
 
     private float time = 0f;
     //방해요소
@@ -59,10 +60,10 @@ public class Platform : MonoBehaviour
         else
             coll.enabled = false;
 
-        if (coinPercent == 1 && 1 > num)
+        if (coinPercent == 1 && num1)
         {
             GenarateCoin();
-            num = 999;
+            num1 = false;
         }
 
         //1단계 점수 로 땅 바꾸기
@@ -78,7 +79,7 @@ public class Platform : MonoBehaviour
         {
             stageIm = 4;
             myRenderer.sprite = fourstage;
-            st3Enemy();
+            st4Enemy();
         }
         //if (GameObject.Find("GameManager").GetComponent<GameManager>().FScore1 >= 40 || stageIm == 3)
         else if (GameObject.Find("GameManager").GetComponent<GameManager>().FScore1 >= stage[1] || stageIm == 3)
@@ -108,7 +109,7 @@ public class Platform : MonoBehaviour
             isCharCk = false;
         }
     }
-    void st3Enemy()
+    void st4Enemy()
     {
         if(isCharCk)
         {

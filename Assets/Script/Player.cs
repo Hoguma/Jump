@@ -435,5 +435,9 @@ public class Player : MonoBehaviour
         {
             rigidbody.gravityScale = 1.3f;
         }
+        else
+        {
+            rigidbody.gravityScale = 2.0f;
+        }
     }
 }
