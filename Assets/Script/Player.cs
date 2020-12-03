@@ -97,8 +97,11 @@ public class Player : MonoBehaviour
     {
         
         CheckStatus();
-        //Touch();
-        Click();
+        if (canJump == true)
+        { 
+            //Touch();
+            Click(); 
+        }
         for (int i = 0; i < Points.Length; i++)
         {
             Points[i].transform.position = PointPosition(i * 0.1f);
@@ -204,11 +207,11 @@ public class Player : MonoBehaviour
     {
         Vector2 currentPointPos;
         if (isWall)
-        {
-            currentPointPos = (Vector2)transform.position + ((Vector2)clampedForce * t) + 0.683472f * Physics2D.gravity * 6.0f * (t * t);
-        }
+            currentPointPos = (Vector2)transform.position + ((Vector2)clampedForce * t) + Physics2D.gravity * 3456f * (t * t);
         else
-            currentPointPos = (Vector2)transform.position + ((Vector2)clampedForce * t) + 0.683472f * Physics2D.gravity * 3.0f  * (t * t);
+            currentPointPos = (Vector2)transform.position + ((Vector2)clampedForce * t) + 1728f * Physics2D.gravity * (t * t);
+        //Debug.Log(currentPointPos);
+        Debug.Log(Physics2D.gravity);
         return currentPointPos;
     }
 
@@ -244,7 +247,7 @@ public class Player : MonoBehaviour
         line.SetPosition(1, draggingPos);
 
         //Vector3 force = dragStartPos - Camera.main.ScreenToWorldPoint(touch.position);
-        Vector3 force = dragStartPos - Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector3 force = dragStartPos - draggingPos;
 
         clampedForce = Vector3.ClampMagnitude(force, maxDrag) * power;
     }
@@ -282,7 +285,7 @@ public class Player : MonoBehaviour
 
     void Click()
     {
-        if (Input.GetMouseButtonDown(0) && canJump == true)
+        if (Input.GetMouseButtonDown(0))
         {
             if (!EventSystem.current.IsPointerOverGameObject())
             {
@@ -290,7 +293,7 @@ public class Player : MonoBehaviour
                 DragStart();
             }
         }
-        if (Input.GetMouseButton(0) && canJump == true)
+        else if (Input.GetMouseButton(0))
         {
             if (!EventSystem.current.IsPointerOverGameObject())
             {
@@ -298,7 +301,7 @@ public class Player : MonoBehaviour
                 Dragging();
             }
         }
-        if (Input.GetMouseButtonUp(0) && canJump == true)
+        else if (Input.GetMouseButtonUp(0))
         {
             if (!EventSystem.current.IsPointerOverGameObject())
             {
@@ -344,7 +347,7 @@ public class Player : MonoBehaviour
                 spriteRenderer.flipX = true;
             }
 
-            Vector2 frontVec = new Vector2(rigidbody.position.x + nextMove * 0.24f, rigidbody.position.y);
+            Vector2 frontVec = new Vector2(rigidbody.position.x + nextMove * 230f, rigidbody.position.y);
             RaycastHit2D rayHit = Physics2D.Raycast(frontVec, Vector3.down, 1, LayerMask.GetMask("floor"));
 
             if (rayHit.collider == null)
@@ -352,10 +355,13 @@ public class Player : MonoBehaviour
                 if (nextMove == 1)
                 {
                     nextMove = -1;
+                    Debug.Log(frontVec);
                 }
                 else if (nextMove == -1)
                 {
                     nextMove = 1;
+                    Debug.Log(frontVec);
+
                 }
             }
         }
@@ -433,11 +439,11 @@ public class Player : MonoBehaviour
         //플레이어 중력
         if (GameManager.instance.CurrentScore == 5)
         {
-            rigidbody.gravityScale = 1.3f;
+            rigidbody.gravityScale = 250f;
         }
         else
         {
-            rigidbody.gravityScale = 2.0f;
+            rigidbody.gravityScale = 384f;
         }
     }
 }

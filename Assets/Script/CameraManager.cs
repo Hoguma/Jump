@@ -19,20 +19,20 @@ public class CameraManager : MonoBehaviour
     {
         if (!GameManager.instance.IsGameRunning())
         {
-            cam.orthographicSize = 2.5f;
-            transform.position = new Vector3(0, 1f, transform.position.z);
+            cam.orthographicSize = 480f;
+            transform.position = new Vector3(0, 192f, transform.position.z);
             isMove = true;
         }
         else
         {
             if (isMove)
             {
-                transform.position = Vector3.Lerp(transform.position, new Vector3(0, 4.5f, transform.position.z), 0.03f);
-                cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, 5, 0.03f);
-                if (transform.position.y >= 4.49f)
+                transform.position = Vector3.Lerp(transform.position, new Vector3(0, 815f, transform.position.z), 0.03f);
+                cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, 960f, 0.03f);
+                if (transform.position.y >= 814.9f)
                 {
-                    cam.orthographicSize = 5f;
-                    transform.position = new Vector3(0, 4.5f, transform.position.z);
+                    cam.orthographicSize = 960f;
+                    transform.position = new Vector3(0, 815f, transform.position.z);
                     isMove = false;
                 }
             }

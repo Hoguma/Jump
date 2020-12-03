@@ -95,7 +95,7 @@ public class GameManager : MonoBehaviour
 
         for (int i = 0; i < 5; i++)
         {
-            platforms.Add(myPlat = (GameObject)Instantiate(platformPrefab, new Vector2(Random.Range(-1.73f, 1.73f), player.transform.position.y + (2 * i + Random.Range(1.3f, 1.5f))), Quaternion.identity));
+            platforms.Add(myPlat = (GameObject)Instantiate(platformPrefab, new Vector2(Random.Range(-500f, 500f), player.transform.position.y + (384 * i + Random.Range(150f, 250f))), Quaternion.identity));
             lately = myPlat.transform.position;
         }
         FloorsClone = FloorsPre;
@@ -107,7 +107,7 @@ public class GameManager : MonoBehaviour
         else
             Destroy(this.gameObject);
         Instantiate(wall, new Vector3(0, 0, 0), transform.rotation);
-        Instantiate(wall, new Vector3(0, 10, 0), transform.rotation);
+        Instantiate(wall, new Vector3(0, 1200, 0), transform.rotation);
     }
 
     private void Update()
@@ -173,7 +173,7 @@ public class GameManager : MonoBehaviour
         if (Scopos < player.transform.position.y)
             Scopos = player.transform.position.y;
 
-        FScore1 = (int)Scopos;
+        FScore1 = (int)Scopos/100;
         FScore.text = FScore1.ToString() + "m";
 
         Stage();
@@ -226,7 +226,7 @@ public class GameManager : MonoBehaviour
             Destroy(Walls.transform.GetChild(i).gameObject);
         }
         Instantiate(wall, new Vector3(0, 0, 0), transform.rotation);
-        Instantiate(wall, new Vector3(0, 10, 0), transform.rotation);
+        Instantiate(wall, new Vector3(0, 1200, 0), transform.rotation);
         int nf = FloorsPre.transform.childCount;
         for (int i = 0; i < nf; i++)
         {
@@ -241,7 +241,8 @@ public class GameManager : MonoBehaviour
 
         for (int i = 0; i < 5; i++)
         {
-            platforms.Add(myPlat = (GameObject)Instantiate(platformPrefab, new Vector2(Random.Range(-1.73f, 1.73f), player.transform.position.y + (2 * i + Random.Range(1.3f, 1.5f))), Quaternion.identity));
+            platforms.Add(myPlat = (GameObject)Instantiate(platformPrefab, new Vector2(Random.Range(-500f, 500f), player.transform.position.y + (384 * i + Random.Range(150f, 250f))), Quaternion.identity));
+
             lately = myPlat.transform.position;
         }
         //방해요소
@@ -275,8 +276,8 @@ public class GameManager : MonoBehaviour
         isCharDie = false;
         player.transform.position = new Vector3(0, 0, 0);
         player.SetActive(true);
-        mainCam.orthographicSize = 2.5f;
-        mainCam.transform.position = new Vector3(0, 1f, mainCam.transform.position.z);
+        mainCam.orthographicSize = 960f;
+        mainCam.transform.position = new Vector3(0, 0f, mainCam.transform.position.z);
         EndPanel.SetActive(isEndPanel);
         MainUI.SetActive(true);
         MainUIChange();
@@ -337,7 +338,7 @@ public class GameManager : MonoBehaviour
         isGameRunning = true;
         player.transform.position = new Vector3(0, 0, 0);
         player.SetActive(true);
-        mainCam.transform.position = new Vector3(0, 4.5f, mainCam.transform.position.z);
+        mainCam.transform.position = new Vector3(0, 815f, mainCam.transform.position.z);
 
         int nw = Walls.transform.childCount;
         for (int i = 0; i < nw; i++)
@@ -345,7 +346,7 @@ public class GameManager : MonoBehaviour
             Destroy(Walls.transform.GetChild(i).gameObject);
         }
         Instantiate(wall, new Vector3(0, 0, 0), transform.rotation);
-        Instantiate(wall, new Vector3(0, 10, 0), transform.rotation);
+        Instantiate(wall, new Vector3(0, 1200, 0), transform.rotation);
         int nf = FloorsPre.transform.childCount;
         for (int i = 0; i < nf; i++)
         {
@@ -358,7 +359,7 @@ public class GameManager : MonoBehaviour
         }
         for (int i = 0; i < 5; i++)
         {
-            platforms.Add(myPlat = (GameObject)Instantiate(platformPrefab, new Vector2(Random.Range(-1.73f, 1.73f), player.transform.position.y + (2 * i + Random.Range(1.3f, 1.5f))), Quaternion.identity));
+            platforms.Add(myPlat = (GameObject)Instantiate(platformPrefab, new Vector2(Random.Range(-500f, 500f), player.transform.position.y + (384 * i + Random.Range(150f, 250f))), Quaternion.identity));
             lately = myPlat.transform.position;
         }
         Scopos = 0;

@@ -19,7 +19,7 @@ public class wallDestroy : MonoBehaviour
         wallpos = gameObject.transform.position;
         if (Dpos.y >= gameObject.transform.position.y)
         {
-            wallpos.y += 20.0f;
+            wallpos.y += 960.0f;
             gameObject.transform.position = wallpos;
         }
     }

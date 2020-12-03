@@ -27,7 +27,7 @@ public class EnemyUi : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(GameManager.instance.CurrentScore);
+        //Debug.Log(GameManager.instance.CurrentScore);
         switch (GameManager.instance.CurrentScore)
         {
             case 1:
