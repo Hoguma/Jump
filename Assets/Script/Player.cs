@@ -35,10 +35,14 @@ public class Player : MonoBehaviour
     public LayerMask w_Layer;
 
     //좌우 무빙
+    bool isFloor = true;
     public int nextMove = 0;
-    public int move;
     bool ismove = false;
     bool RiskOnce = true;
+    public Transform floorChk;
+    public LayerMask f_Layer;
+    public float FloorchkDistance;
+
 
     //블랙홀
     private GameObject whirlPool;
@@ -95,7 +99,6 @@ public class Player : MonoBehaviour
     
     private void Update()
     {
-        
         CheckStatus();
         if (canJump == true)
         { 
@@ -109,12 +112,25 @@ public class Player : MonoBehaviour
         
         //벽 레이캐스트
         isWall = Physics2D.Raycast(wallChk.position, Vector2.right * isRight, wallchkDistance, w_Layer);
-
+        //바닥 레이캐스트
+        isFloor = Physics2D.Raycast(floorChk.position, Vector2.down, FloorchkDistance, f_Layer);
         Risk();
+
+        
     }
 
     private void FixedUpdate()
     {
+        if (nextMove == 1)
+        {
+            floorChk.transform.position = new Vector3(gameObject.transform.position.x + 30.4f, gameObject.transform.position.y - 20f, 0);
+            spriteRenderer.flipX = true;
+        }
+        else if (nextMove == -1)
+        {
+            floorChk.transform.position = new Vector3(gameObject.transform.position.x - 30.4f, gameObject.transform.position.y - 20f, 0);
+            spriteRenderer.flipX = false;
+        }
         #region 주석
         //애니메이션 오류 문제 해결
         //Debug.DrawRay(new Vector2(rigidbody.position.x, rigidbody.position.y - 0.7f), Vector3.down, new Color(0, 1, 0));
@@ -158,7 +174,7 @@ public class Player : MonoBehaviour
                 canJump = true;
                 nextMove = 1;
             }
-                if (collision.gameObject.CompareTag("floor"))
+            if (collision.gameObject.CompareTag("floor"))
             {
                 ismove = true;
                 canJump = true;
@@ -201,6 +217,9 @@ public class Player : MonoBehaviour
     {
         Gizmos.color = Color.blue;
         Gizmos.DrawRay(wallChk.position, Vector2.right * isRight * wallchkDistance);
+
+        Gizmos.color = Color.blue;
+        Gizmos.DrawRay(floorChk.position, Vector2.down * FloorchkDistance);
     }
 
     Vector2 PointPosition(float t)
@@ -211,7 +230,6 @@ public class Player : MonoBehaviour
         else
             currentPointPos = (Vector2)transform.position + ((Vector2)clampedForce * t) + 1728f * Physics2D.gravity * (t * t);
         //Debug.Log(currentPointPos);
-        Debug.Log(Physics2D.gravity);
         return currentPointPos;
     }
 
@@ -272,7 +290,8 @@ public class Player : MonoBehaviour
         if (clampedForce.x > 0)
         {
             nextMove = 1;
-        } else
+        }
+        else
         {
             nextMove = -1;
         }
@@ -307,7 +326,6 @@ public class Player : MonoBehaviour
             {
                 //클릭 처리
                 DragRelease();
-                //Debug.Log(rigidbody.velocity.x);
             }
         }
     }
@@ -336,43 +354,19 @@ public class Player : MonoBehaviour
     void CheckStatus()
     {
         #region ISMOVE
-        if (ismove)
+        if(isFloor == false)
         {
-            if (nextMove == -1)
+            if(nextMove == 1)
             {
+                floorChk.transform.position = new Vector3(gameObject.transform.position.x - 30.4f, gameObject.transform.position.y - 20f, 0);
+                nextMove = -1;
                 spriteRenderer.flipX = false;
-            }
-            else
-            {
-                spriteRenderer.flipX = true;
-            }
 
-            Vector2 frontVec = new Vector2(rigidbody.position.x + nextMove * 230f, rigidbody.position.y);
-            RaycastHit2D rayHit = Physics2D.Raycast(frontVec, Vector3.down, 1, LayerMask.GetMask("floor"));
-
-            if (rayHit.collider == null)
-            {
-                if (nextMove == 1)
-                {
-                    nextMove = -1;
-                    Debug.Log(frontVec);
-                }
-                else if (nextMove == -1)
-                {
-                    nextMove = 1;
-                    Debug.Log(frontVec);
-
-                }
             }
-        }
-        else
-        {
-            if (pastpos > gameObject.transform.position.x)
+            else if (nextMove == -1)
             {
-                spriteRenderer.flipX = false;
-            }
-            else
-            {
+                floorChk.transform.position = new Vector3(gameObject.transform.position.x + 30.4f, gameObject.transform.position.y - 20f, 0);
+                nextMove = 1;
                 spriteRenderer.flipX = true;
             }
         }
@@ -382,14 +376,13 @@ public class Player : MonoBehaviour
             canJump = true;
 
         anim.SetBool("isRuning", ismove);
-
     }
 
     void Physics()
     {
         if (ismove)
         {
-            rigidbody.velocity = new Vector2(nextMove, rigidbody.velocity.y);
+            gameObject.transform.position = new Vector3(transform.position.x + (nextMove*2), transform.position.y, 0);
         }
         if (isWall)
         {
