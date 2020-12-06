@@ -354,20 +354,23 @@ public class Player : MonoBehaviour
     void CheckStatus()
     {
         #region ISMOVE
-        if(isFloor == false)
+        if (ismove)
         {
-            if(nextMove == 1)
+            if (isFloor == false)
             {
-                floorChk.transform.position = new Vector3(gameObject.transform.position.x - 30.4f, gameObject.transform.position.y - 20f, 0);
-                nextMove = -1;
-                spriteRenderer.flipX = false;
+                if (nextMove == 1)
+                {
+                    floorChk.transform.position = new Vector3(gameObject.transform.position.x - 30.4f, gameObject.transform.position.y - 20f, 0);
+                    nextMove = -1;
+                    spriteRenderer.flipX = false;
 
-            }
-            else if (nextMove == -1)
-            {
-                floorChk.transform.position = new Vector3(gameObject.transform.position.x + 30.4f, gameObject.transform.position.y - 20f, 0);
-                nextMove = 1;
-                spriteRenderer.flipX = true;
+                }
+                else if (nextMove == -1)
+                {
+                    floorChk.transform.position = new Vector3(gameObject.transform.position.x + 30.4f, gameObject.transform.position.y - 20f, 0);
+                    nextMove = 1;
+                    spriteRenderer.flipX = true;
+                }
             }
         }
         #endregion

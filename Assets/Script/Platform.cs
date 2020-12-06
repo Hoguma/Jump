@@ -129,6 +129,7 @@ public class Platform : MonoBehaviour
             {
                 if (isCharCk == true && Ck == false)
                 {
+                    Debug.Log("4스테이지 번개 이벤트 중");
                     Instantiate(Risk, new Vector3(transform.position.x, transform.position.y + 1.37f, 0), Quaternion.identity);
                     Invoke("LightningG", 1.5f);
                     Ck = true;

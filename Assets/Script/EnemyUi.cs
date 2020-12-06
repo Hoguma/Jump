@@ -27,6 +27,8 @@ public class EnemyUi : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Alpha();
+
         //Debug.Log(GameManager.instance.CurrentScore);
         switch (GameManager.instance.CurrentScore)
         {
@@ -35,36 +37,30 @@ public class EnemyUi : MonoBehaviour
             case 3:
                 if (GameManager.instance.Enemy == 1)// 바람
                 {
-                    Alpha();
                     mainImage.sprite = sprites[0];
                 }
                 else if (GameManager.instance.Enemy == 2)// 폭우
                 {
-                    Alpha();
                     mainImage.sprite = sprites[1];
                 }
                 else if (GameManager.instance.Enemy == 3)// 폭설
                 {
-                    Alpha();
                     mainImage.sprite = sprites[2];
                 }
                 break;
             case 4:
                 if (GameManager.instance.Enemy == 1)//번개
                 {
-                    Alpha();
                     mainImage.sprite = sprites[3];
                 }
                 else if (GameManager.instance.Enemy == 2)//안개
                 {
-                    Alpha();
                     mainImage.sprite = sprites[4];
                 }
                 break;
             case 5:
                 if(GameManager.instance.Enemy == 1) //블랙홀
                 {
-                    Alpha();
                     mainImage.sprite = sprites[5];
                 }
                 break;
@@ -79,7 +75,15 @@ public class EnemyUi : MonoBehaviour
     }//수프라이트
     void Alpha()
     {
-        time += Time.deltaTime / 4f;
-        colors.a = Mathf.Lerp(1f, 0f, time);
+        //time += Time.deltaTime / 4f;
+        //colors.a = Mathf.Lerp(1f, 0f, time);
+        if(GameManager.instance.isEnemyCheck == false)
+        {
+            colors.a = 0f;
+        }
+        else
+        {
+            colors.a = 1f;
+        }
     }
 }

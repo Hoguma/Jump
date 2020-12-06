@@ -81,6 +81,7 @@ public class GameManager : MonoBehaviour
     public bool isFaded = false;
     public bool isGameRunning = false;
     //방해요소 전 위험요소 뜨는 시간 체크
+    public bool isEnemyCheck;
     public bool isEnemyRisk;
     //방해요소
     public GameObject isCloud;
@@ -112,8 +113,17 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        Debug.Log(isEnemyCheck);
+        if(isEnemyCheck == true)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                isEnemyCheck = false;
+                Time.timeScale = 1f;
+            }
+        }
         //타이틀에서 방해요소 실행 안됨
-        if(isTitlePanel == true)
+        if (isTitlePanel == true)
         {
             Enemy = 0;
             time = 0;
@@ -382,28 +392,32 @@ public class GameManager : MonoBehaviour
         else if (Enemy == 0 && time >= 20f)
         {
             time = 0;
+            isEnemyCheck = true;
+            Time.timeScale = 0.2f;
             Enemy = Random.Range(1, 4);
         }
-
-        if (Enemy == 1 || Enemy == 2 || Enemy == 3)
+        if (isEnemyCheck == false)
         {
-            windRL = Random.Range(0, 1);
-            if (time < 15f)
+            if (Enemy == 1 || Enemy == 2 || Enemy == 3)
             {
-                time += Time.deltaTime;
-            }
-            else
-            {
-                time = 0;
-                Enemy = 0;
-            }
-            if (time < 5f)
-            {
-                isEnemyRisk = true;
-            }
-            else
-            {
-                isEnemyRisk = false;
+                windRL = Random.Range(0, 1);
+                if (time < 11f)
+                {
+                    time += Time.deltaTime;
+                }
+                else
+                {
+                    time = 0;
+                    Enemy = 0;
+                }
+                if (time < 1f)
+                {
+                    isEnemyRisk = true;
+                }
+                else
+                {
+                    isEnemyRisk = false;
+                }
             }
         }
     }
