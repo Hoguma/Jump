@@ -48,6 +48,7 @@ public class Player : MonoBehaviour
     private GameObject whirlPool;
     public GameObject Windpre;
     public GameObject Rainpre;
+    public GameObject Risks;
 
     //에니메이션 반대
     public SpriteRenderer spriteRenderer;
@@ -58,6 +59,7 @@ public class Player : MonoBehaviour
     private static Player instance = null;
     Rigidbody2D rigid;
     public float strength = 20f;
+
     void Awake()
     {
         rigid = this.GetComponent<Rigidbody2D>();
@@ -72,6 +74,7 @@ public class Player : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
+
     public static Player Instance
     {
         get
@@ -83,6 +86,7 @@ public class Player : MonoBehaviour
             return instance;
         }
     }
+
     private void Start()
     {
         Points = new GameObject[numberOfpoints];
@@ -125,12 +129,16 @@ public class Player : MonoBehaviour
         if (nextMove == 1)
         {
             floorChk.transform.position = new Vector3(gameObject.transform.position.x + 30.4f, gameObject.transform.position.y - 20f, 0);
-            spriteRenderer.flipX = true;
+            //spriteRenderer.flipX = true;
+            Debug.Log("ㅈ");
+
         }
         else if (nextMove == -1)
         {
             floorChk.transform.position = new Vector3(gameObject.transform.position.x - 30.4f, gameObject.transform.position.y - 20f, 0);
-            spriteRenderer.flipX = false;
+            //spriteRenderer.flipX = false;
+            Debug.Log("e");
+
         }
         #region 주석
         //애니메이션 오류 문제 해결
@@ -161,6 +169,7 @@ public class Player : MonoBehaviour
             GameManager.instance.isCharDie = true;
         }
     }
+
     private void OnTriggerStay2D(Collider2D other)
     {
         if (other.tag == "BlackHole")
@@ -171,6 +180,7 @@ public class Player : MonoBehaviour
             rigid.velocity += -1 * ((dir * strength) / (dist + 0.001f));
         }
     }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (!GameManager.instance.Titlepanel())
@@ -180,21 +190,23 @@ public class Player : MonoBehaviour
                 ismove = false;
                 anim.SetBool("isJump", true);
 
+                nextMove = 0;
                 ismove = true;
                 canJump = true;
-                nextMove = 1;
             }
             if (collision.gameObject.CompareTag("floor"))
             {
                 ismove = true;
                 canJump = true;
-                nextMove = 1;
+                Debug.Log("s");
+
             }
         }
         if(collision.gameObject.CompareTag("wall"))
         {
             nextMove *= -1;
         }
+
     }
 
     private void OnCollisionStay2D(Collision2D collision)
@@ -208,17 +220,17 @@ public class Player : MonoBehaviour
             ismove = false;
             anim.SetBool("isJump", false);
             canJump = true;
-            nextMove = 0;
         }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("floor") || collision.gameObject.CompareTag("Ground"))
+        if (collision.gameObject.CompareTag("floor") || collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("wall"))
         {
             ismove = false;
             canJump = false;
-            nextMove = 0;
+            //nextMove = 0;
+            Debug.Log("a");
             anim.SetBool("isJump", true);
         }
     }
@@ -242,6 +254,8 @@ public class Player : MonoBehaviour
         //Debug.Log(currentPointPos);
         return currentPointPos;
     }
+
+    #region Drag
 
     void DragStart()
     {
@@ -300,10 +314,14 @@ public class Player : MonoBehaviour
         if (clampedForce.x > 0)
         {
             nextMove = 1;
+            spriteRenderer.flipX = true;
+
         }
         else
         {
             nextMove = -1;
+            spriteRenderer.flipX = false;
+
         }
 
         //Debug.Log(clampedForce);
@@ -312,6 +330,8 @@ public class Player : MonoBehaviour
         canJump = false;
     }
 
+    #endregion
+
     void Click()
     {
         if (Input.GetMouseButtonDown(0))
@@ -319,10 +339,12 @@ public class Player : MonoBehaviour
             if (!EventSystem.current.IsPointerOverGameObject())
             {
                 //클릭 처리
+                isTouch = true;
                 DragStart();
+
             }
         }
-        else if (Input.GetMouseButton(0))
+        else if (Input.GetMouseButton(0) && isTouch)
         {
             if (!EventSystem.current.IsPointerOverGameObject())
             {
@@ -330,7 +352,7 @@ public class Player : MonoBehaviour
                 Dragging();
             }
         }
-        else if (Input.GetMouseButtonUp(0))
+        else if (Input.GetMouseButtonUp(0) && isTouch)
         {
             if (!EventSystem.current.IsPointerOverGameObject())
             {
@@ -338,6 +360,8 @@ public class Player : MonoBehaviour
                 DragRelease();
             }
         }
+        else
+            isTouch = false;
     }
 
     void Touch()
@@ -349,15 +373,18 @@ public class Player : MonoBehaviour
             if (touch.phase == TouchPhase.Began)
             {
                 DragStart();
+                isTouch = true;
             }
-            if (touch.phase == TouchPhase.Moved)
+            else if (touch.phase == TouchPhase.Moved && isTouch)
             {
                 Dragging();
             }
-            if (touch.phase == TouchPhase.Ended)
+            else if (touch.phase == TouchPhase.Ended && isTouch)
             {
                 DragRelease();
             }
+            else
+                isTouch = false;
         }
     }
 
@@ -366,20 +393,22 @@ public class Player : MonoBehaviour
         #region ISMOVE
         if (ismove)
         {
+            if(nextMove == 1)
+                spriteRenderer.flipX = true;
+            else if (nextMove == -1)
+                spriteRenderer.flipX = false;
+
             if (isFloor == false)
             {
                 if (nextMove == 1)
                 {
-                    floorChk.transform.position = new Vector3(gameObject.transform.position.x - 30.4f, gameObject.transform.position.y - 20f, 0);
+                    floorChk.transform.position = new Vector3(transform.position.x - 30.4f, transform.position.y - 20f, 0);
                     nextMove = -1;
-                    spriteRenderer.flipX = false;
-
                 }
                 else if (nextMove == -1)
                 {
-                    floorChk.transform.position = new Vector3(gameObject.transform.position.x + 30.4f, gameObject.transform.position.y - 20f, 0);
+                    floorChk.transform.position = new Vector3(transform.position.x + 30.4f, transform.position.y - 20f, 0);
                     nextMove = 1;
-                    spriteRenderer.flipX = true;
                 }
             }
         }
@@ -387,6 +416,7 @@ public class Player : MonoBehaviour
 
         if (isWall)
             canJump = true;
+
 
         anim.SetBool("isRuning", ismove);
     }
@@ -418,11 +448,11 @@ public class Player : MonoBehaviour
                 if (GameManager.instance.isEnemyRisk == false)
                 {
                     if (GameManager.instance.windRL == 1 && canJump == false)
-                        rigidbody.velocity = new Vector2(rigidbody.velocity.x + -0.025f, rigidbody.velocity.y);
+                        rigidbody.velocity = new Vector2(rigidbody.velocity.x + -4.8f, rigidbody.velocity.y);
                     else
-                        rigidbody.velocity = new Vector2(rigidbody.velocity.x + 0.025f, rigidbody.velocity.y);
+                        rigidbody.velocity = new Vector2(rigidbody.velocity.x + 4.8f, rigidbody.velocity.y);
                     if(RiskOnce)
-                    { Destroy(Instantiate(Windpre, Camera.main.transform), 10); RiskOnce = false; }
+                    { Destroy(Instantiate(Windpre, Risks.transform), 10); RiskOnce = false; }
                 }
             }
             else if (GameManager.instance.Enemy == 2)
@@ -430,7 +460,7 @@ public class Player : MonoBehaviour
                 if (GameManager.instance.isEnemyRisk == false)
                 {
                     if (RiskOnce)
-                    { Destroy(Instantiate(Rainpre, Camera.main.transform), 10); RiskOnce = false; }
+                    { Destroy(Instantiate(Rainpre, Risks.transform), 10); RiskOnce = false; }
                     rigidbody.mass = 4.5f;
                 }
             }

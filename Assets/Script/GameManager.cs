@@ -172,6 +172,11 @@ public class GameManager : MonoBehaviour
             EndPanel.SetActive(isEndPanel);
             player.SetActive(!isEndPanel);
             MainUI.SetActive(!isEndPanel);
+            int nr = Player.Instance.Risks.transform.childCount;
+            for (int i = 0; i < nr; i++)
+            {
+                Destroy(Player.Instance.Risks.transform.GetChild(i).gameObject);
+            }
             EScore.text = FScore1.ToString() + "m";
             //Debug.Log(isEndPanel);
         }
@@ -248,6 +253,11 @@ public class GameManager : MonoBehaviour
         {
             Destroy(CoinParents.transform.GetChild(i).gameObject);
         }
+        int nr = Player.Instance.Risks.transform.childCount;
+        for (int i = 0; i < nr; i++)
+        {
+            Destroy(Player.Instance.Risks.transform.GetChild(i).gameObject);
+        }
 
         for (int i = 0; i < 5; i++)
         {
@@ -274,15 +284,11 @@ public class GameManager : MonoBehaviour
         isCharDie = false;
         EndPanel.SetActive(isEndPanel);
         MainUI.SetActive(!isEndPanel);
-        
     }
 
     public void EPanelTitle()
     {
-        //GameStart();
-
         isEndPanel = false;
-        //MainUIChange();
         isCharDie = false;
         player.transform.position = new Vector3(0, 0, 0);
         player.SetActive(true);
@@ -292,7 +298,20 @@ public class GameManager : MonoBehaviour
         MainUI.SetActive(true);
         MainUIChange();
         isGameRunning = false;
-        //Debug.Log(isEndPanel);
+        Scopos = 0;
+    }
+
+    public void PPanelTitle()
+    {
+        isPausePanel = false;
+        Time.timeScale = 1.0f;
+        player.transform.position = new Vector3(0, 0, 0);
+        mainCam.orthographicSize = 960f;
+        mainCam.transform.position = new Vector3(0, 0f, mainCam.transform.position.z);
+        PausePanel.SetActive(isPausePanel);
+        MainUI.SetActive(true);
+        MainUIChange();
+        isGameRunning = false;
         Scopos = 0;
     }
 
@@ -366,6 +385,11 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < cf; i++)
         {
             Destroy(CoinParents.transform.GetChild(i).gameObject);
+        }
+        int nr = Player.Instance.Risks.transform.childCount;
+        for (int i = 0; i < nr; i++)
+        {
+            Destroy(Player.Instance.Risks.transform.GetChild(i).gameObject);
         }
         for (int i = 0; i < 5; i++)
         {
