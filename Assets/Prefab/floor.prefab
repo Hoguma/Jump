@@ -133,7 +133,7 @@ MonoBehaviour:
   Risk: {fileID: 7452291922616840955, guid: 22b367999a7271446b2b79583458d364, type: 3}
   Lightning: {fileID: 7263762913233344168, guid: 6217d2008556c7747885ba416674de3c,
     type: 3}
-  Black: {fileID: 5001108075993326787, guid: af4f5edc284c0904ea43accecd6fa40e, type: 3}
+  Black: {fileID: 55557610865725676, guid: 46e7c0ad68db80c4180fe128cf21c1c9, type: 3}
   Ck: 0
 --- !u!50 &6612522914229908205
 Rigidbody2D:

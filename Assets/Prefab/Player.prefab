@@ -433,7 +433,11 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   nextMove: 1
-  move: 0
+  floorChk: {fileID: 0}
+  f_Layer:
+    serializedVersion: 2
+    m_Bits: 512
+  FloorchkDistance: 0
   Windpre: {fileID: 0}
   Rainpre: {fileID: 0}
   spriteRenderer: {fileID: 0}

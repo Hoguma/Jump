@@ -291,8 +291,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 852744062d8be1c40b6f49c09e15075c, type: 3}
   - {fileID: 21300000, guid: 3ac29e9c45117a342a2dae848a57e3e7, type: 3}
   - {fileID: 21300000, guid: 769048b0bd8ab2b47af649a042a69c9a, type: 3}
-  - {fileID: 21300000, guid: a140aa99c0216cc4c91cb7627bfba3e4, type: 3}
   - {fileID: 21300000, guid: 51b262bb0cb68fe41acd4c008c31deba, type: 3}
+  - {fileID: 21300000, guid: a140aa99c0216cc4c91cb7627bfba3e4, type: 3}
   - {fileID: 21300000, guid: 3a5da8f4966ee224ebfb0c506ef4394d, type: 3}
   - {fileID: 0}
   time: 0
@@ -5465,6 +5465,11 @@ PrefabInstance:
         type: 3}
       propertyPath: FloorchkDistance
       value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290811999699538344, guid: 305be9fe8ce7b1144a649852e85eb560,
+        type: 3}
+      propertyPath: strength
+      value: 5000
       objectReference: {fileID: 0}
     - target: {fileID: 2290811999699538345, guid: 305be9fe8ce7b1144a649852e85eb560,
         type: 3}

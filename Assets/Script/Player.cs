@@ -56,9 +56,12 @@ public class Player : MonoBehaviour
 
     bool isTouch = false;
     private static Player instance = null;
-
+    Rigidbody2D rigid;
+    public float strength = 20f;
     void Awake()
     {
+        rigid = this.GetComponent<Rigidbody2D>();
+
         if (null == instance)
         {
             instance = this;
@@ -115,8 +118,6 @@ public class Player : MonoBehaviour
         //바닥 레이캐스트
         isFloor = Physics2D.Raycast(floorChk.position, Vector2.down, FloorchkDistance, f_Layer);
         Risk();
-
-        
     }
 
     private void FixedUpdate()
@@ -160,7 +161,16 @@ public class Player : MonoBehaviour
             GameManager.instance.isCharDie = true;
         }
     }
-
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        if (other.tag == "BlackHole")
+        {
+            Vector2 pos = other.transform.position;
+            float dist = Vector2.Distance(pos, transform.position);
+            Vector2 dir = ((Vector2)(transform.position) - pos).normalized;
+            rigid.velocity += -1 * ((dir * strength) / (dist + 0.001f));
+        }
+    }
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (!GameManager.instance.Titlepanel())
