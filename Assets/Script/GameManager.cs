@@ -261,7 +261,7 @@ public class GameManager : MonoBehaviour
 
         for (int i = 0; i < 5; i++)
         {
-            platforms.Add(myPlat = (GameObject)Instantiate(platformPrefab, new Vector2(Random.Range(-500f, 500f), player.transform.position.y + (384 * i + Random.Range(150f, 250f))), Quaternion.identity));
+            platforms.Add(myPlat = (GameObject)Instantiate(platformPrefab, new Vector2(Random.Range(-300f, 300f), player.transform.position.y + (384 * i + Random.Range(150f, 250f))), Quaternion.identity));
 
             lately = myPlat.transform.position;
         }

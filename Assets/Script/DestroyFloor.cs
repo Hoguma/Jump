@@ -13,7 +13,7 @@ public class DestroyFloor : MonoBehaviour
         if (collision.gameObject.CompareTag("floor"))
         {
             Destroy(collision.gameObject);
-            GameManager.instance.platforms.Add(myPlat = (GameObject)Instantiate(platformPrefab, new Vector2(Random.Range(-500f, 500f), GameManager.instance.lately.y + (384 + Random.Range(150f, 250f))), Quaternion.identity));
+            GameManager.instance.platforms.Add(myPlat = (GameObject)Instantiate(platformPrefab, new Vector2(Random.Range(-300, 300), GameManager.instance.lately.y + (384 + Random.Range(150f, 250f))), Quaternion.identity));
 
             GameManager.instance.lately = myPlat.transform.position;
         }

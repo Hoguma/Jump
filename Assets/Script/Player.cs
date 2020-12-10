@@ -130,14 +130,12 @@ public class Player : MonoBehaviour
         {
             floorChk.transform.position = new Vector3(gameObject.transform.position.x + 30.4f, gameObject.transform.position.y - 20f, 0);
             //spriteRenderer.flipX = true;
-            Debug.Log("ㅈ");
 
         }
         else if (nextMove == -1)
         {
             floorChk.transform.position = new Vector3(gameObject.transform.position.x - 30.4f, gameObject.transform.position.y - 20f, 0);
             //spriteRenderer.flipX = false;
-            Debug.Log("e");
 
         }
         #region 주석
@@ -198,7 +196,6 @@ public class Player : MonoBehaviour
             {
                 ismove = true;
                 canJump = true;
-                Debug.Log("s");
 
             }
         }
@@ -230,7 +227,6 @@ public class Player : MonoBehaviour
             ismove = false;
             canJump = false;
             //nextMove = 0;
-            Debug.Log("a");
             anim.SetBool("isJump", true);
         }
     }
