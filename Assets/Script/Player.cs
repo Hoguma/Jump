@@ -110,7 +110,10 @@ public class Player : MonoBehaviour
         if (canJump == true)
         { 
             //Touch();
-            Click(); 
+            if(GameManager.instance.isEnemyCheck == false)
+            {
+                Click(); 
+            }
         }
         for (int i = 0; i < Points.Length; i++)
         {

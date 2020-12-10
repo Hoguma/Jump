@@ -96,7 +96,7 @@ public class GameManager : MonoBehaviour
 
         for (int i = 0; i < 5; i++)
         {
-            platforms.Add(myPlat = (GameObject)Instantiate(platformPrefab, new Vector2(Random.Range(-500f, 500f), player.transform.position.y + (384 * i + Random.Range(150f, 250f))), Quaternion.identity));
+            platforms.Add(myPlat = (GameObject)Instantiate(platformPrefab, new Vector2(Random.Range(-342f, 342f), player.transform.position.y + (384 * i + Random.Range(150f, 250f))), Quaternion.identity));
             lately = myPlat.transform.position;
         }
         FloorsClone = FloorsPre;
@@ -116,7 +116,7 @@ public class GameManager : MonoBehaviour
         Debug.Log(isEnemyCheck);
         if(isEnemyCheck == true)
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonUp(0))
             {
                 isEnemyCheck = false;
                 Time.timeScale = 1f;
@@ -261,7 +261,7 @@ public class GameManager : MonoBehaviour
 
         for (int i = 0; i < 5; i++)
         {
-            platforms.Add(myPlat = (GameObject)Instantiate(platformPrefab, new Vector2(Random.Range(-300f, 300f), player.transform.position.y + (384 * i + Random.Range(150f, 250f))), Quaternion.identity));
+            platforms.Add(myPlat = (GameObject)Instantiate(platformPrefab, new Vector2(Random.Range(-342f, 342f), player.transform.position.y + (384 * i + Random.Range(150f, 250f))), Quaternion.identity));
 
             lately = myPlat.transform.position;
         }
@@ -393,7 +393,7 @@ public class GameManager : MonoBehaviour
         }
         for (int i = 0; i < 5; i++)
         {
-            platforms.Add(myPlat = (GameObject)Instantiate(platformPrefab, new Vector2(Random.Range(-500f, 500f), player.transform.position.y + (384 * i + Random.Range(150f, 250f))), Quaternion.identity));
+            platforms.Add(myPlat = (GameObject)Instantiate(platformPrefab, new Vector2(Random.Range(-342f, 342f), player.transform.position.y + (384 * i + Random.Range(150f, 250f))), Quaternion.identity));
             lately = myPlat.transform.position;
         }
         Scopos = 0;

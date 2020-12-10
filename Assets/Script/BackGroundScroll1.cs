@@ -51,7 +51,7 @@ public class BackGroundScroll1 : MonoBehaviour
         {
             Debug.Log("111");
 
-            transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x, transform.position.y + q + w + e + r + t, 0), Time.deltaTime * 900);
+            transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x, transform.position.y + q + w + e + r + t, 0), Time.deltaTime * 2000);
         }
         else
         {
