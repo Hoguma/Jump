@@ -22,7 +22,6 @@ public class Shop : MonoBehaviour
             isiGot.image.sprite = SorB[0];
             charCost.gameObject.SetActive(false);
         }
-
         else
         {
             isiGot.image.sprite = SorB[1];
@@ -42,14 +41,14 @@ public class Shop : MonoBehaviour
                 charName.text = "Black";
                 break;
             case 3:
-                charName.text = "Tired Boy";
+                charName.text = "RainBow";
                 break;
         }
     }
 
     public void Next()
     {
-        if (num + 1 < character.Length - 2)
+        if (num + 1 < character.Length)
         {
             num++;
             Player.Instance.spriteRenderer.sprite = character[num];

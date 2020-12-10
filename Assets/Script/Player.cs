@@ -260,6 +260,7 @@ public class Player : MonoBehaviour
 
         //dragStartPos = Camera.main.ScreenToWorldPoint(touch.position);
         dragStartPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
         dragStartPos.z = 0f;
 
         line.positionCount = 1;
@@ -270,8 +271,7 @@ public class Player : MonoBehaviour
             Points[i].SetActive(true);
         }
 
-        //Vector3 force = dragStartPos - Camera.main.ScreenToWorldPoint(touch.position);
-        Vector3 force = dragStartPos - Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector3 force = dragStartPos - dragStartPos;
         clampedForce = Vector3.ClampMagnitude(force, maxDrag) * power;
     }
 
@@ -284,7 +284,6 @@ public class Player : MonoBehaviour
         line.positionCount = 2;
         line.SetPosition(1, draggingPos);
 
-        //Vector3 force = dragStartPos - Camera.main.ScreenToWorldPoint(touch.position);
         Vector3 force = dragStartPos - draggingPos;
 
         clampedForce = Vector3.ClampMagnitude(force, maxDrag) * power;
@@ -365,22 +364,26 @@ public class Player : MonoBehaviour
         if (Input.touchCount > 0 && canJump == true)
         {
             touch = Input.GetTouch(0);
-
-            if (touch.phase == TouchPhase.Began)
+            if (!IsPointerOverUIObject(Input.GetTouch(0).position))
             {
-                DragStart();
-                isTouch = true;
+                if (touch.phase == TouchPhase.Began)
+                {
+                    DragStart();
+                    isTouch = true;
+                }
+                else if (touch.phase == TouchPhase.Moved && isTouch)
+                {
+                    Dragging();
+                    isTouch = true;
+                }
+                else if (touch.phase == TouchPhase.Ended && isTouch)
+                {
+                    DragRelease();
+                    isTouch = false;
+                }
+                else
+                    isTouch = false;
             }
-            else if (touch.phase == TouchPhase.Moved && isTouch)
-            {
-                Dragging();
-            }
-            else if (touch.phase == TouchPhase.Ended && isTouch)
-            {
-                DragRelease();
-            }
-            else
-                isTouch = false;
         }
     }
 
@@ -477,5 +480,21 @@ public class Player : MonoBehaviour
         {
             rigidbody.gravityScale = 384f;
         }
+    }
+
+    public bool IsPointerOverUIObject(Vector2 touchPos)
+    {
+        PointerEventData eventDataCurrentPosition
+            = new PointerEventData(EventSystem.current);
+
+        eventDataCurrentPosition.position = touchPos;
+
+        List<RaycastResult> results = new List<RaycastResult>();
+
+
+        EventSystem.current
+        .RaycastAll(eventDataCurrentPosition, results);
+
+        return results.Count > 0;
     }
 }
