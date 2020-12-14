@@ -53,7 +53,7 @@ public class Platform : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (target.transform.position.y >= transform.position.y+90)
+        if (target.transform.position.y >= transform.position.y+80)
         {
             coll.enabled = true;
         }
@@ -187,7 +187,7 @@ public class Platform : MonoBehaviour
         //{
         //    Coins[i].transform.position = CoinPosition(i * 0.1f);
         //}
-        Instantiate(CoinPre,new Vector2(transform.position.x, transform.position.y + 0.5f), Quaternion.identity, CoinsP.transform);
+        Instantiate(CoinPre,new Vector2(transform.position.x, transform.position.y + 142f), Quaternion.identity, CoinsP.transform);
     }
 
     Vector2 CoinPosition(float t)

@@ -24,6 +24,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Camera mainCam;
     public List<GameObject> platforms;
     public GameObject player;
+    public GameObject CoinView;
+    Vector2 Coinviewpos;
 
     [Header("Platform")]
     [SerializeField] private GameObject FloorsPre;
@@ -83,6 +85,7 @@ public class GameManager : MonoBehaviour
     //방해요소 전 위험요소 뜨는 시간 체크
     public bool isEnemyCheck;
     public bool isEnemyRisk;
+    public bool uichange = true;
     //방해요소
     public GameObject isCloud;
     //방해요소 블랙홀 한개 생성 삭제 시 생성 확인
@@ -109,12 +112,14 @@ public class GameManager : MonoBehaviour
             Destroy(this.gameObject);
         Instantiate(wall, new Vector3(0, 0, 0), transform.rotation);
         Instantiate(wall, new Vector3(0, 1200, 0), transform.rotation);
+
+        Coinviewpos = CoinView.transform.position;
     }
 
     private void Update()
     {
         Debug.Log(isEnemyCheck);
-        if(isEnemyCheck == true)
+        if (isEnemyCheck == true)
         {
             if (Input.GetMouseButtonUp(0))
             {
@@ -129,11 +134,11 @@ public class GameManager : MonoBehaviour
             time = 0;
         }
         //현 스테이지 변수
-        if(FScore1 < 150)
+        if (FScore1 < 150)
         {
             CurrentScore = 1;
         }
-        else if(FScore1 >= 150 && FScore1 < 300)
+        else if (FScore1 >= 150 && FScore1 < 300)
         {
             CurrentScore = 2;
         }
@@ -188,8 +193,20 @@ public class GameManager : MonoBehaviour
         if (Scopos < player.transform.position.y)
             Scopos = player.transform.position.y;
 
-        FScore1 = (int)Scopos/100;
+        FScore1 = (int)Scopos / 100;
         FScore.text = FScore1.ToString() + "m";
+
+        if (isIngamePanel && uichange)
+        {
+            CoinView.transform.position = new Vector2(CoinView.transform.position.x, CoinView.transform.position.y + 265f);
+            uichange = false;
+        }
+        else if (!isIngamePanel && !uichange)
+        {
+            CoinView.transform.position = Coinviewpos;
+            uichange = true;
+        }
+
 
         Stage();
     }
@@ -419,12 +436,12 @@ public class GameManager : MonoBehaviour
             isEnemyCheck = true;
             Time.timeScale = 0.2f;
             Enemy = Random.Range(1, 4);
+            windRL = Random.Range(0, 2);
         }
         if (isEnemyCheck == false)
         {
             if (Enemy == 1 || Enemy == 2 || Enemy == 3)
             {
-                windRL = Random.Range(0, 1);
                 if (time < 11f)
                 {
                     time += Time.deltaTime;

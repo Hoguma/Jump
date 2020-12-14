@@ -18,9 +18,9 @@ public class BackGroundScroll1 : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
-        transform.position = cmrPos.transform.position;
+        Vector3 campos = cmrPos.transform.position;
         scorel = (int)GameManager.instance.FScore1;
 
         if (GameManager.instance.FScore1 <= 150)
@@ -47,11 +47,13 @@ public class BackGroundScroll1 : MonoBehaviour
             scorel -= 600;
             t = scorel * -24.38f;
         }
+
+
         if (GameManager.instance.isEndPanel == false)
         {
             Debug.Log("111");
 
-            transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x, transform.position.y + q + w + e + r + t, 0), Time.deltaTime * 2000);
+            transform.position = /*Vector3.Lerp(transform.position,*/ new Vector3(campos.x, campos.y + q + w + e + r + t, 0);/*, Time.deltaTime * 2000);*/
         }
         else
         {

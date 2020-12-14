@@ -132,6 +132,7 @@ GameObject:
   - component: {fileID: 34687002}
   - component: {fileID: 34687004}
   - component: {fileID: 34687003}
+  - component: {fileID: 34687005}
   m_Layer: 5
   m_Name: FScore
   m_TagString: Untagged
@@ -171,7 +172,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -199,6 +200,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 34687001}
   m_CullTransparentMesh: 0
+--- !u!114 &34687005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 34687001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 4, y: 4}
+  m_UseGraphicAlpha: 1
 --- !u!1 &53088957
 GameObject:
   m_ObjectHideFlags: 0
@@ -1178,6 +1194,7 @@ MonoBehaviour:
   mainCam: {fileID: 519420031}
   platforms: []
   player: {fileID: 974366838}
+  CoinView: {fileID: 1793297472}
   FloorsPre: {fileID: 596904329}
   platformPrefab: {fileID: 8084196897667612090, guid: f08a2677f1afec441b52b27370cc88a8,
     type: 3}
@@ -1218,6 +1235,7 @@ MonoBehaviour:
   isGameRunning: 0
   isEnemyCheck: 0
   isEnemyRisk: 0
+  uichange: 0
   isCloud: {fileID: 322159051}
   isBlackTrue: 0
 --- !u!4 &369043700
@@ -1986,7 +2004,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 960
+  orthographic size: 480
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -2010,7 +2028,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 0, y: 192, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1679243708}
@@ -4113,7 +4131,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1464239268}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 815, z: 0}
+  m_LocalPosition: {x: 0, y: 192, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 265909924}
@@ -5014,7 +5032,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 375, y: 406}
+  m_AnchoredPosition: {x: 375, y: 405}
   m_SizeDelta: {x: 282, y: 90}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1793297474
