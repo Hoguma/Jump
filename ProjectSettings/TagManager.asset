@@ -13,6 +13,7 @@ TagManager:
   - Blackhole
   - Die
   - BlackHole
+  - electric
   layers:
   - Default
   - TransparentFX
@@ -28,7 +29,7 @@ TagManager:
   - effect
   - Player
   - Ground
-  - 
+  - electric
   - 
   - 
   - 
@@ -61,4 +62,7 @@ TagManager:
     locked: 0
   - name: Enemy
     uniqueID: 1801598387
+    locked: 0
+  - name: electric
+    uniqueID: 3009601231
     locked: 0

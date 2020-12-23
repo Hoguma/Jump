@@ -159,16 +159,12 @@ public class Player : MonoBehaviour
         {
             GameManager.instance.isCharDie = true;
         }
-
-        if (collision.gameObject.CompareTag("Coin"))
-        {
-            Destroy(collision.gameObject);
-            PlayerPrefs.SetInt("CoinCount", PlayerPrefs.GetInt("CoinCount") + 1);
-        }
+        //돈 삭제 위치 변경 eatCoin
         if (collision.gameObject.CompareTag("Die"))
         {
             GameManager.instance.isCharDie = true;
         }
+        
     }
 
     private void OnTriggerStay2D(Collider2D other)
@@ -190,7 +186,6 @@ public class Player : MonoBehaviour
             {
                 ismove = false;
                 anim.SetBool("isJump", true);
-
                 nextMove = 0;
                 ismove = true;
                 canJump = true;
@@ -199,14 +194,22 @@ public class Player : MonoBehaviour
             {
                 ismove = true;
                 canJump = true;
-
             }
         }
         if(collision.gameObject.CompareTag("wall"))
         {
             nextMove *= -1;
         }
-
+        if (GameManager.instance.CurrentScore == 4)
+        {
+            if (GameManager.instance.Enemy == 1)
+            {
+                if (collision.gameObject.CompareTag("wall"))
+                {
+                    GameManager.instance.isCharDie = true;
+                }
+            }
+        }
     }
 
     private void OnCollisionStay2D(Collision2D collision)
