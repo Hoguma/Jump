@@ -19,8 +19,8 @@ public class CameraManager : MonoBehaviour
     {
         if (!GameManager.instance.IsGameRunning())
         {
-            cam.orthographicSize = 480f;
-            transform.position = new Vector3(0, 192f, transform.position.z);
+            cam.orthographicSize = 250;
+            transform.position = new Vector3(0, 38f, transform.position.z);
             isMove = true;
         }
         else

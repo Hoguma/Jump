@@ -51,13 +51,11 @@ public class BackGroundScroll1 : MonoBehaviour
 
         if (GameManager.instance.isEndPanel == false)
         {
-            Debug.Log("111");
 
             transform.position = /*Vector3.Lerp(transform.position,*/ new Vector3(campos.x, campos.y + q + w + e + r + t, 0);/*, Time.deltaTime * 2000);*/
         }
         else
         {
-            Debug.Log("sex");
             scorel = 0;
             q = 0f;
             w = 0f;

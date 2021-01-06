@@ -1,13 +1,23 @@
-﻿using System.Collections;
+﻿using GooglePlayGames;
+using GooglePlayGames.BasicApi;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Tracing;
 using UnityEngine;
 using UnityEngine.UI;
-
+using BackEnd;
+using BackEnd.Tcp;
+using UnityEngine.Assertions.Must;
 
 public class GameManager : MonoBehaviour
 {
+
+
     private static GameManager _instance = null;
+    bool isSuccess = false;
+    string inDate;
+    BackendReturnObject bro;
+
     public int Enemy;
     public bool isCharDie = false;
     public static GameManager instance
@@ -61,11 +71,17 @@ public class GameManager : MonoBehaviour
 
     [Header("GameOver")]
     [SerializeField] private GameObject EndPanel;
+    public Text bestScoreTxt;
     public bool isEndPanel = false;
 
     [Header("Shop")]
     [SerializeField] private GameObject ShopPanel;
     public bool isShopPanel = false;
+
+    [Header("Login")]
+    [SerializeField] private GameObject LoginPanel;
+    public bool isLoginPanel = true;
+    public InputField id, pass;
 
     [Header("Wall")]
     [SerializeField] private GameObject Walls;
@@ -77,7 +93,7 @@ public class GameManager : MonoBehaviour
     public Text EScore;
     public Image stagePanel = null;
     public float Scopos;
-    public float FScore1;
+    public int FScore1;
     public int fade = 0;
 
     public bool isFaded = false;
@@ -116,9 +132,33 @@ public class GameManager : MonoBehaviour
         Coinviewpos = CoinView.transform.position;
     }
 
+    private void Start()
+    {
+        Backend.Initialize(HandleBackendCallBack);
+        GoolglePlayInit();
+
+
+        Backend.BMember.LoginWithTheBackendToken((callback) =>
+        {
+            
+        });
+    }
+
+    private void HandleBackendCallBack()
+    {
+        if (Backend.IsInitialized)
+        {
+            Debug.Log("서버 초기화 완료" + Backend.Utils.GetGoogleHash());
+        }
+        else
+        {
+            Debug.Log("서버 초기화 실패");
+        }
+    }
+
+
     private void Update()
     {
-        Debug.Log(isEnemyCheck);
         if (isEnemyCheck == true)
         {
             if (Input.GetMouseButtonUp(0))
@@ -183,7 +223,41 @@ public class GameManager : MonoBehaviour
                 Destroy(Player.Instance.Risks.transform.GetChild(i).gameObject);
             }
             EScore.text = FScore1.ToString() + "m";
-            //Debug.Log(isEndPanel);
+
+            Where where = new Where();
+            where.Equal("Name", inDate);
+            Backend.GameSchemaInfo.Get("Score", where, 1, callback1 =>
+            {
+                if (callback1.IsSuccess())
+                {
+                    if (int.Parse(callback1.Rows()[0]["HighScore"]["N"].ToString()) < FScore1)
+                    {
+                        Social.ReportScore(FScore1, GPGSIds.leaderboard_ranking, (bool success) => { });
+                        bestScoreTxt.text = FScore1.ToString() + "m";
+                        Param where1 = new Param();
+                        where1.Add("Name", inDate);
+
+                        Param param = new Param();
+                        param.Add("HighScore", FScore1);
+
+                        Backend.GameSchemaInfo.Update("Score", where1, param, (callback) =>
+                        {
+                            if (callback.IsSuccess())
+                            {
+                                Debug.Log(inDate);
+                                Debug.Log("최고기록 갱신");
+                            }
+                            else
+                            {
+                                Debug.Log(callback);
+                                Debug.Log(inDate);
+                            }
+                        });
+                    }
+                }
+                else
+                    Debug.Log(callback1);
+            });
         }
         //이벤트 블랙홀 실행 요건
         if (GameManager.instance.isCharDie == true)
@@ -198,7 +272,7 @@ public class GameManager : MonoBehaviour
 
         if (isIngamePanel && uichange)
         {
-            CoinView.transform.position = new Vector2(CoinView.transform.position.x, CoinView.transform.position.y + 265f);
+            CoinView.transform.position = new Vector2(CoinView.transform.position.x, CoinView.transform.position.y + 450f);
             uichange = false;
         }
         else if (!isIngamePanel && !uichange)
@@ -246,7 +320,7 @@ public class GameManager : MonoBehaviour
 
     public void MainUIChange()
     {
-        
+
         isTitlePanel = !isTitlePanel;
         TitlePanel.SetActive(isTitlePanel);
         isIngamePanel = !isIngamePanel;
@@ -301,6 +375,8 @@ public class GameManager : MonoBehaviour
         isCharDie = false;
         EndPanel.SetActive(isEndPanel);
         MainUI.SetActive(!isEndPanel);
+        //if(Random.Range(0, 2) == 0)
+        AdmobManager.instance.ShowFrontAd();
     }
 
     public void EPanelTitle()
@@ -339,7 +415,7 @@ public class GameManager : MonoBehaviour
 
     public void Stage()
     {
-        if(FScore1 < 150)
+        if (FScore1 < 150)
         {
             fade = 0;
         }
@@ -465,7 +541,7 @@ public class GameManager : MonoBehaviour
 
     public void Pause()
     {
-        if(!isPausePanel)
+        if (!isPausePanel)
         {
             isPausePanel = true;
             Time.timeScale = 0.0f;
@@ -522,4 +598,327 @@ public class GameManager : MonoBehaviour
         ShopPanel.SetActive(isShopPanel);
         TitlePanel.SetActive(!isShopPanel);
     }
+
+    public void OnClickSignUp()
+    {
+        Backend.BMember.CustomSignUp(id.text, pass.text, callback =>
+        {
+            if (callback.IsSuccess())
+            {
+                Debug.Log("회원가입 성공");
+                Backend.BMember.CreateNickname(id.text, callback1 =>
+                {
+                    if (callback1.IsSuccess())
+                    {
+                        Debug.Log("사용가능한 닉네임입니다.");
+                    }
+                    else
+                    {
+                        Debug.Log("중복된 닉네임입니다.");
+                    }
+                });
+            }
+            else
+            {
+                Debug.Log("회원가입 실패");
+            }
+        });
+    }
+
+    public void OnClickLogin()
+    {
+        Backend.BMember.CustomLogin(id.text, pass.text, callback =>
+        {
+            if (callback.IsSuccess())
+            {
+                Debug.Log("로그인 성공");
+                LoginPanel.SetActive(false);
+                bro = Backend.BMember.GetUserInfo();
+                inDate = bro.GetReturnValuetoJSON()["row"]["nickname"].ToString();
+                if (bro.IsSuccess())
+                {
+                    Where param = new Where();
+                    param.Equal("Name", inDate);
+                    Backend.GameSchemaInfo.Get("Score", param, 1, callback1 =>
+                    {
+                        if (callback1.IsSuccess())
+                        {
+                            bestScoreTxt.text = callback1.Rows()[0]["HighScore"]["N"].ToString() + "m";
+                            Debug.Log("정보 불러오기 성공");
+                        }
+                        else
+                        {
+                            bro = Backend.GameSchemaInfo.Insert("Score");
+                            Param param1 = new Param();
+                            param1.Add("Name", inDate);
+                            Backend.GameSchemaInfo.Update("Score", bro.GetInDate(), param1);
+                            Debug.Log("정보 불러오기 실패");
+                        }
+                    });
+                }
+                else
+                    Debug.Log(bro);
+            }
+            else
+            {
+                Debug.Log("로그인 실패");
+            }
+        });
+    }
+
+    private void RankUpdate()
+    {
+        Backend.GameSchemaInfo.Get("Score", "HighScore", callback =>
+        {
+            if (callback.IsSuccess())
+            {
+                Backend.GameInfo.UpdateRTRankTable("Score", "HighScore", callback.GetInDate(), FScore1, callback1 =>
+                {
+                    if (callback1.IsSuccess())
+                    {
+                        Debug.Log("랭킹 업데이트 완료");
+                    }
+                    else
+                    {
+                        Debug.LogError(int.Parse(callback1.GetStatusCode()));
+                    }
+                });
+            }
+            else
+            {
+                Backend.GameSchemaInfo.Insert("Score", callback3 =>
+                {
+                    if (callback3.IsSuccess())
+                    {
+                        Debug.Log("랭킹 정보 입력됨");
+                        Backend.GameInfo.UpdateRTRankTable("Score", "HighScore", callback.GetInDate(), FScore1, callback2 =>
+                        {
+                            if (callback2.IsSuccess())
+                            {
+                                Debug.Log("랭킹 업데이트 완료");
+                            }
+                            else
+                            {
+                                Debug.LogError(int.Parse(callback2.GetStatusCode()));
+                            }
+                        });
+                    }
+
+                });
+            }
+        });
+    }
+
+    private void GoolglePlayInit()
+    {
+        PlayGamesClientConfiguration config = new PlayGamesClientConfiguration
+            .Builder()
+            .RequestServerAuthCode(false)
+            .RequestEmail()
+            .RequestIdToken()
+            .Build();
+
+        PlayGamesPlatform.InitializeInstance(config);
+        PlayGamesPlatform.DebugLogEnabled = true;
+
+        PlayGamesPlatform.Activate();
+
+        GPGSLogin();
+    }
+
+    private void GoogleAuth()
+    {
+        if (PlayGamesPlatform.Instance.localUser.authenticated == false)
+        {
+            Social.localUser.Authenticate(success =>
+            {
+                if (success == false)
+                {
+                    Debug.Log("구글 로그인 실패");
+                    return;
+                }
+
+                Debug.Log("구글 로그인 성공");
+                Debug.Log("Email : " + PlayGamesPlatform.Instance.GetIdToken());
+                Debug.Log("GoogleId : " + ((PlayGamesLocalUser)Social.localUser).Email);
+                Debug.Log("UserName : " + Social.localUser.userName);
+                Debug.Log("UserName : " + PlayGamesPlatform.Instance.GetUserDisplayName());
+            });
+        }
+    }
+
+    public string GetTokens()
+    {
+        if (PlayGamesPlatform.Instance.localUser.authenticated)
+        {
+            // 유저 토큰 받기 첫번째 방법
+            string _IDtoken = PlayGamesPlatform.Instance.GetIdToken();
+            // 두번째 방법
+            // string _IDtoken = ((PlayGamesLocalUser)Social.localUser).GetIdToken();
+            return _IDtoken;
+        }
+        else
+        {
+            Debug.Log("접속되어있지 않습니다. PlayGamesPlatform.Instance.localUser.authenticated :  fail");
+            return null;
+        }
+    }
+
+    public void GPGSLogin()
+    {
+        // 이미 로그인 된 경우
+        if (Social.localUser.authenticated == true)
+        {
+            BackendReturnObject BRO = Backend.BMember.AuthorizeFederation(GetTokens(), FederationType.Google, "gpgs");
+            if (BRO.IsSuccess())
+            {
+                Debug.Log("뒤끝 연동 완료");
+                bro = Backend.BMember.GetUserInfo();
+                inDate = bro.GetReturnValuetoJSON()["row"]["nickname"].ToString();
+                if (bro.IsSuccess())
+                {
+                    Where param = new Where();
+                    param.Equal("Name", inDate);
+                    Backend.GameSchemaInfo.Get("Score", param, 1, callback1 =>
+                    {
+                        if (callback1.IsSuccess())
+                        {
+                            bestScoreTxt.text = callback1.Rows()[0]["HighScore"]["N"].ToString() + "m";
+                            Debug.Log("정보 불러오기 성공");
+                        }
+                        else
+                        {
+                            bro = Backend.GameSchemaInfo.Insert("Score");
+                            Param param1 = new Param();
+                            param1.Add("Name", inDate);
+                            Backend.GameSchemaInfo.Update("Score", bro.GetInDate(), param1);
+                            Debug.Log("정보 불러오기 실패");
+                        }
+                    });
+                }
+                else
+                    Debug.Log(bro);
+            }
+            else
+                Debug.Log("뒤끝 연동 실패");
+            Debug.Log("구글 로그인 성공");
+            Debug.Log("Email : " + PlayGamesPlatform.Instance.GetIdToken());
+            Debug.Log("GoogleId : " + ((PlayGamesLocalUser)Social.localUser).Email);
+            Debug.Log("UserName : " + Social.localUser.userName);
+            Debug.Log("UserName : " + PlayGamesPlatform.Instance.GetUserDisplayName());
+        }
+        else
+        {
+            Social.localUser.Authenticate((bool success) =>
+            {
+                if (success)
+                {
+                    // 로그인 성공 -> 뒤끝 서버에 획득한 구글 토큰으로 가입요청
+                    BackendReturnObject BRO = Backend.BMember.AuthorizeFederation(GetTokens(), FederationType.Google, "gpgs");
+                    if (BRO.IsSuccess())
+                    {
+                        Debug.Log("뒤끝 연동 완료");
+                        bro = Backend.BMember.GetUserInfo();
+                        inDate = bro.GetReturnValuetoJSON()["row"]["nickname"].ToString();
+                        if (bro.IsSuccess())
+                        {
+                            Where param = new Where();
+                            param.Equal("Name", inDate);
+                            Backend.GameSchemaInfo.Get("Score", param, 1, callback1 =>
+                            {
+                                if (callback1.IsSuccess())
+                                {
+                                    bestScoreTxt.text = callback1.Rows()[0]["HighScore"]["N"].ToString() + "m";
+                                    Debug.Log("정보 불러오기 성공");
+                                }
+                                else
+                                {
+                                    bro = Backend.GameSchemaInfo.Insert("Score");
+                                    Param param1 = new Param();
+                                    param1.Add("Name", inDate);
+                                    Backend.GameSchemaInfo.Update("Score", bro.GetInDate(), param1);
+                                    Debug.Log("정보 불러오기 실패");
+                                }
+                            });
+                        }
+                        else
+                            Debug.Log(bro);
+                    }
+                    else
+                        Debug.Log(BRO);
+                    Debug.Log("구글 로그인 성공");
+                    Debug.Log("Email : " + PlayGamesPlatform.Instance.GetIdToken());
+                    Debug.Log("GoogleId : " + ((PlayGamesLocalUser)Social.localUser).Email);
+                    Debug.Log("UserName : " + Social.localUser.userName);
+                    Debug.Log("UserName : " + PlayGamesPlatform.Instance.GetUserDisplayName());
+                }
+                else
+                {
+                    // 로그인 실패
+                    Debug.Log("Login failed for some reason");
+                }
+            });
+        }
+    }
+
+    public void OnGpgsLogin()
+    {
+        BackendReturnObject _bro = Backend.BMember.AuthorizeFederation(GetTokens(), FederationType.Google, "GPGS");
+        if (_bro.IsSuccess())
+        {
+            Debug.Log("구글 뒤끝 로그인 성공");
+        }
+        else
+        {
+            Debug.Log("구글 뒤끝 로그인 실패");
+        }
+    }
+
+    public void OnUpdateEmail()
+    {
+        BackendReturnObject _bro = Backend.BMember.UpdateFederationEmail(GetTokens(), FederationType.Google);
+        if (_bro.IsSuccess())
+        {
+            Debug.Log("이메일 주소 저장 성공");
+        }
+        else
+        {
+            Debug.Log("이메일 주소 저장 실패");
+        }
+    }
+
+    public void OnCheckUserAuth()
+    {
+        BackendReturnObject _bro = Backend.BMember.CheckUserInBackend(GetTokens(), FederationType.Google);
+        if (_bro.GetStatusCode() == "200")
+        {
+            Debug.Log("가입되어있는 계정입니다.");
+        }
+        else
+        {
+            Debug.Log("가입되어있지 않은 계정입니다.");
+        }
+    }
+
+    public void OnChangeCustom2Fed()
+    {
+        BackendReturnObject _bro = Backend.BMember.ChangeCustomToFederation(GetTokens(), FederationType.Google);
+        if (_bro.IsSuccess())
+        {
+            Debug.Log("구글계정으로 변경 완료");
+        }
+        else
+        {
+            Debug.Log("구글계정으로 변경 실패");
+        }
+    }
+
+    public void ShowLeaderBorad()
+    {
+        Social.ShowLeaderboardUI();
+    }
 }
+
+
+
+

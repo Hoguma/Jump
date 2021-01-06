@@ -108,11 +108,11 @@ public class Player : MonoBehaviour
     {
         CheckStatus();
         if (canJump == true)
-        { 
-            //Touch();
+        {
             if(GameManager.instance.isEnemyCheck == false)
             {
-                Click(); 
+                Click();
+                //Touch();
             }
         }
         for (int i = 0; i < Points.Length; i++)
@@ -131,13 +131,13 @@ public class Player : MonoBehaviour
     {
         if (nextMove == 1)
         {
-            floorChk.transform.position = new Vector3(gameObject.transform.position.x + 30.4f, gameObject.transform.position.y - 20f, 0);
+            floorChk.transform.position = new Vector3(gameObject.transform.position.x + 30.4f, gameObject.transform.position.y - 52f, 0);
             //spriteRenderer.flipX = true;
 
         }
         else if (nextMove == -1)
         {
-            floorChk.transform.position = new Vector3(gameObject.transform.position.x - 30.4f, gameObject.transform.position.y - 20f, 0);
+            floorChk.transform.position = new Vector3(gameObject.transform.position.x - 30.4f, gameObject.transform.position.y - 52f, 0);
             //spriteRenderer.flipX = false;
 
         }
@@ -387,8 +387,10 @@ public class Player : MonoBehaviour
                     DragRelease();
                     isTouch = false;
                 }
-                else
+                else if (touch.phase == TouchPhase.Canceled && isTouch)
+                { 
                     isTouch = false;
+                }
             }
         }
     }
@@ -407,12 +409,12 @@ public class Player : MonoBehaviour
             {
                 if (nextMove == 1)
                 {
-                    floorChk.transform.position = new Vector3(transform.position.x - 30.4f, transform.position.y - 20f, 0);
+                    floorChk.transform.position = new Vector3(transform.position.x - 30.4f, transform.position.y - 52f, 0);
                     nextMove = -1;
                 }
                 else if (nextMove == -1)
                 {
-                    floorChk.transform.position = new Vector3(transform.position.x + 30.4f, transform.position.y - 20f, 0);
+                    floorChk.transform.position = new Vector3(transform.position.x + 30.4f, transform.position.y - 52f, 0);
                     nextMove = 1;
                 }
             }

@@ -10,7 +10,8 @@ public class Shop : MonoBehaviour
     public bool[] igotthis;
     public Button isiGot;
     public Sprite[] SorB;
-    public Text charName;
+    public Sprite[] charName;
+    public Image nametag;
     public Text charCost;
 
     int num = 0;
@@ -28,22 +29,6 @@ public class Shop : MonoBehaviour
             charCost.gameObject.SetActive(true);
             charCost.text = "1";
         }
-
-        switch(num)
-        {
-            case 0:
-                charName.text = "White";
-                break;
-            case 1:
-                charName.text = "BoxMan";
-                break;
-            case 2:
-                charName.text = "Black";
-                break;
-            case 3:
-                charName.text = "RainBow";
-                break;
-        }
     }
 
     public void Next()
@@ -53,6 +38,7 @@ public class Shop : MonoBehaviour
             num++;
             Player.Instance.spriteRenderer.sprite = character[num];
             Player.Instance.anim.runtimeAnimatorController = animators[num];
+            nametag.sprite = charName[num];
         }
     }
 
@@ -63,6 +49,7 @@ public class Shop : MonoBehaviour
             num--;
             Player.Instance.spriteRenderer.sprite = character[num];
             Player.Instance.anim.runtimeAnimatorController = animators[num];
+            nametag.sprite = charName[num];
         }
     }
     

@@ -53,7 +53,7 @@ public class Platform : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (target.transform.position.y >= transform.position.y+80)
+        if (target.transform.position.y >= transform.position.y+113)
         {
             coll.enabled = true;
         }
