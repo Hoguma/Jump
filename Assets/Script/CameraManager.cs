@@ -10,9 +10,23 @@ public class CameraManager : MonoBehaviour
 
     private bool isMove = true;
 
-    private void Start()
+    private void Awake()
     {
         cam = GetComponent<Camera>();
+        Rect rect = cam.rect;
+        float scaleheight = ((float)Screen.width / Screen.height) / ((float)9 / 16);
+        float scaleWidth = 1f / scaleheight;
+        if (scaleheight < 1)
+        {
+            rect.height = scaleheight;
+            rect.y = (1f - scaleheight) / 2f;
+        }
+        else
+        {
+            rect.width = scaleWidth;
+            rect.x = (1f - scaleWidth) / 2f;
+        }
+        cam.rect = rect;
     }
 
     private void Update()

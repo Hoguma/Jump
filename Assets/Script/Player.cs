@@ -120,8 +120,8 @@ public class Player : MonoBehaviour
         {
             if(GameManager.instance.isEnemyCheck == false)
             {
-                Click();
-                //Touch();
+                //Click();
+                Touch();
             }
         }
         for (int i = 0; i < Points.Length; i++)
@@ -460,10 +460,10 @@ public class Player : MonoBehaviour
                 rigidbody.mass = 3;
                 slidingSpeed = 0.5f;
                 RiskOnce = true;
-                //LWindpre.SetActive(false);
-                //RWindpre.SetActive(false);
-                //Rainpre1.SetActive(false);
-                //Snowpre.SetActive(false);
+                LWindpre.SetActive(false);
+                RWindpre.SetActive(false);
+                Rainpre1.SetActive(false);
+                Snowpre.SetActive(false);
 
             }
             else if (GameManager.instance.Enemy == 1)

@@ -18,15 +18,28 @@ public class AdmobManager : MonoBehaviour
             return _instance;
         }
     }
+
+    private void Awake()
+    {
+        if (_instance == null)
+        {
+            _instance = this;
+        }
+        else
+            Destroy(this.gameObject);
+    }
+
     void Start()
     {
+
         LoadFrontAd();
         LoadRewardAd();
     }
 
     AdRequest GetAdRequest()
     {
-        return new AdRequest.Builder().AddTestDevice("17F8A70AFCFE114").Build();
+        Debug.Log("AdRequest");
+        return new AdRequest.Builder().AddTestDevice("17F8A70AFCFE114").AddTestDevice("C9D12CC89E48B898").AddTestDevice("A4EF468A1BC5516D").AddTestDevice("4760F000CD4CA4C5").Build();
     }
 
     #region 전면 광고
@@ -38,14 +51,17 @@ public class AdmobManager : MonoBehaviour
     void LoadFrontAd()
     {
         frontAd = new InterstitialAd(isTestMode ? frontTestID : frontID);
+        Debug.Log(frontAd);
         frontAd.LoadAd(GetAdRequest());
         frontAd.OnAdClosed += (sender, e) =>
         {
+            Debug.Log("Ad End");
         };
     }
 
     public void ShowFrontAd()
     {
+        Debug.Log("FrontAd");
         frontAd.Show();
         LoadFrontAd();
     }
