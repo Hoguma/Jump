@@ -16,6 +16,10 @@ public class Shop : MonoBehaviour
 
     int num = 0;
 
+    //사운드
+    public AudioSource myFx;
+    public AudioClip clickSound;
+
     public void Update()
     {
         if (igotthis[num])
@@ -33,6 +37,7 @@ public class Shop : MonoBehaviour
 
     public void Next()
     {
+        UiClickSound();
         if (num + 1 < character.Length)
         {
             num++;
@@ -44,6 +49,7 @@ public class Shop : MonoBehaviour
 
     public void Prev()
     {
+        UiClickSound();
         if (num - 1 >= 0)
         {
             num--;
@@ -55,6 +61,7 @@ public class Shop : MonoBehaviour
     
     public void Select()
     {
+        UiClickSound();
         if (igotthis[num] == true)
             GameManager.instance.ShopOnOff();
         else
@@ -69,5 +76,9 @@ public class Shop : MonoBehaviour
                 return;
             }
         }
+    }
+    public void UiClickSound()
+    {
+        myFx.PlayOneShot(clickSound);
     }
 }

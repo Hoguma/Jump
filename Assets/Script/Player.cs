@@ -44,11 +44,16 @@ public class Player : MonoBehaviour
     public float FloorchkDistance;
 
 
-    //블랙홀
+    //방해요소 이팩트
     private GameObject whirlPool;
     public GameObject Windpre;
-    public GameObject Rainpre;
+    public GameObject Rainpre1;
     public GameObject Risks;
+
+    public GameObject LWindpre;
+    public GameObject RWindpre;
+    public GameObject Rainpre;
+    public GameObject Snowpre;
 
     //에니메이션 반대
     public SpriteRenderer spriteRenderer;
@@ -59,6 +64,10 @@ public class Player : MonoBehaviour
     private static Player instance = null;
     Rigidbody2D rigid;
     public float strength = 20f;
+
+    //사운드
+    public AudioSource myFx;
+    public AudioClip JunpSound;
 
     void Awake()
     {
@@ -125,6 +134,7 @@ public class Player : MonoBehaviour
         //바닥 레이캐스트
         isFloor = Physics2D.Raycast(floorChk.position, Vector2.down, FloorchkDistance, f_Layer);
         Risk();
+        
     }
 
     private void FixedUpdate()
@@ -359,6 +369,7 @@ public class Player : MonoBehaviour
             {
                 //클릭 처리
                 DragRelease();
+                JumpSound();
             }
         }
         else
@@ -449,25 +460,40 @@ public class Player : MonoBehaviour
                 rigidbody.mass = 3;
                 slidingSpeed = 0.5f;
                 RiskOnce = true;
+                //LWindpre.SetActive(false);
+                //RWindpre.SetActive(false);
+                //Rainpre1.SetActive(false);
+                //Snowpre.SetActive(false);
+
             }
             else if (GameManager.instance.Enemy == 1)
             {
                 if (GameManager.instance.isEnemyRisk == false)
                 {
                     if (GameManager.instance.windRL == 1 && canJump == false)
+                    {
                         rigidbody.velocity = new Vector2(rigidbody.velocity.x + -4.8f, rigidbody.velocity.y);
+                        RWindpre.SetActive(true);
+                        LWindpre.SetActive(false);
+                    }
                     else
+                    {
                         rigidbody.velocity = new Vector2(rigidbody.velocity.x + 4.8f, rigidbody.velocity.y);
-                    if(RiskOnce)
-                    { Destroy(Instantiate(Windpre, Risks.transform), 10); RiskOnce = false; }
+                        LWindpre.SetActive(true);
+                        RWindpre.SetActive(false);
+                    }
+                    //if (RiskOnce)
+                    //{ Destroy(Instantiate(Windpre, Risks.transform), 10); RiskOnce = false; }
+
                 }
             }
             else if (GameManager.instance.Enemy == 2)
             {
                 if (GameManager.instance.isEnemyRisk == false)
                 {
-                    if (RiskOnce)
-                    { Destroy(Instantiate(Rainpre, Risks.transform), 10); RiskOnce = false; }
+                    Rainpre1.SetActive(true);
+                    //if (RiskOnce)
+                    //{ Destroy(Instantiate(Rainpre, Risks.transform), 10); RiskOnce = false; }
                     rigidbody.mass = 4.5f;
                 }
             }
@@ -475,10 +501,12 @@ public class Player : MonoBehaviour
             {
                 if (GameManager.instance.isEnemyRisk == false)
                 {
+                    Snowpre.SetActive(true);
                     slidingSpeed = 0.9f;
                 }
             }
         }
+    
         //플레이어 중력
         if (GameManager.instance.CurrentScore == 5)
         {
@@ -505,4 +533,13 @@ public class Player : MonoBehaviour
 
         return results.Count > 0;
     }
+
+    public void JumpSound()
+    {
+        if (GameManager.instance.isSoundon == true)
+        {
+            myFx.PlayOneShot(JunpSound);
+        }
+    }
+    
 }
