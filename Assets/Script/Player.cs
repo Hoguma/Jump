@@ -396,6 +396,7 @@ public class Player : MonoBehaviour
                 else if (touch.phase == TouchPhase.Ended && isTouch)
                 {
                     DragRelease();
+                    JumpSound();
                     isTouch = false;
                 }
                 else if (touch.phase == TouchPhase.Canceled && isTouch)

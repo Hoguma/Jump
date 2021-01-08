@@ -1635,13 +1635,17 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 1b5cdee81fc2df74291ad1077b8c8efe, type: 3}
   - {fileID: 21300000, guid: a7a851470af2ba24998558100f181e29, type: 3}
   - {fileID: 21300000, guid: a5dcbba3ac3b33841a067241003d7bdb, type: 3}
+  - {fileID: 21300000, guid: c567615ebb5cf384085a6c5ae120c513, type: 3}
+  - {fileID: 21300000, guid: 7dec23766fdc4f24ba54d192f0b9536e, type: 3}
   animators:
   - {fileID: 9100000, guid: d373152d196d3fe48af1420ea2210236, type: 2}
   - {fileID: 9100000, guid: 2a1baf7386a262a4ebfd1841880f780e, type: 2}
   - {fileID: 9100000, guid: 6c3eb023601dcbe4d9a87cbe2749c290, type: 2}
   - {fileID: 9100000, guid: 2b40d014e708a104aba7a17008ef804e, type: 2}
   - {fileID: 9100000, guid: a14ed73bb9492ae4ebf56710e2a3f4c7, type: 2}
-  igotthis: 0100000000
+  - {fileID: 9100000, guid: 08689a778d694924fb69d8e58e5bb81f, type: 2}
+  - {fileID: 9100000, guid: abc2967a78e280c4faab0b3d20f24e6f, type: 2}
+  igotthis: 01000000000000
   isiGot: {fileID: 428267588}
   SorB:
   - {fileID: 21300000, guid: 661eed13e16d40e44b8b01ca518e2b14, type: 3}
@@ -1652,6 +1656,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 62ba1b9e8ab7d0048b80cb3e2a109b95, type: 3}
   - {fileID: 21300000, guid: 5bbc1d9e73a198741a3faed3dc41f497, type: 3}
   - {fileID: 21300000, guid: bb2fcfc11cff67549abc92c01edf39b7, type: 3}
+  - {fileID: 21300000, guid: d9bf47b1fb7afe74097fc6b6f2c3b6dc, type: 3}
+  - {fileID: 21300000, guid: bdea6e8cc3506ef4fb639cea11633bc5, type: 3}
   nametag: {fileID: 844248853}
   charCost: {fileID: 1158770498}
   myFx: {fileID: 373671901}
@@ -16264,7 +16270,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1730431090
 MonoBehaviour:
   m_ObjectHideFlags: 0
