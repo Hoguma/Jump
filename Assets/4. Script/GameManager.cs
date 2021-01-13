@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
     bool isSuccess = false;
     string inDate;
     BackendReturnObject bro;
-
+    
     public int Enemy;
     public bool isCharDie = false;
     public static GameManager instance
@@ -142,7 +142,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         Backend.Initialize(HandleBackendCallBack);
-        GoolglePlayInit();
+        //GoolglePlayInit();
 
 
         Backend.BMember.LoginWithTheBackendToken((callback) =>
@@ -615,321 +615,321 @@ public class GameManager : MonoBehaviour
         TitlePanel.SetActive(!isShopPanel);
     }
 
-    public void OnClickSignUp()
-    {
-        Backend.BMember.CustomSignUp(id.text, pass.text, callback =>
-        {
-            if (callback.IsSuccess())
-            {
-                Debug.Log("회원가입 성공");
-                Backend.BMember.CreateNickname(id.text, callback1 =>
-                {
-                    if (callback1.IsSuccess())
-                    {
-                        Debug.Log("사용가능한 닉네임입니다.");
-                    }
-                    else
-                    {
-                        Debug.Log("중복된 닉네임입니다.");
-                    }
-                });
-            }
-            else
-            {
-                Debug.Log("회원가입 실패");
-            }
-        });
-    }
+    //public void OnClickSignUp()
+    //{
+    //    Backend.BMember.CustomSignUp(id.text, pass.text, callback =>
+    //    {
+    //        if (callback.IsSuccess())
+    //        {
+    //            Debug.Log("회원가입 성공");
+    //            Backend.BMember.CreateNickname(id.text, callback1 =>
+    //            {
+    //                if (callback1.IsSuccess())
+    //                {
+    //                    Debug.Log("사용가능한 닉네임입니다.");
+    //                }
+    //                else
+    //                {
+    //                    Debug.Log("중복된 닉네임입니다.");
+    //                }
+    //            });
+    //        }
+    //        else
+    //        {
+    //            Debug.Log("회원가입 실패");
+    //        }
+    //    });
+    //}
 
-    public void OnClickLogin()
-    {
-        Backend.BMember.CustomLogin(id.text, pass.text, callback =>
-        {
-            if (callback.IsSuccess())
-            {
-                Debug.Log("로그인 성공");
-                LoginPanel.SetActive(false);
-                bro = Backend.BMember.GetUserInfo();
-                inDate = bro.GetReturnValuetoJSON()["row"]["nickname"].ToString();
-                if (bro.IsSuccess())
-                {
-                    Where param = new Where();
-                    param.Equal("Name", inDate);
-                    Backend.GameSchemaInfo.Get("Score", param, 1, callback1 =>
-                    {
-                        if (callback1.IsSuccess())
-                        {
-                            bestScoreTxt.text = callback1.Rows()[0]["HighScore"]["N"].ToString() + "m";
-                            Debug.Log("정보 불러오기 성공");
-                        }
-                        else
-                        {
-                            bro = Backend.GameSchemaInfo.Insert("Score");
-                            Param param1 = new Param();
-                            param1.Add("Name", inDate);
-                            Backend.GameSchemaInfo.Update("Score", bro.GetInDate(), param1);
-                            Debug.Log("정보 불러오기 실패");
-                        }
-                    });
-                }
-                else
-                    Debug.Log(bro);
-            }
-            else
-            {
-                Debug.Log("로그인 실패");
-            }
-        });
-    }
+    //public void OnClickLogin()
+    //{
+    //    Backend.BMember.CustomLogin(id.text, pass.text, callback =>
+    //    {
+    //        if (callback.IsSuccess())
+    //        {
+    //            Debug.Log("로그인 성공");
+    //            LoginPanel.SetActive(false);
+    //            bro = Backend.BMember.GetUserInfo();
+    //            inDate = bro.GetReturnValuetoJSON()["row"]["nickname"].ToString();
+    //            if (bro.IsSuccess())
+    //            {
+    //                Where param = new Where();
+    //                param.Equal("Name", inDate);
+    //                Backend.GameSchemaInfo.Get("Score", param, 1, callback1 =>
+    //                {
+    //                    if (callback1.IsSuccess())
+    //                    {
+    //                        bestScoreTxt.text = callback1.Rows()[0]["HighScore"]["N"].ToString() + "m";
+    //                        Debug.Log("정보 불러오기 성공");
+    //                    }
+    //                    else
+    //                    {
+    //                        bro = Backend.GameSchemaInfo.Insert("Score");
+    //                        Param param1 = new Param();
+    //                        param1.Add("Name", inDate);
+    //                        Backend.GameSchemaInfo.Update("Score", bro.GetInDate(), param1);
+    //                        Debug.Log("정보 불러오기 실패");
+    //                    }
+    //                });
+    //            }
+    //            else
+    //                Debug.Log(bro);
+    //        }
+    //        else
+    //        {
+    //            Debug.Log("로그인 실패");
+    //        }
+    //    });
+    //}
 
-    private void RankUpdate()
-    {
-        Backend.GameSchemaInfo.Get("Score", "HighScore", callback =>
-        {
-            if (callback.IsSuccess())
-            {
-                Backend.GameInfo.UpdateRTRankTable("Score", "HighScore", callback.GetInDate(), FScore1, callback1 =>
-                {
-                    if (callback1.IsSuccess())
-                    {
-                        Debug.Log("랭킹 업데이트 완료");
-                    }
-                    else
-                    {
-                        Debug.LogError(int.Parse(callback1.GetStatusCode()));
-                    }
-                });
-            }
-            else
-            {
-                Backend.GameSchemaInfo.Insert("Score", callback3 =>
-                {
-                    if (callback3.IsSuccess())
-                    {
-                        Debug.Log("랭킹 정보 입력됨");
-                        Backend.GameInfo.UpdateRTRankTable("Score", "HighScore", callback.GetInDate(), FScore1, callback2 =>
-                        {
-                            if (callback2.IsSuccess())
-                            {
-                                Debug.Log("랭킹 업데이트 완료");
-                            }
-                            else
-                            {
-                                Debug.LogError(int.Parse(callback2.GetStatusCode()));
-                            }
-                        });
-                    }
+    //private void RankUpdate()
+    //{
+    //    Backend.GameSchemaInfo.Get("Score", "HighScore", callback =>
+    //    {
+    //        if (callback.IsSuccess())
+    //        {
+    //            Backend.GameInfo.UpdateRTRankTable("Score", "HighScore", callback.GetInDate(), FScore1, callback1 =>
+    //            {
+    //                if (callback1.IsSuccess())
+    //                {
+    //                    Debug.Log("랭킹 업데이트 완료");
+    //                }
+    //                else
+    //                {
+    //                    Debug.LogError(int.Parse(callback1.GetStatusCode()));
+    //                }
+    //            });
+    //        }
+    //        else
+    //        {
+    //            Backend.GameSchemaInfo.Insert("Score", callback3 =>
+    //            {
+    //                if (callback3.IsSuccess())
+    //                {
+    //                    Debug.Log("랭킹 정보 입력됨");
+    //                    Backend.GameInfo.UpdateRTRankTable("Score", "HighScore", callback.GetInDate(), FScore1, callback2 =>
+    //                    {
+    //                        if (callback2.IsSuccess())
+    //                        {
+    //                            Debug.Log("랭킹 업데이트 완료");
+    //                        }
+    //                        else
+    //                        {
+    //                            Debug.LogError(int.Parse(callback2.GetStatusCode()));
+    //                        }
+    //                    });
+    //                }
 
-                });
-            }
-        });
-    }
+    //            });
+    //        }
+    //    });
+    //}
 
-    private void GoolglePlayInit()
-    {
-        PlayGamesClientConfiguration config = new PlayGamesClientConfiguration
-            .Builder()
-            .RequestServerAuthCode(false)
-            .RequestEmail()
-            .RequestIdToken()
-            .Build();
+    //private void GoolglePlayInit()
+    //{
+    //    PlayGamesClientConfiguration config = new PlayGamesClientConfiguration
+    //        .Builder()
+    //        .RequestServerAuthCode(false)
+    //        .RequestEmail()
+    //        .RequestIdToken()
+    //        .Build();
 
-        PlayGamesPlatform.InitializeInstance(config);
-        PlayGamesPlatform.DebugLogEnabled = true;
+    //    PlayGamesPlatform.InitializeInstance(config);
+    //    PlayGamesPlatform.DebugLogEnabled = true;
 
-        PlayGamesPlatform.Activate();
+    //    PlayGamesPlatform.Activate();
 
-        GPGSLogin();
-    }
+    //    GPGSLogin();
+    //}
 
-    private void GoogleAuth()
-    {
-        if (PlayGamesPlatform.Instance.localUser.authenticated == false)
-        {
-            Social.localUser.Authenticate(success =>
-            {
-                if (success == false)
-                {
-                    Debug.Log("구글 로그인 실패");
-                    return;
-                }
+    //private void GoogleAuth()
+    //{
+    //    if (PlayGamesPlatform.Instance.localUser.authenticated == false)
+    //    {
+    //        Social.localUser.Authenticate(success =>
+    //        {
+    //            if (success == false)
+    //            {
+    //                Debug.Log("구글 로그인 실패");
+    //                return;
+    //            }
 
-                Debug.Log("구글 로그인 성공");
-                Debug.Log("Email : " + PlayGamesPlatform.Instance.GetIdToken());
-                Debug.Log("GoogleId : " + ((PlayGamesLocalUser)Social.localUser).Email);
-                Debug.Log("UserName : " + Social.localUser.userName);
-                Debug.Log("UserName : " + PlayGamesPlatform.Instance.GetUserDisplayName());
-            });
-        }
-    }
+    //            Debug.Log("구글 로그인 성공");
+    //            Debug.Log("Email : " + PlayGamesPlatform.Instance.GetIdToken());
+    //            Debug.Log("GoogleId : " + ((PlayGamesLocalUser)Social.localUser).Email);
+    //            Debug.Log("UserName : " + Social.localUser.userName);
+    //            Debug.Log("UserName : " + PlayGamesPlatform.Instance.GetUserDisplayName());
+    //        });
+    //    }
+    //}
 
-    public string GetTokens()
-    {
-        if (PlayGamesPlatform.Instance.localUser.authenticated)
-        {
-            // 유저 토큰 받기 첫번째 방법
-            string _IDtoken = PlayGamesPlatform.Instance.GetIdToken();
-            // 두번째 방법
-            // string _IDtoken = ((PlayGamesLocalUser)Social.localUser).GetIdToken();
-            return _IDtoken;
-        }
-        else
-        {
-            Debug.Log("접속되어있지 않습니다. PlayGamesPlatform.Instance.localUser.authenticated :  fail");
-            return null;
-        }
-    }
+    //public string GetTokens()
+    //{
+    //    if (PlayGamesPlatform.Instance.localUser.authenticated)
+    //    {
+    //        // 유저 토큰 받기 첫번째 방법
+    //        string _IDtoken = PlayGamesPlatform.Instance.GetIdToken();
+    //        // 두번째 방법
+    //        // string _IDtoken = ((PlayGamesLocalUser)Social.localUser).GetIdToken();
+    //        return _IDtoken;
+    //    }
+    //    else
+    //    {
+    //        Debug.Log("접속되어있지 않습니다. PlayGamesPlatform.Instance.localUser.authenticated :  fail");
+    //        return null;
+    //    }
+    //}
 
-    public void GPGSLogin()
-    {
-        // 이미 로그인 된 경우
-        if (Social.localUser.authenticated == true)
-        {
-            BackendReturnObject BRO = Backend.BMember.AuthorizeFederation(GetTokens(), FederationType.Google, "gpgs");
-            if (BRO.IsSuccess())
-            {
-                Debug.Log("뒤끝 연동 완료");
-                bro = Backend.BMember.GetUserInfo();
-                inDate = bro.GetReturnValuetoJSON()["row"]["inDate"].ToString();
-                if (bro.IsSuccess())
-                {
-                    Where param = new Where();
-                    param.Equal("Name", inDate);
-                    Backend.GameSchemaInfo.Get("Score", param, 1, callback1 =>
-                    {
-                        if (callback1.IsSuccess())
-                        {
-                            bestScoreTxt.text = callback1.Rows()[0]["HighScore"]["N"].ToString() + "m";
-                            Debug.Log("정보 불러오기 성공");
-                        }
-                        else
-                        {
-                            bro = Backend.GameSchemaInfo.Insert("Score");
-                            Param param1 = new Param();
-                            param1.Add("Name", inDate);
-                            Backend.GameSchemaInfo.Update("Score", bro.GetInDate(), param1);
-                            Debug.Log("정보 불러오기 실패");
-                        }
-                    });
-                }
-                else
-                    Debug.Log(bro + "812");
-            }
-            else
-                Debug.Log("뒤끝 연동 실패");
-            Debug.Log("구글 로그인 성공");
-            Debug.Log("Email : " + PlayGamesPlatform.Instance.GetIdToken());
-            Debug.Log("GoogleId : " + ((PlayGamesLocalUser)Social.localUser).Email);
-            Debug.Log("UserName : " + Social.localUser.userName);
-            Debug.Log("UserName : " + PlayGamesPlatform.Instance.GetUserDisplayName());
-        }
-        else
-        {
-            Social.localUser.Authenticate((bool success) =>
-            {
-                if (success)
-                {
-                    // 로그인 성공 -> 뒤끝 서버에 획득한 구글 토큰으로 가입요청
-                    BackendReturnObject BRO = Backend.BMember.AuthorizeFederation(GetTokens(), FederationType.Google, "gpgs");
-                    if (BRO.IsSuccess())
-                    {
-                        Debug.Log("뒤끝 연동 완료");
-                        Debug.Log(BRO);
-                        bro = Backend.BMember.GetUserInfo();
-                        Debug.Log(bro);
-                        inDate = bro.GetReturnValuetoJSON()["row"]["inDate"].ToString();
-                        if (bro.IsSuccess())
-                        {
-                            Where param = new Where();
-                            param.Equal("Name", inDate);
-                            Backend.GameSchemaInfo.Get("Score", param, 1, callback1 =>
-                            {
-                                if (callback1.IsSuccess())
-                                {
-                                    bestScoreTxt.text = callback1.Rows()[0]["HighScore"]["N"].ToString() + "m";
-                                    Debug.Log("정보 불러오기 성공");
-                                }
-                                else
-                                {
-                                    bro = Backend.GameSchemaInfo.Insert("Score");
-                                    Param param1 = new Param();
-                                    param1.Add("Name", inDate);
-                                    Backend.GameSchemaInfo.Update("Score", bro.GetInDate(), param1);
-                                    Debug.Log("정보 불러오기 실패");
-                                }
-                            });
-                        }
-                        else
-                            Debug.Log(bro + "812");
-                    }
-                    else
-                        Debug.Log(BRO);
-                    Debug.Log("구글 로그인 성공");
-                    Debug.Log("Email : " + PlayGamesPlatform.Instance.GetIdToken());
-                    Debug.Log("GoogleId : " + ((PlayGamesLocalUser)Social.localUser).Email);
-                    Debug.Log("UserName : " + Social.localUser.userName);
-                    Debug.Log("UserName : " + PlayGamesPlatform.Instance.GetUserDisplayName());
-                }
-                else
-                {
-                    // 로그인 실패
-                    Debug.Log("Login failed for some reason");
-                }
-            });
-        }
-    }
+    //public void GPGSLogin()
+    //{
+    //    // 이미 로그인 된 경우
+    //    if (Social.localUser.authenticated == true)
+    //    {
+    //        BackendReturnObject BRO = Backend.BMember.AuthorizeFederation(GetTokens(), FederationType.Google, "gpgs");
+    //        if (BRO.IsSuccess())
+    //        {
+    //            Debug.Log("뒤끝 연동 완료");
+    //            bro = Backend.BMember.GetUserInfo();
+    //            inDate = bro.GetReturnValuetoJSON()["row"]["inDate"].ToString();
+    //            if (bro.IsSuccess())
+    //            {
+    //                Where param = new Where();
+    //                param.Equal("Name", inDate);
+    //                Backend.GameSchemaInfo.Get("Score", param, 1, callback1 =>
+    //                {
+    //                    if (callback1.IsSuccess())
+    //                    {
+    //                        bestScoreTxt.text = callback1.Rows()[0]["HighScore"]["N"].ToString() + "m";
+    //                        Debug.Log("정보 불러오기 성공");
+    //                    }
+    //                    else
+    //                    {
+    //                        bro = Backend.GameSchemaInfo.Insert("Score");
+    //                        Param param1 = new Param();
+    //                        param1.Add("Name", inDate);
+    //                        Backend.GameSchemaInfo.Update("Score", bro.GetInDate(), param1);
+    //                        Debug.Log("정보 불러오기 실패");
+    //                    }
+    //                });
+    //            }
+    //            else
+    //                Debug.Log(bro + "812");
+    //        }
+    //        else
+    //            Debug.Log("뒤끝 연동 실패");
+    //        Debug.Log("구글 로그인 성공");
+    //        Debug.Log("Email : " + PlayGamesPlatform.Instance.GetIdToken());
+    //        Debug.Log("GoogleId : " + ((PlayGamesLocalUser)Social.localUser).Email);
+    //        Debug.Log("UserName : " + Social.localUser.userName);
+    //        Debug.Log("UserName : " + PlayGamesPlatform.Instance.GetUserDisplayName());
+    //    }
+    //    else
+    //    {
+    //        Social.localUser.Authenticate((bool success) =>
+    //        {
+    //            if (success)
+    //            {
+    //                // 로그인 성공 -> 뒤끝 서버에 획득한 구글 토큰으로 가입요청
+    //                BackendReturnObject BRO = Backend.BMember.AuthorizeFederation(GetTokens(), FederationType.Google, "gpgs");
+    //                if (BRO.IsSuccess())
+    //                {
+    //                    Debug.Log("뒤끝 연동 완료");
+    //                    Debug.Log(BRO);
+    //                    bro = Backend.BMember.GetUserInfo();
+    //                    Debug.Log(bro);
+    //                    inDate = bro.GetReturnValuetoJSON()["row"]["inDate"].ToString();
+    //                    if (bro.IsSuccess())
+    //                    {
+    //                        Where param = new Where();
+    //                        param.Equal("Name", inDate);
+    //                        Backend.GameSchemaInfo.Get("Score", param, 1, callback1 =>
+    //                        {
+    //                            if (callback1.IsSuccess())
+    //                            {
+    //                                bestScoreTxt.text = callback1.Rows()[0]["HighScore"]["N"].ToString() + "m";
+    //                                Debug.Log("정보 불러오기 성공");
+    //                            }
+    //                            else
+    //                            {
+    //                                bro = Backend.GameSchemaInfo.Insert("Score");
+    //                                Param param1 = new Param();
+    //                                param1.Add("Name", inDate);
+    //                                Backend.GameSchemaInfo.Update("Score", bro.GetInDate(), param1);
+    //                                Debug.Log("정보 불러오기 실패");
+    //                            }
+    //                        });
+    //                    }
+    //                    else
+    //                        Debug.Log(bro + "812");
+    //                }
+    //                else
+    //                    Debug.Log(BRO);
+    //                Debug.Log("구글 로그인 성공");
+    //                Debug.Log("Email : " + PlayGamesPlatform.Instance.GetIdToken());
+    //                Debug.Log("GoogleId : " + ((PlayGamesLocalUser)Social.localUser).Email);
+    //                Debug.Log("UserName : " + Social.localUser.userName);
+    //                Debug.Log("UserName : " + PlayGamesPlatform.Instance.GetUserDisplayName());
+    //            }
+    //            else
+    //            {
+    //                // 로그인 실패
+    //                Debug.Log("Login failed for some reason");
+    //            }
+    //        });
+    //    }
+    //}
 
-    public void OnGpgsLogin()
-    {
-        BackendReturnObject _bro = Backend.BMember.AuthorizeFederation(GetTokens(), FederationType.Google, "GPGS");
-        if (_bro.IsSuccess())
-        {
-            Debug.Log("구글 뒤끝 로그인 성공");
-        }
-        else
-        {
-            Debug.Log("구글 뒤끝 로그인 실패");
-        }
-    }
+    //public void OnGpgsLogin()
+    //{
+    //    BackendReturnObject _bro = Backend.BMember.AuthorizeFederation(GetTokens(), FederationType.Google, "GPGS");
+    //    if (_bro.IsSuccess())
+    //    {
+    //        Debug.Log("구글 뒤끝 로그인 성공");
+    //    }
+    //    else
+    //    {
+    //        Debug.Log("구글 뒤끝 로그인 실패");
+    //    }
+    //}
 
-    public void OnUpdateEmail()
-    {
-        BackendReturnObject _bro = Backend.BMember.UpdateFederationEmail(GetTokens(), FederationType.Google);
-        if (_bro.IsSuccess())
-        {
-            Debug.Log("이메일 주소 저장 성공");
-        }
-        else
-        {
-            Debug.Log("이메일 주소 저장 실패");
-        }
-    }
+    //public void OnUpdateEmail()
+    //{
+    //    BackendReturnObject _bro = Backend.BMember.UpdateFederationEmail(GetTokens(), FederationType.Google);
+    //    if (_bro.IsSuccess())
+    //    {
+    //        Debug.Log("이메일 주소 저장 성공");
+    //    }
+    //    else
+    //    {
+    //        Debug.Log("이메일 주소 저장 실패");
+    //    }
+    //}
 
-    public void OnCheckUserAuth()
-    {
-        BackendReturnObject _bro = Backend.BMember.CheckUserInBackend(GetTokens(), FederationType.Google);
-        if (_bro.GetStatusCode() == "200")
-        {
-            Debug.Log("가입되어있는 계정입니다.");
-        }
-        else
-        {
-            Debug.Log("가입되어있지 않은 계정입니다.");
-        }
-    }
+    //public void OnCheckUserAuth()
+    //{
+    //    BackendReturnObject _bro = Backend.BMember.CheckUserInBackend(GetTokens(), FederationType.Google);
+    //    if (_bro.GetStatusCode() == "200")
+    //    {
+    //        Debug.Log("가입되어있는 계정입니다.");
+    //    }
+    //    else
+    //    {
+    //        Debug.Log("가입되어있지 않은 계정입니다.");
+    //    }
+    //}
 
-    public void OnChangeCustom2Fed()
-    {
-        BackendReturnObject _bro = Backend.BMember.ChangeCustomToFederation(GetTokens(), FederationType.Google);
-        if (_bro.IsSuccess())
-        {
-            Debug.Log("구글계정으로 변경 완료");
-        }
-        else
-        {
-            Debug.Log("구글계정으로 변경 실패");
-        }
-    }
+    //public void OnChangeCustom2Fed()
+    //{
+    //    BackendReturnObject _bro = Backend.BMember.ChangeCustomToFederation(GetTokens(), FederationType.Google);
+    //    if (_bro.IsSuccess())
+    //    {
+    //        Debug.Log("구글계정으로 변경 완료");
+    //    }
+    //    else
+    //    {
+    //        Debug.Log("구글계정으로 변경 실패");
+    //    }
+    //}
 
     public void ShowLeaderBorad()
     {

@@ -17,7 +17,7 @@ public class spaceBackground : MonoBehaviour
     {
         if (Up.transform.position.y <= CameraDown.transform.position.y)
         {
-            gameObject.transform.position = new Vector3(transform.position.x, transform.position.y + (9990f*2), transform.position.z);
+            gameObject.transform.position = new Vector3(transform.position.x, transform.position.y + (9600f*2), transform.position.z);
         }
     }
 }
