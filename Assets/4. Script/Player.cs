@@ -120,8 +120,8 @@ public class Player : MonoBehaviour
         {
             if(GameManager.instance.isEnemyCheck == false)
             {
-                Click();
-                //Touch();
+                //Click();
+                Touch();
             }
         }
         for (int i = 0; i < Points.Length; i++)

@@ -31,7 +31,7 @@ public class AdmobManager : MonoBehaviour
 
     void Start()
     {
-
+        LoadBannerAd();
         LoadFrontAd();
         LoadRewardAd();
     }
@@ -41,6 +41,27 @@ public class AdmobManager : MonoBehaviour
         Debug.Log("AdRequest");
         return new AdRequest.Builder().AddTestDevice("17F8A70AFCFE114").AddTestDevice("C9D12CC89E48B898").AddTestDevice("A4EF468A1BC5516D").AddTestDevice("4760F000CD4CA4C5").Build();
     }
+
+    #region 배너 광고
+    const string bannerTestID = "ca-app-pub-3940256099942544/6300978111";
+    const string bannerID = "ca-app-pub-5708876822263347/3087649413";
+    BannerView bannerAd;
+
+
+    void LoadBannerAd()
+    {
+        bannerAd = new BannerView(isTestMode ? bannerTestID : bannerID,
+            AdSize.SmartBanner, AdPosition.Top);
+        bannerAd.LoadAd(GetAdRequest());
+    }
+
+    public void ToggleBannerAd(bool b)
+    {
+        Debug.Log(b);
+        if (b) bannerAd.Show();
+        else bannerAd.Hide();
+    }
+    #endregion
 
     #region 전면 광고
     const string frontTestID = "ca-app-pub-3940256099942544/8691691433";
@@ -66,8 +87,6 @@ public class AdmobManager : MonoBehaviour
         LoadFrontAd();
     }
     #endregion
-
-
 
     #region 리워드 광고
     const string rewardTestID = "ca-app-pub-3940256099942544/5224354917";

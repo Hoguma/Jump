@@ -5,6 +5,18 @@ using UnityEngine.UI;
 
 public class Shop : MonoBehaviour
 {
+    private static Shop _instance = null;
+
+    public static Shop instance
+    {
+        get
+        {
+            if (_instance == null)
+                return null;
+            return _instance;
+        }
+    }
+
     public GameObject[] tail;
 
     public Sprite[] character;
@@ -21,6 +33,14 @@ public class Shop : MonoBehaviour
     //사운드
     public AudioSource myFx;
     public AudioClip clickSound;
+
+    private void Awake()
+    {
+        if (_instance == null)
+        {
+            _instance = this;
+        }
+    }
 
     public void Update()
     {
