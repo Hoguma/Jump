@@ -106,6 +106,7 @@ public class GameManager : MonoBehaviour
     public AudioClip clickSound;
     public AudioClip charDie;
 
+    
     private void Awake()
     {
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
@@ -138,8 +139,8 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        Backend.Initialize(HandleBackendCallBack);
-        GoolglePlayInit();
+        //Backend.Initialize(HandleBackendCallBack);
+        //GoolglePlayInit();
     }
 
     private void HandleBackendCallBack()
@@ -612,156 +613,156 @@ public class GameManager : MonoBehaviour
 
 
     #region 서버
-    private void GoolglePlayInit()
-    {
-        PlayGamesClientConfiguration config = new PlayGamesClientConfiguration
-            .Builder()
-            .RequestServerAuthCode(false)
-            .RequestEmail()
-            .RequestIdToken()
-            .Build();
+    //private void GoolglePlayInit()
+    //{
+    //    PlayGamesClientConfiguration config = new PlayGamesClientConfiguration
+    //        .Builder()
+    //        .RequestServerAuthCode(false)
+    //        .RequestEmail()
+    //        .RequestIdToken()
+    //        .Build();
 
-        PlayGamesPlatform.InitializeInstance(config);
-        PlayGamesPlatform.DebugLogEnabled = true;
+    //    PlayGamesPlatform.InitializeInstance(config);
+    //    PlayGamesPlatform.DebugLogEnabled = true;
 
-        PlayGamesPlatform.Activate();
+    //    PlayGamesPlatform.Activate();
 
-        GPGSLogin();
-    }
+    //    GPGSLogin();
+    //}
 
-    public string GetTokens()
-    {
-        if (PlayGamesPlatform.Instance.localUser.authenticated)
-        {
-            // 유저 토큰 받기 첫번째 방법
-            string _IDtoken = PlayGamesPlatform.Instance.GetIdToken();
-            // 두번째 방법
-            // string _IDtoken = ((PlayGamesLocalUser)Social.localUser).GetIdToken();
-            return _IDtoken;
-        }
-        else
-        {
-            Debug.Log("접속되어있지 않습니다. PlayGamesPlatform.Instance.localUser.authenticated :  fail");
-            return null;
-        }
-    }
+    //public string GetTokens()
+    //{
+    //    if (PlayGamesPlatform.Instance.localUser.authenticated)
+    //    {
+    //        // 유저 토큰 받기 첫번째 방법
+    //        string _IDtoken = PlayGamesPlatform.Instance.GetIdToken();
+    //        // 두번째 방법
+    //        // string _IDtoken = ((PlayGamesLocalUser)Social.localUser).GetIdToken();
+    //        return _IDtoken;
+    //    }
+    //    else
+    //    {
+    //        Debug.Log("접속되어있지 않습니다. PlayGamesPlatform.Instance.localUser.authenticated :  fail");
+    //        return null;
+    //    }
+    //}
 
-    public void GPGSLogin()
-    {
-        // 이미 로그인 된 경우
-        if (Social.localUser.authenticated == true)
-        {
-            BackendReturnObject BRO = Backend.BMember.AuthorizeFederation(GetTokens(), FederationType.Google, "gpgs");
-            if (BRO.IsSuccess())
-            {
-                Debug.Log("뒤끝 연동 완료");
-                bro = Backend.BMember.GetUserInfo();
-                inDate = bro.GetReturnValuetoJSON()["row"]["inDate"].ToString();
-                if (bro.IsSuccess())
-                {
-                    GetData();
-                }
-                else
-                    Debug.Log(bro + "812");
-            }
-            else
-                Debug.Log("뒤끝 연동 실패");
-            Debug.Log("구글 로그인 성공");
-            Debug.Log("Email : " + PlayGamesPlatform.Instance.GetIdToken());
-            Debug.Log("GoogleId : " + ((PlayGamesLocalUser)Social.localUser).Email);
-            Debug.Log("UserName : " + Social.localUser.userName);
-            Debug.Log("UserName : " + PlayGamesPlatform.Instance.GetUserDisplayName());
-        }
-        else
-        {
-            Social.localUser.Authenticate((bool success) =>
-            {
-                if (success)
-                {
-                    // 로그인 성공 -> 뒤끝 서버에 획득한 구글 토큰으로 가입요청
-                    BackendReturnObject BRO = Backend.BMember.AuthorizeFederation(GetTokens(), FederationType.Google, "gpgs");
-                    if (BRO.IsSuccess())
-                    {
-                        Debug.Log("뒤끝 연동 완료");
-                        Debug.Log(BRO);
-                        bro = Backend.BMember.GetUserInfo();
-                        Debug.Log(bro);
-                        inDate = bro.GetReturnValuetoJSON()["row"]["inDate"].ToString();
-                        if (bro.IsSuccess())
-                        {
-                            GetData();
-                        }
-                        else
-                            Debug.Log(bro + "812");
-                    }
-                    else
-                        Debug.Log(BRO);
-                    Debug.Log("구글 로그인 성공");
-                    Debug.Log("Email : " + PlayGamesPlatform.Instance.GetIdToken());
-                    Debug.Log("GoogleId : " + ((PlayGamesLocalUser)Social.localUser).Email);
-                    Debug.Log("UserName : " + Social.localUser.userName);
-                    Debug.Log("UserName : " + PlayGamesPlatform.Instance.GetUserDisplayName());
-                }
-                else
-                {
-                    // 로그인 실패
-                    Debug.Log("Login failed for some reason");
-                }
-            });
-        }
-    }
+    //public void GPGSLogin()
+    //{
+    //    // 이미 로그인 된 경우
+    //    if (Social.localUser.authenticated == true)
+    //    {
+    //        BackendReturnObject BRO = Backend.BMember.AuthorizeFederation(GetTokens(), FederationType.Google, "gpgs");
+    //        if (BRO.IsSuccess())
+    //        {
+    //            Debug.Log("뒤끝 연동 완료");
+    //            bro = Backend.BMember.GetUserInfo();
+    //            inDate = bro.GetReturnValuetoJSON()["row"]["inDate"].ToString();
+    //            if (bro.IsSuccess())
+    //            {
+    //                GetData();
+    //            }
+    //            else
+    //                Debug.Log(bro + "812");
+    //        }
+    //        else
+    //            Debug.Log("뒤끝 연동 실패");
+    //        Debug.Log("구글 로그인 성공");
+    //        Debug.Log("Email : " + PlayGamesPlatform.Instance.GetIdToken());
+    //        Debug.Log("GoogleId : " + ((PlayGamesLocalUser)Social.localUser).Email);
+    //        Debug.Log("UserName : " + Social.localUser.userName);
+    //        Debug.Log("UserName : " + PlayGamesPlatform.Instance.GetUserDisplayName());
+    //    }
+    //    else
+    //    {
+    //        Social.localUser.Authenticate((bool success) =>
+    //        {
+    //            if (success)
+    //            {
+    //                // 로그인 성공 -> 뒤끝 서버에 획득한 구글 토큰으로 가입요청
+    //                BackendReturnObject BRO = Backend.BMember.AuthorizeFederation(GetTokens(), FederationType.Google, "gpgs");
+    //                if (BRO.IsSuccess())
+    //                {
+    //                    Debug.Log("뒤끝 연동 완료");
+    //                    Debug.Log(BRO);
+    //                    bro = Backend.BMember.GetUserInfo();
+    //                    Debug.Log(bro);
+    //                    inDate = bro.GetReturnValuetoJSON()["row"]["inDate"].ToString();
+    //                    if (bro.IsSuccess())
+    //                    {
+    //                        GetData();
+    //                    }
+    //                    else
+    //                        Debug.Log(bro + "812");
+    //                }
+    //                else
+    //                    Debug.Log(BRO);
+    //                Debug.Log("구글 로그인 성공");
+    //                Debug.Log("Email : " + PlayGamesPlatform.Instance.GetIdToken());
+    //                Debug.Log("GoogleId : " + ((PlayGamesLocalUser)Social.localUser).Email);
+    //                Debug.Log("UserName : " + Social.localUser.userName);
+    //                Debug.Log("UserName : " + PlayGamesPlatform.Instance.GetUserDisplayName());
+    //            }
+    //            else
+    //            {
+    //                // 로그인 실패
+    //                Debug.Log("Login failed for some reason");
+    //            }
+    //        });
+    //    }
+    //}
 
-    public void OnGpgsLogin()
-    {
-        BackendReturnObject _bro = Backend.BMember.AuthorizeFederation(GetTokens(), FederationType.Google, "GPGS");
-        if (_bro.IsSuccess())
-        {
-            Debug.Log("구글 뒤끝 로그인 성공");
-        }
-        else
-        {
-            Debug.Log("구글 뒤끝 로그인 실패");
-        }
-    }
+    //public void OnGpgsLogin()
+    //{
+    //    BackendReturnObject _bro = Backend.BMember.AuthorizeFederation(GetTokens(), FederationType.Google, "GPGS");
+    //    if (_bro.IsSuccess())
+    //    {
+    //        Debug.Log("구글 뒤끝 로그인 성공");
+    //    }
+    //    else
+    //    {
+    //        Debug.Log("구글 뒤끝 로그인 실패");
+    //    }
+    //}
 
-    public void OnUpdateEmail()
-    {
-        BackendReturnObject _bro = Backend.BMember.UpdateFederationEmail(GetTokens(), FederationType.Google);
-        if (_bro.IsSuccess())
-        {
-            Debug.Log("이메일 주소 저장 성공");
-        }
-        else
-        {
-            Debug.Log("이메일 주소 저장 실패");
-        }
-    }
+    //public void OnUpdateEmail()
+    //{
+    //    BackendReturnObject _bro = Backend.BMember.UpdateFederationEmail(GetTokens(), FederationType.Google);
+    //    if (_bro.IsSuccess())
+    //    {
+    //        Debug.Log("이메일 주소 저장 성공");
+    //    }
+    //    else
+    //    {
+    //        Debug.Log("이메일 주소 저장 실패");
+    //    }
+    //}
 
-    public void OnCheckUserAuth()
-    {
-        BackendReturnObject _bro = Backend.BMember.CheckUserInBackend(GetTokens(), FederationType.Google);
-        if (_bro.GetStatusCode() == "200")
-        {
-            Debug.Log("가입되어있는 계정입니다.");
-        }
-        else
-        {
-            Debug.Log("가입되어있지 않은 계정입니다.");
-        }
-    }
+    //public void OnCheckUserAuth()
+    //{
+    //    BackendReturnObject _bro = Backend.BMember.CheckUserInBackend(GetTokens(), FederationType.Google);
+    //    if (_bro.GetStatusCode() == "200")
+    //    {
+    //        Debug.Log("가입되어있는 계정입니다.");
+    //    }
+    //    else
+    //    {
+    //        Debug.Log("가입되어있지 않은 계정입니다.");
+    //    }
+    //}
 
-    public void OnChangeCustom2Fed()
-    {
-        BackendReturnObject _bro = Backend.BMember.ChangeCustomToFederation(GetTokens(), FederationType.Google);
-        if (_bro.IsSuccess())
-        {
-            Debug.Log("구글계정으로 변경 완료");
-        }
-        else
-        {
-            Debug.Log("구글계정으로 변경 실패");
-        }
-    }
+    //public void OnChangeCustom2Fed()
+    //{
+    //    BackendReturnObject _bro = Backend.BMember.ChangeCustomToFederation(GetTokens(), FederationType.Google);
+    //    if (_bro.IsSuccess())
+    //    {
+    //        Debug.Log("구글계정으로 변경 완료");
+    //    }
+    //    else
+    //    {
+    //        Debug.Log("구글계정으로 변경 실패");
+    //    }
+    //}
 
     public void ShowLeaderBorad()
     {

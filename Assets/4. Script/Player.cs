@@ -47,13 +47,13 @@ public class Player : MonoBehaviour
     //방해요소 이팩트
     private GameObject whirlPool;
     public GameObject Windpre;
-    public ParticleSystem Rainpre1;
+    public GameObject Rainpre1;
     public GameObject Risks;
 
     public GameObject LWindpre;
     public GameObject RWindpre;
     public GameObject Rainpre;
-    public ParticleSystem Snowpre;
+    public GameObject Snowpre;
 
     //에니메이션 반대
     public SpriteRenderer spriteRenderer;
@@ -120,8 +120,8 @@ public class Player : MonoBehaviour
         {
             if(GameManager.instance.isEnemyCheck == false)
             {
-                //Click();
-                Touch();
+                Click();
+                //Touch();
             }
         }
         for (int i = 0; i < Points.Length; i++)
@@ -463,8 +463,8 @@ public class Player : MonoBehaviour
                 RiskOnce = true;
                 LWindpre.SetActive(false);
                 RWindpre.SetActive(false);
-                Rainpre1.Stop();
-                Snowpre.Stop();
+                Rainpre1.SetActive(false);
+                Snowpre.SetActive(false);
             }
             else if (GameManager.instance.Enemy == 1)
             {
@@ -491,7 +491,7 @@ public class Player : MonoBehaviour
             {
                 if (GameManager.instance.isEnemyRisk == false)
                 {
-                    Rainpre1.Play();
+                    Rainpre1.SetActive(true);
                     //if (RiskOnce)
                     //{ Destroy(Instantiate(Rainpre, Risks.transform), 10); RiskOnce = false; }
                     rigidbody.mass = 4.5f;
@@ -501,7 +501,7 @@ public class Player : MonoBehaviour
             {
                 if (GameManager.instance.isEnemyRisk == false)
                 {
-                    Snowpre.Play();
+                    Snowpre.SetActive(true);
                     slidingSpeed = 0.9f;
                 }
             }
