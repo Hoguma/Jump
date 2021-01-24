@@ -470,15 +470,22 @@ public class Player : MonoBehaviour
             {
                 if (GameManager.instance.isEnemyRisk == false)
                 {
-                    if (GameManager.instance.windRL == 1 && canJump == false)
+
+                    if (GameManager.instance.windRL == 0)
                     {
-                        rigidbody.velocity = new Vector2(rigidbody.velocity.x + -4.8f, rigidbody.velocity.y);
+                        if (canJump == false)
+                        {
+                            rigidbody.velocity = new Vector2(rigidbody.velocity.x + -4.8f, rigidbody.velocity.y);
+                        }
                         RWindpre.SetActive(true);
                         LWindpre.SetActive(false);
                     }
-                    else
+                    else if (GameManager.instance.windRL == 1)
                     {
-                        rigidbody.velocity = new Vector2(rigidbody.velocity.x + 4.8f, rigidbody.velocity.y);
+                        if (canJump == false)
+                        {
+                            rigidbody.velocity = new Vector2(rigidbody.velocity.x + 4.8f, rigidbody.velocity.y);
+                        }
                         LWindpre.SetActive(true);
                         RWindpre.SetActive(false);
                     }

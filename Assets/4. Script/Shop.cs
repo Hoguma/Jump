@@ -65,6 +65,7 @@ public class Shop : MonoBehaviour
             tail[4].SetActive(false);
             tail[5].SetActive(false);
             tail[6].SetActive(false);
+            tail[7].SetActive(false);
         }
         else if (num == 1)
         {
@@ -75,6 +76,7 @@ public class Shop : MonoBehaviour
             tail[4].SetActive(false);
             tail[5].SetActive(false);
             tail[6].SetActive(false);
+            tail[7].SetActive(false);
         }
         else if (num == 2)
         {
@@ -85,6 +87,7 @@ public class Shop : MonoBehaviour
             tail[4].SetActive(false);
             tail[5].SetActive(false);
             tail[6].SetActive(false);
+            tail[7].SetActive(false);
         }
         else if (num == 3)
         {
@@ -95,6 +98,7 @@ public class Shop : MonoBehaviour
             tail[4].SetActive(false);
             tail[5].SetActive(false);
             tail[6].SetActive(false);
+            tail[7].SetActive(false);
         }
         else if (num == 4)
         {
@@ -105,6 +109,7 @@ public class Shop : MonoBehaviour
             tail[4].SetActive(true);
             tail[5].SetActive(false);
             tail[6].SetActive(false);
+            tail[7].SetActive(false);
         }
         else if (num == 5)
         {
@@ -115,6 +120,7 @@ public class Shop : MonoBehaviour
             tail[4].SetActive(false);
             tail[5].SetActive(true);
             tail[6].SetActive(false);
+            tail[7].SetActive(false);
         }
         else if (num == 6)
         {
@@ -125,9 +131,20 @@ public class Shop : MonoBehaviour
             tail[4].SetActive(false);
             tail[5].SetActive(false);
             tail[6].SetActive(true);
+            tail[7].SetActive(false);
+        }
+        else if (num == 7)
+        {
+            tail[0].SetActive(false);
+            tail[1].SetActive(false);
+            tail[2].SetActive(false);
+            tail[3].SetActive(false);
+            tail[4].SetActive(false);
+            tail[5].SetActive(false);
+            tail[6].SetActive(false);
+            tail[7].SetActive(true);
         }
     }
-
     public void Next()
     {
         UiClickSound();

@@ -158,6 +158,8 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        Debug.Log(windRL);
+
         if (Application.platform == RuntimePlatform.Android)
         {
             if (Input.GetKey(KeyCode.Escape))
