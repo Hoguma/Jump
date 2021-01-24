@@ -25,8 +25,8 @@ public class eatCoin : MonoBehaviour
     void DistroyCoin()
     {
         Destroy(this.gameObject);
-        //코인 1회 증가로 변경해야함
         PlayerPrefs.SetInt("CoinCount", PlayerPrefs.GetInt("CoinCount") + 1);
+        GameManager.instance.UpDateCoinData();
         gameObject.GetComponent<eatCoin>().enabled = false;
     }
     public void eatcoinSound()

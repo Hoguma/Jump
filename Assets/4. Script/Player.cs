@@ -27,7 +27,7 @@ public class Player : MonoBehaviour
 
     //벽 슬라이딩?
     float isRight = 1;
-    bool isWall = true;
+    bool isWall = false;
     bool canJump = true;
     public Transform wallChk;
     public float wallchkDistance;
@@ -120,8 +120,8 @@ public class Player : MonoBehaviour
         {
             if(GameManager.instance.isEnemyCheck == false)
             {
-                Click();
-                //Touch();
+                //Click();
+                Touch();
             }
         }
         for (int i = 0; i < Points.Length; i++)
@@ -151,13 +151,9 @@ public class Player : MonoBehaviour
             //spriteRenderer.flipX = false;
 
         }
-        #region 주석
-        //애니메이션 오류 문제 해결
-        //Debug.DrawRay(new Vector2(rigidbody.position.x, rigidbody.position.y - 0.7f), Vector3.down, new Color(0, 1, 0));
-        //RaycastHit2D rayHit2 = Physics2D.Raycast(new Vector2(rigidbody.position.x, rigidbody.position.y - 0.7f), Vector3.down, 1, LayerMask.GetMask("floor"));
-        #endregion
+
         Physics();
-        if (ismove == true)
+        if (canJump == true)
         {
             anim.SetBool("isJump", false);
         }
@@ -432,12 +428,20 @@ public class Player : MonoBehaviour
             }
         }
         #endregion
-
+        if (isWall)
+        {
+            if (transform.position.x < 0)
+                spriteRenderer.flipX = true;
+            else
+                spriteRenderer.flipX = false;
+        }
+        anim.SetBool("isSlide", isWall);
         if (isWall)
             canJump = true;
 
 
         anim.SetBool("isRuning", ismove);
+        
     }
 
     void Physics()

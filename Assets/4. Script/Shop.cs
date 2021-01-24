@@ -53,7 +53,30 @@ public class Shop : MonoBehaviour
         {
             isiGot.image.sprite = SorB[1];
             charCost.gameObject.SetActive(true);
-            charCost.text = "1";
+            switch(num)
+            {
+                case 1:
+                    charCost.text = "50";
+                    return;
+                case 2:
+                    charCost.text = "100";
+                    return;
+                case 3:
+                    charCost.text = "150";
+                    return;
+                case 4:
+                    charCost.text = "150";
+                    return;
+                case 5:
+                    charCost.text = "150";
+                    return;
+                case 6:
+                    charCost.text = "300";
+                    return;
+                case 7:
+                    charCost.text = "300";
+                    return;
+            }
         }
         //캐릭터 뒷 이미지
         if(num == 0)
@@ -176,10 +199,47 @@ public class Shop : MonoBehaviour
             GameManager.instance.ShopOnOff();
         else
         {
-            if(PlayerPrefs.GetInt("CoinCount", 0) > 1)
+            if(num == 1 && PlayerPrefs.GetInt("CoinCount", 0) > 50)
             {
-                PlayerPrefs.SetInt("CoinCount", PlayerPrefs.GetInt("CoinCount", 0) - 1);
+                PlayerPrefs.SetInt("CoinCount", PlayerPrefs.GetInt("CoinCount", 0) - 50);
                 igotthis[num] = true;
+                GameManager.instance.UpDateCharData(num);
+            }
+            else if (num == 2 && PlayerPrefs.GetInt("CoinCount", 0) > 100)
+            {
+                PlayerPrefs.SetInt("CoinCount", PlayerPrefs.GetInt("CoinCount", 0) - 100);
+                igotthis[num] = true;
+                GameManager.instance.UpDateCharData(num);
+            }
+            else if (num == 3 && PlayerPrefs.GetInt("CoinCount", 0) > 150)
+            {
+                PlayerPrefs.SetInt("CoinCount", PlayerPrefs.GetInt("CoinCount", 0) - 150);
+                igotthis[num] = true;
+                GameManager.instance.UpDateCharData(num);
+            }
+            else if (num == 4 && PlayerPrefs.GetInt("CoinCount", 0) > 150)
+            {
+                PlayerPrefs.SetInt("CoinCount", PlayerPrefs.GetInt("CoinCount", 0) - 150);
+                igotthis[num] = true;
+                GameManager.instance.UpDateCharData(num);
+            }
+            else if (num == 5 && PlayerPrefs.GetInt("CoinCount", 0) > 150)
+            {
+                PlayerPrefs.SetInt("CoinCount", PlayerPrefs.GetInt("CoinCount", 0) - 150);
+                igotthis[num] = true;
+                GameManager.instance.UpDateCharData(num);
+            }
+            else if (num == 6 && PlayerPrefs.GetInt("CoinCount", 0) > 300)
+            {
+                PlayerPrefs.SetInt("CoinCount", PlayerPrefs.GetInt("CoinCount", 0) - 300);
+                igotthis[num] = true;
+                GameManager.instance.UpDateCharData(num);
+            }
+            else if (num == 7 && PlayerPrefs.GetInt("CoinCount", 0) > 300)
+            {
+                PlayerPrefs.SetInt("CoinCount", PlayerPrefs.GetInt("CoinCount", 0) - 300);
+                igotthis[num] = true;
+                GameManager.instance.UpDateCharData(num);
             }
             else
             {
