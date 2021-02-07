@@ -29,10 +29,14 @@ public class GameManager : MonoBehaviour
 
     private int BestScore = 0;
 
+    private bool NoAds;
+    [SerializeField] private GameObject NoAdsBtn;
+
     [Header("GameObject")]
     [SerializeField] private Camera mainCam;
     public List<GameObject> platforms;
     public GameObject player;
+    public GameObject DieEffect;
     public RectTransform CoinView;
     Vector2 Coinviewpos;
 
@@ -159,7 +163,8 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-
+        if(NoAds)
+            NoAdsBtn.SetActive(false);
         if (BestScore < FScore1)
         {
             BestScore = FScore1;
@@ -180,14 +185,6 @@ public class GameManager : MonoBehaviour
             PlayerPrefs.SetInt("CoinCount", PlayerPrefs.GetInt("CoinCount") + 50);
         }
 
-        if (isEnemyCheck == true)
-        {
-            if (Input.GetMouseButtonUp(0))
-            {
-                isEnemyCheck = false;
-                Time.timeScale = 1f;
-            }
-        }
         //타이틀에서 방해요소 실행 안됨
         if (isTitlePanel == true)
         {
@@ -235,6 +232,7 @@ public class GameManager : MonoBehaviour
         if (pos.y < -0.001f && !isEndPanel || isCharDie == true)
         {
             charDieSound();
+            Destroy(Instantiate(DieEffect, new Vector2(player.transform.position.x, player.transform.position.y + 50), Quaternion.identity), 0.5f);
             isEndPanel = true;
             EndPanel.SetActive(isEndPanel);
             player.SetActive(!isEndPanel);
@@ -324,7 +322,8 @@ public class GameManager : MonoBehaviour
 
         GameReset();
 
-        AdmobManager.instance.ShowFrontAd();
+        if(!NoAds)
+         AdmobManager.instance.ShowFrontAd();
     }
 
     public void GameStartbtn()
@@ -355,8 +354,8 @@ public class GameManager : MonoBehaviour
 
         MainUI.SetActive(true);
 
-        //if(Random.Range(0, 2) == 0)
-        AdmobManager.instance.ShowFrontAd();
+        if (!NoAds)
+            AdmobManager.instance.ShowFrontAd();
     }
 
     public void PPanelChange()
@@ -365,8 +364,8 @@ public class GameManager : MonoBehaviour
 
         PPChange();
 
-        //if(Random.Range(0, 2) == 0)
-        AdmobManager.instance.ShowFrontAd();
+        if (!NoAds)
+            AdmobManager.instance.ShowFrontAd();
     }
 
     public void EPanelTitle()
@@ -544,7 +543,7 @@ public class GameManager : MonoBehaviour
         {
             time = 0;
             isEnemyCheck = true;
-            Time.timeScale = 0.2f;
+            Time.timeScale = 0f;
             Enemy = Random.Range(1, 4);
             windRL = Random.Range(0, 2);
         }
@@ -911,6 +910,32 @@ public class GameManager : MonoBehaviour
         });
     }
 
+    public void UpDateNoAdsData()
+    {
+        Where where = new Where();
+        where.Equal("Name", inDate);
+        Backend.GameSchemaInfo.Get("NoAds", where, 1, callback1 =>
+        {
+            if (callback1.IsSuccess())
+            {
+                Param where1 = new Param();
+                where1.Add("Name", inDate);
+                Param param = new Param();
+                param.Add("NoAds", NoAds);
+                Backend.GameSchemaInfo.Update("NoAds", where1, param, (callback) =>
+                {
+                    if (callback.IsSuccess())
+                    {
+                        Debug.Log("NoAds 갱신 완료");
+                        NoAdsBtn.SetActive(false);
+                    }
+                    else
+                        Debug.Log(callback1);
+                });
+            }
+        });
+    }
+
     private void GetData()
     {
         Where param = new Where();
@@ -966,8 +991,6 @@ public class GameManager : MonoBehaviour
                 igotthis_BE[6] = bool.Parse(callback1.Rows()[0]["Rainbow"]["BOOL"].ToString());
                 igotthis_BE[7] = bool.Parse(callback1.Rows()[0]["Cyber"]["BOOL"].ToString());
 
-                Debug.Log(igotthis_BE + " 아잇");
-
                 for(int i = 1; i < 8; i++)
                 {
                     Shop.instance.igotthis[i] = igotthis_BE[i];
@@ -984,8 +1007,44 @@ public class GameManager : MonoBehaviour
                 Debug.Log("테이블 생성");
             }
         });
+
+        Backend.GameSchemaInfo.Get("NoAds", param, 1, callback1 =>
+        {
+            if (callback1.IsSuccess())
+            {
+                NoAds = bool.Parse(callback1.Rows()[0]["NoAds"]["BOOL"].ToString());
+                //버튼 활성화/비활성화
+                if (NoAds)
+                    NoAdsBtn.SetActive(false);
+                Debug.Log("정보 불러오기 성공" + CoinCount);
+            }
+            else
+            {
+                bro = Backend.GameSchemaInfo.Insert("NoAds");
+                Param param1 = new Param();
+                param1.Add("Name", inDate);
+                Backend.GameSchemaInfo.Update("NoAds", bro.GetInDate(), param1);
+                Debug.Log("테이블 생성");
+            }
+        });
     }
     #endregion
+
+    public bool GetNoAds()
+    {
+        return NoAds;
+    }
+
+    public void NoAdsSucsess()
+    {
+        NoAds = true;
+        UpDateNoAdsData();
+    }
+
+    public void NoAdsFail()
+    {
+        Debug.Log("다시시도해주세요");
+    }
 }
 
 

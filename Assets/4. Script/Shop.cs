@@ -178,6 +178,14 @@ public class Shop : MonoBehaviour
             Player.Instance.anim.runtimeAnimatorController = animators[num];
             nametag.sprite = charName[num];
         }
+        else
+        {
+            num = 0;
+            Player.Instance.spriteRenderer.sprite = character[num];
+            Player.Instance.anim.runtimeAnimatorController = animators[num];
+            nametag.sprite = charName[num];
+        }
+        Debug.Log(num);
     }
 
     public void Prev()
@@ -190,8 +198,16 @@ public class Shop : MonoBehaviour
             Player.Instance.anim.runtimeAnimatorController = animators[num];
             nametag.sprite = charName[num];
         }
+        else
+        {
+            num = character.Length - 1;
+            Player.Instance.spriteRenderer.sprite = character[num];
+            Player.Instance.anim.runtimeAnimatorController = animators[num];
+            nametag.sprite = charName[num];
+        }
+        Debug.Log(num);
     }
-    
+
     public void Select()
     {
         UiClickSound();

@@ -6,22 +6,19 @@ using UnityEngine.UI;
 
 public class EnemyUi : MonoBehaviour
 {
-    private Image mainImage;
-    public Sprite[] sprites;
+    public GameObject ga;
+    public Image mainImage;
+    public Image WordImage;
+    public Sprite[] Msprites;
+    public Sprite[] Wsprites;
     private bool isAlpha;
     public float time;
-    Color colors;
     // Start is called before the first frame update
     void Start()
     {
         time = 0.0f;
-        mainImage = GetComponent<Image>();
-        colors.a = 0f;
-        colors.r = 1f;
-        colors.g = 1f;
-        colors.b = 1f;
-        mainImage.color = colors;
-        mainImage.sprite = sprites[0];
+        mainImage.sprite = Msprites[0];
+        WordImage.sprite = Wsprites[0];
     }
 
     // Update is called once per frame
@@ -29,7 +26,6 @@ public class EnemyUi : MonoBehaviour
     {
         Alpha();
 
-        //Debug.Log(GameManager.instance.CurrentScore);
         switch (GameManager.instance.CurrentScore)
         {
             case 1:
@@ -37,53 +33,59 @@ public class EnemyUi : MonoBehaviour
             case 3:
                 if (GameManager.instance.Enemy == 1)// 바람
                 {
-                    mainImage.sprite = sprites[0];
+                    mainImage.sprite = Msprites[0];
+                    WordImage.sprite = Wsprites[0];
                 }
                 else if (GameManager.instance.Enemy == 2)// 폭우
                 {
-                    mainImage.sprite = sprites[1];
+                    mainImage.sprite = Msprites[1];
+                    WordImage.sprite = Wsprites[1];
                 }
                 else if (GameManager.instance.Enemy == 3)// 폭설
                 {
-                    mainImage.sprite = sprites[2];
+                    mainImage.sprite = Msprites[2];
+                    WordImage.sprite = Wsprites[2];
                 }
                 break;
             case 4:
                 if (GameManager.instance.Enemy == 1)//번개
                 {
-                    mainImage.sprite = sprites[3];
+                    mainImage.sprite = Msprites[3];
+                    WordImage.sprite = Wsprites[3];
                 }
                 else if (GameManager.instance.Enemy == 2)//안개
                 {
-                    mainImage.sprite = sprites[4];
+                    mainImage.sprite = Msprites[4];
+                    WordImage.sprite = Wsprites[4];
                 }
                 break;
             case 5:
                 if(GameManager.instance.Enemy == 1) //블랙홀
                 {
-                    mainImage.sprite = sprites[5];
+                    mainImage.sprite = Msprites[5];
+                    WordImage.sprite = Wsprites[5];
                 }
                 break;
         }
-        if (GameManager.instance.Enemy == 0)
-        {
-            time = 0.0f;
-            colors.a = 0f;
-        }
-        mainImage.color = colors;
 
     }//수프라이트
+
     void Alpha()
     {
-        //time += Time.deltaTime / 4f;
-        //colors.a = Mathf.Lerp(1f, 0f, time);
         if(GameManager.instance.isEnemyCheck == false)
         {
-            colors.a = 0f;
+            ga.SetActive(false);
         }
         else
         {
-            colors.a = 1f;
+            ga.SetActive(true);
+            time += Time.unscaledDeltaTime;
+            if(time >= 1.5f)
+            {
+                time = 0;
+                GameManager.instance.isEnemyCheck = false;
+                Time.timeScale = 1;
+            }
         }
     }
 }
