@@ -50,8 +50,8 @@ public class AdmobManager : MonoBehaviour
 
     void LoadBannerAd()
     {
-        bannerAd = new BannerView(isTestMode ? bannerTestID : bannerID,
-            AdSize.SmartBanner, AdPosition.Top);
+        AdSize adSize = AdSize.GetCurrentOrientationAnchoredAdaptiveBannerAdSizeWithWidth(AdSize.FullWidth);
+        bannerAd = new BannerView(isTestMode ? bannerTestID : bannerID, adSize, AdPosition.Top);
         bannerAd.LoadAd(GetAdRequest());
     }
 

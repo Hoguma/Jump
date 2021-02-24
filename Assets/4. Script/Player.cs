@@ -106,12 +106,17 @@ public class Player : MonoBehaviour
         {
             Points[i] = Instantiate(PointPre, transform.position, Quaternion.identity, transform);
         }
+        Pointoff();
+    }
+    
+    public void Pointoff()
+    {
         for (int i = 0; i < Points.Length; i++)
         {
             Points[i].SetActive(false);
+            line.positionCount = 0;
         }
     }
-    
     
     private void Update()
     {
@@ -120,8 +125,11 @@ public class Player : MonoBehaviour
         {
             if(GameManager.instance.isEnemyCheck == false)
             {
-                //Click();
-                Touch();
+                if (GameManager.instance.isIngamePanel)
+                {
+                    //Click();
+                    Touch();
+                }
             }
         }
         for (int i = 0; i < Points.Length; i++)

@@ -20,11 +20,11 @@ PlayerSettings:
   m_ShowUnitySplashScreen: 1
   m_ShowUnitySplashLogo: 1
   m_SplashScreenOverlayOpacity: 1
-  m_SplashScreenAnimation: 1
+  m_SplashScreenAnimation: 0
   m_SplashScreenLogoStyle: 1
   m_SplashScreenDrawMode: 0
-  m_SplashScreenBackgroundAnimationZoom: 1
-  m_SplashScreenLogoAnimationZoom: 1
+  m_SplashScreenBackgroundAnimationZoom: 0
+  m_SplashScreenLogoAnimationZoom: 0
   m_SplashScreenBackgroundLandscapeAspect: 1
   m_SplashScreenBackgroundPortraitAspect: 1
   m_SplashScreenBackgroundLandscapeUvs:
@@ -38,8 +38,12 @@ PlayerSettings:
     x: 0
     y: 0
     width: 1
-    height: 1
-  m_SplashScreenLogos: []
+    height: 0.99999994
+  m_SplashScreenLogos:
+  - logo: {fileID: 21300000, guid: e50326588501fd04d94d76cb0e35ac0f, type: 3}
+    duration: 2
+  - logo: {fileID: 21300000, guid: bf9fc7e65ee974a41b09870cb72b352b, type: 3}
+    duration: 2
   m_VirtualRealitySplashScreen: {fileID: 0}
   m_HolographicTrackingLossScreen: {fileID: 0}
   defaultScreenWidth: 270
@@ -124,7 +128,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleVersion: 0.1
+  bundleVersion: 1.0
   preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
@@ -169,7 +173,7 @@ PlayerSettings:
   androidMaxAspectRatio: 2.1
   applicationIdentifier: {}
   buildNumber: {}
-  AndroidBundleVersionCode: 3
+  AndroidBundleVersionCode: 9
   AndroidMinSdkVersion: 19
   AndroidTargetSdkVersion: 30
   AndroidPreferredInstallLocation: 1
@@ -244,7 +248,7 @@ PlayerSettings:
   templatePackageId: com.unity.template.2d@3.3.0
   templateDefaultScene: Assets/Scenes/SampleScene.unity
   AndroidTargetArchitectures: 3
-  AndroidSplashScreenScale: 0
+  AndroidSplashScreenScale: 1
   androidSplashScreen: {fileID: 0}
   AndroidKeystoreName: '{inproject}: user.keystore'
   AndroidKeyaliasName: jump!
@@ -627,7 +631,7 @@ PlayerSettings:
   monoEnv: 
   splashScreenBackgroundSourceLandscape: {fileID: 0}
   splashScreenBackgroundSourcePortrait: {fileID: 0}
-  blurSplashScreenBackground: 1
+  blurSplashScreenBackground: 0
   spritePackerPolicy: 
   webGLMemorySize: 16
   webGLExceptionSupport: 1
@@ -655,7 +659,8 @@ PlayerSettings:
   scriptingRuntimeVersion: 1
   gcIncremental: 0
   gcWBarrierValidation: 0
-  apiCompatibilityLevelPerPlatform: {}
+  apiCompatibilityLevelPerPlatform:
+    Android: 3
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
   metroPackageName: Template_2D

@@ -24,8 +24,6 @@ public class EnemyUi : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Alpha();
-
         switch (GameManager.instance.CurrentScore)
         {
             case 1:
@@ -67,6 +65,7 @@ public class EnemyUi : MonoBehaviour
                 }
                 break;
         }
+        Alpha();
 
     }//수프라이트
 
@@ -79,6 +78,7 @@ public class EnemyUi : MonoBehaviour
         else
         {
             ga.SetActive(true);
+            Player.Instance.Pointoff();
             time += Time.unscaledDeltaTime;
             if(time >= 1.5f)
             {

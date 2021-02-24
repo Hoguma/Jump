@@ -40,8 +40,8 @@ public class Platform : MonoBehaviour
     void Start()
     {
         coll = GetComponent<Collider2D>();
-        target = FindObjectOfType<Player>().gameObject;
-        CoinsP = GameObject.Find("Coins");
+        target = GameManager.instance.player;
+        CoinsP = GameManager.instance.CoinParents;
         myRenderer = gameObject.GetComponent<SpriteRenderer>();
         transform.parent = GameManager.instance.FloorAdd().transform;
         Coins = new GameObject[NumberOfCoin];
@@ -68,27 +68,27 @@ public class Platform : MonoBehaviour
 
         //1단계 점수 로 땅 바꾸기
         //if (GameObject.Find("GameManager").GetComponent<GameManager>().FScore1 >= 80 || stageIm == 5)
-        if (GameObject.Find("GameManager").GetComponent<GameManager>().FScore1 >= stage[3] || stageIm == 5) 
+        if (GameManager.instance.FScore1 >= stage[3] || stageIm == 5) 
         {
             stageIm = 5;
             myRenderer.sprite = fivestage;
             st5Enemy();
         }
         //if (GameObject.Find("GameManager").GetComponent<GameManager>().FScore1 >= 60 || stageIm == 4)
-        else if (GameObject.Find("GameManager").GetComponent<GameManager>().FScore1 >= stage[2] || stageIm == 4) 
+        else if (GameManager.instance.FScore1 >= stage[2] || stageIm == 4) 
         {
             stageIm = 4;
             myRenderer.sprite = fourstage;
             st4Enemy();
         }
         //if (GameObject.Find("GameManager").GetComponent<GameManager>().FScore1 >= 40 || stageIm == 3)
-        else if (GameObject.Find("GameManager").GetComponent<GameManager>().FScore1 >= stage[1] || stageIm == 3)
+        else if (GameManager.instance.FScore1 >= stage[1] || stageIm == 3)
         {
             stageIm = 3;
             myRenderer.sprite = Threestage;
         }
         //if (GameObject.Find("GameManager").GetComponent<GameManager>().FScore1 >= 20 || stageIm == 2)
-        else if (GameObject.Find("GameManager").GetComponent<GameManager>().FScore1 >= stage[0] || stageIm == 2) 
+        else if (GameManager.instance.FScore1 >= stage[0] || stageIm == 2) 
         {
             stageIm = 2;
             myRenderer.sprite = Twostage;
@@ -147,11 +147,11 @@ public class Platform : MonoBehaviour
         {
             if (GameManager.instance.isEnemyRisk == false)
             {
-                if (GameObject.Find("Player") == null)
+                if (GameManager.instance.player == null)
                 {
                     return;
                 }
-                if (GameObject.Find("Player").transform.position.y + 3.0f < gameObject.transform.position.y)
+                if (GameManager.instance.player.transform.position.y + 3.0f < gameObject.transform.position.y)
                 {
                     if (GameManager.instance.isBlackTrue == true)
                     {
@@ -179,21 +179,6 @@ public class Platform : MonoBehaviour
 
     void GenarateCoin()
     {
-        //for (int i = 0; i < NumberOfCoin; i++)
-        //{
-        //    Coins[i] = Instantiate(CoinPre, transform.position, Quaternion.identity, CoinsP.transform);
-        //}
-        //for (int i = 0; i < Coins.Length; i++)
-        //{
-        //    Coins[i].transform.position = CoinPosition(i * 0.1f);
-        //}
         Instantiate(CoinPre,new Vector2(transform.position.x, transform.position.y + 142f), Quaternion.identity, CoinsP.transform);
-    }
-
-    Vector2 CoinPosition(float t)
-    {
-        Vector2 currentPointPos;
-        currentPointPos = new Vector2(transform.position.x, transform.position.y + 3) + (new Vector2(0, 20f) * t) + 1f * Physics2D.gravity * 3.0f * (t * t);
-        return currentPointPos;
     }
 }

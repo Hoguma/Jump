@@ -64,7 +64,7 @@ public class GameManager : MonoBehaviour
     [Header("Ingame")]
     [SerializeField] private GameObject IngamePanel;
     [SerializeField] private GameObject PausePanel;
-    [SerializeField] private GameObject CoinParents;
+    public GameObject CoinParents;
     public Text bestScoreTxt_in;
     public bool isIngamePanel = false;
     public bool isPausePanel = false;
@@ -171,20 +171,13 @@ public class GameManager : MonoBehaviour
             bestScoreTxt_in.text = BestScore.ToString() + "m";
         }
 
-            if (Application.platform == RuntimePlatform.Android)
+        if (Application.platform == RuntimePlatform.Android)
         {
             if (Input.GetKey(KeyCode.Escape))
             {
-                //UpdateData();
                 Application.Quit();
             }
         }
-
-        if(Input.GetKeyDown(KeyCode.Space))
-        {
-            PlayerPrefs.SetInt("CoinCount", PlayerPrefs.GetInt("CoinCount") + 50);
-        }
-
         //타이틀에서 방해요소 실행 안됨
         if (isTitlePanel == true)
         {
@@ -264,12 +257,22 @@ public class GameManager : MonoBehaviour
         FScore1 = (int)Scopos / 100;
         FScore.text = FScore1.ToString() + "m";
 
-        if (isIngamePanel && uichange)
+        if (isIngamePanel && uichange && !isShopPanel)
         {
             CoinView.anchoredPosition = new Vector2(CoinView.anchoredPosition.x, CoinView.anchoredPosition.y + 450f);
             uichange = false;
         }
-        else if (!isIngamePanel && !uichange)
+        else if (!isIngamePanel && !uichange && !isShopPanel)
+        {
+            CoinView.anchoredPosition = Coinviewpos;
+            uichange = true;
+        }
+        else if (isShopPanel && uichange && !isIngamePanel)
+        {
+            CoinView.anchoredPosition = new Vector2(CoinView.anchoredPosition.x, CoinView.anchoredPosition.y + 210f);
+            uichange = false;
+        }
+        else if (!isShopPanel && !uichange && !isIngamePanel)
         {
             CoinView.anchoredPosition = Coinviewpos;
             uichange = true;
@@ -486,6 +489,14 @@ public class GameManager : MonoBehaviour
             PPChange();
             Time.timeScale = 1.0f;
         }
+    }
+
+    public void Restart()
+    {
+        UiClickSound();
+        GameStart();
+        PPChange();
+        Time.timeScale = 1.0f;
     }
 
     public void Option()

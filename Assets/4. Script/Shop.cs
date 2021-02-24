@@ -263,8 +263,10 @@ public class Shop : MonoBehaviour
             }
         }
     }
+
     public void UiClickSound()
     {
         myFx.PlayOneShot(clickSound);
     }
+
 }
