@@ -892,7 +892,7 @@ public class GameManager : MonoBehaviour
                 }
                 else if (i == 4)
                 {
-                    param.Add("Blub", Shop.instance.igotthis[i]);
+                    param.Add("Bulb", Shop.instance.igotthis[i]);
                 }
                 else if(i == 5)
                 {
