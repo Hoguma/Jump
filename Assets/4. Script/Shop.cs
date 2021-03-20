@@ -28,7 +28,8 @@ public class Shop : MonoBehaviour
     public Image nametag;
     public Text charCost;
 
-    int num = 0;
+    public int num = 0;
+    int selectedNum = 0;
 
     //사운드
     public AudioSource myFx;
@@ -212,50 +213,60 @@ public class Shop : MonoBehaviour
     {
         UiClickSound();
         if (igotthis[num] == true)
+        { 
             GameManager.instance.ShopOnOff();
+            PlayerPrefs.SetInt("SelectedNum", num);
+        }
         else
         {
-            if(num == 1 && PlayerPrefs.GetInt("CoinCount", 0) > 50)
+            if (num == 1 && PlayerPrefs.GetInt("CoinCount", 0) > 50)
             {
                 PlayerPrefs.SetInt("CoinCount", PlayerPrefs.GetInt("CoinCount", 0) - 50);
                 igotthis[num] = true;
                 GameManager.instance.UpDateCharData(num);
+                PlayerPrefs.SetInt("SelectedNum", num);
             }
             else if (num == 2 && PlayerPrefs.GetInt("CoinCount", 0) > 100)
             {
                 PlayerPrefs.SetInt("CoinCount", PlayerPrefs.GetInt("CoinCount", 0) - 100);
                 igotthis[num] = true;
                 GameManager.instance.UpDateCharData(num);
+                PlayerPrefs.SetInt("SelectedNum", num);
             }
             else if (num == 3 && PlayerPrefs.GetInt("CoinCount", 0) > 150)
             {
                 PlayerPrefs.SetInt("CoinCount", PlayerPrefs.GetInt("CoinCount", 0) - 150);
                 igotthis[num] = true;
                 GameManager.instance.UpDateCharData(num);
+                PlayerPrefs.SetInt("SelectedNum", num);
             }
             else if (num == 4 && PlayerPrefs.GetInt("CoinCount", 0) > 150)
             {
                 PlayerPrefs.SetInt("CoinCount", PlayerPrefs.GetInt("CoinCount", 0) - 150);
                 igotthis[num] = true;
                 GameManager.instance.UpDateCharData(num);
+                PlayerPrefs.SetInt("SelectedNum", num);
             }
             else if (num == 5 && PlayerPrefs.GetInt("CoinCount", 0) > 150)
             {
                 PlayerPrefs.SetInt("CoinCount", PlayerPrefs.GetInt("CoinCount", 0) - 150);
                 igotthis[num] = true;
                 GameManager.instance.UpDateCharData(num);
+                PlayerPrefs.SetInt("SelectedNum", num);
             }
             else if (num == 6 && PlayerPrefs.GetInt("CoinCount", 0) > 300)
             {
                 PlayerPrefs.SetInt("CoinCount", PlayerPrefs.GetInt("CoinCount", 0) - 300);
                 igotthis[num] = true;
                 GameManager.instance.UpDateCharData(num);
+                PlayerPrefs.SetInt("SelectedNum", num);
             }
             else if (num == 7 && PlayerPrefs.GetInt("CoinCount", 0) > 300)
             {
                 PlayerPrefs.SetInt("CoinCount", PlayerPrefs.GetInt("CoinCount", 0) - 300);
                 igotthis[num] = true;
                 GameManager.instance.UpDateCharData(num);
+                PlayerPrefs.SetInt("SelectedNum", num);
             }
             else
             {
@@ -269,4 +280,21 @@ public class Shop : MonoBehaviour
         myFx.PlayOneShot(clickSound);
     }
 
+
+    public void GoBack()
+    {
+        UiClickSound();
+        if (igotthis[num])
+        { 
+            GameManager.instance.ShopOnOff(); 
+        }
+        else
+        {
+            num = PlayerPrefs.GetInt("SelectedNum", 0);
+            Player.Instance.spriteRenderer.sprite = character[num];
+            Player.Instance.anim.runtimeAnimatorController = animators[num];
+            nametag.sprite = charName[num];
+            GameManager.instance.ShopOnOff();
+        }
+    }
 }

@@ -22132,8 +22132,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 369043699}
-        m_MethodName: ShopOnOff
+      - m_Target: {fileID: 369043703}
+        m_MethodName: GoBack
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

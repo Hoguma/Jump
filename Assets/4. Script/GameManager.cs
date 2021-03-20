@@ -692,6 +692,10 @@ public class GameManager : MonoBehaviour
                 if (bro.IsSuccess())
                 {
                     GetData();
+                    Shop.instance.num = PlayerPrefs.GetInt("SelectedNum", 0);
+                    Player.Instance.spriteRenderer.sprite = Shop.instance.character[Shop.instance.num];
+                    Player.Instance.anim.runtimeAnimatorController = Shop.instance.animators[Shop.instance.num];
+                    Shop.instance.nametag.sprite = Shop.instance.charName[Shop.instance.num];
                 }
                 else
                     Debug.Log(bro + "812");
@@ -722,6 +726,10 @@ public class GameManager : MonoBehaviour
                         if (bro.IsSuccess())
                         {
                             GetData();
+                            Shop.instance.num = PlayerPrefs.GetInt("SelectedNum", 0);
+                            Player.Instance.spriteRenderer.sprite = Shop.instance.character[Shop.instance.num];
+                            Player.Instance.anim.runtimeAnimatorController = Shop.instance.animators[Shop.instance.num];
+                            Shop.instance.nametag.sprite = Shop.instance.charName[Shop.instance.num];
                         }
                         else
                             Debug.Log(bro + "812");
